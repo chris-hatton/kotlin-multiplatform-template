@@ -1,0 +1,147 @@
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+stages:
+  - build-client
+  - test-client
+  - build-server
+  - test-server
+  - deploy-client
+  - deploy-server
+  - document-client
+  - document-server
+
+build-client:
+  stage: build-client
+  script:
+    - cd Code/Client
+    - ./gradlew --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME-Client"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Client/**/*
+  artifacts:
+    paths:
+      - "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+      - Code/Client/app/build/outputs/
+
+build-server:
+  stage: build-server
+  script:
+    - cd Code/Server
+    - ./gradlew --build-cache build
+  cache:
+    key: "$CI_COMMIT_REF_NAME-Server"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Server/**/*
+
+test-client:
+  stage: test-client
+  script:
+    - cd Code/Client
+    - ./gradlew --build-cache check
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-Client"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Client/**/*
+
+test-server:
+  stage: test-server
+  script:
+    - cd Code/Server 
+    - ./gradlew --build-cache check
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-Server"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Server/**/*
+# artifacts:
+#   reports:
+#     junit: rspec.xml
+
+# deploy-client:
+#   only:
+#     - master
+#   stage: deploy-client
+#   script:
+#     - cd Code/Server
+#     - ./gradlew --build-cache war
+#     - cp build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
+#   cache:
+#     key: "${CI_COMMIT_REF_NAME}-Server"
+#     policy: pull
+#     paths:
+#       - build
+#       - .gradle
+
+deploy-server:
+  only:
+    - master
+  stage: deploy-server
+  script:
+    - cd Code/Server
+    - ./gradlew --build-cache war
+    - cp build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-Server"
+    policy: pull
+    paths:
+      - build
+      - .gradle
+
+# document-client:
+#   only:
+#     - master
+#   stage: document-client
+#   script:
+#     - cd Code/Client
+#     - ./gradlew --build-cache dokka
+#     - rm -rf /usr/share/nginx/html/bm/doc/client/*
+#     - cp -R build/javadoc/client/* /usr/share/nginx/html/bm/doc/client
+#     - cp build/javadoc/style.css /usr/share/nginx/html/bm/doc
+#   cache:
+#     key: "$CI_COMMIT_REF_NAME"
+#     policy: pull
+#     paths:
+#       - build
+#       - .gradle
+
+document-server:
+  only:
+    - master
+  stage: document-server
+  script:
+    - cd Code/Server
+    - ./gradlew --build-cache dokka
+    - rm -rf /usr/share/nginx/html/bm/doc/server/*
+    - cp -R build/javadoc/server/* /usr/share/nginx/html/bm/doc/server
+    - cp build/javadoc/style.css /usr/share/nginx/html/bm/doc
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-Server"
+    policy: pull
+    paths:
+      - build
+      - .gradle

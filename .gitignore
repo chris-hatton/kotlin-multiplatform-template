@@ -1,0 +1,14 @@
+Code/Client/app/build
+Code/Shared/build
+Code/Client/iOS/BM/build
+Code/Client/Common/build
+Code/Client/iOS/Supporting Files/.gradle
+Code/Client/iOS/BM.xcodeproj/xcuserdata
+Code/Client/iOS/BM.xcodeproj/project.xcworkspace/xcuserdata
+Code/Client/Common/.gradle
+Code/.gradle
+Code/Client/Desktop/.gradle
+Code/Client/iOS/BM.xcodeproj/project.xcworkspace/xcshareddata
+*.iml
+Code/Client/iOS/Example.xcodeproj/xcuserdata
+Code/Client/iOS/Example/build
