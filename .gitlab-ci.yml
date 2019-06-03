@@ -18,7 +18,7 @@ stages:
 build-client:
   stage: build-client
   script:
-    - cd Code/Client
+    - cd Code/Client/Android
     - ./gradlew --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME-Client"
@@ -28,7 +28,7 @@ build-client:
       - .gradle
   only:
     changes:
-      - Code/Client/**/*
+      - Code/Client/Android/**/*
   artifacts:
     paths:
       - "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
@@ -119,9 +119,9 @@ deploy-server:
 #   script:
 #     - cd Code/Client
 #     - ./gradlew --build-cache dokka
-#     - rm -rf /usr/share/nginx/html/bm/doc/client/*
-#     - cp -R build/javadoc/client/* /usr/share/nginx/html/bm/doc/client
-#     - cp build/javadoc/style.css /usr/share/nginx/html/bm/doc
+#     - rm -rf /usr/share/nginx/html/example/doc/client/*
+#     - cp -R build/javadoc/client/* /usr/share/nginx/html/example/doc/client
+#     - cp build/javadoc/style.css /usr/share/nginx/html/example/doc
 #   cache:
 #     key: "$CI_COMMIT_REF_NAME"
 #     policy: pull
@@ -136,9 +136,9 @@ document-server:
   script:
     - cd Code/Server
     - ./gradlew --build-cache dokka
-    - rm -rf /usr/share/nginx/html/bm/doc/server/*
-    - cp -R build/javadoc/server/* /usr/share/nginx/html/bm/doc/server
-    - cp build/javadoc/style.css /usr/share/nginx/html/bm/doc
+    - rm -rf /usr/share/nginx/html/example/doc/server/*
+    - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/server
+    - cp build/javadoc/style.css /usr/share/nginx/html/example/doc
   cache:
     key: "${CI_COMMIT_REF_NAME}-Server"
     policy: pull
