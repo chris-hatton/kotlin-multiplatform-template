@@ -17,6 +17,7 @@ import kotlinx.cinterop.*
 import kotlinx.coroutines.runBlocking
 import platform.UIKit.*
 import example.model.Person
+import io.ktor.client.request.get
 
 class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
 
@@ -29,20 +30,16 @@ class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
     override fun setWindow(window: UIWindow?) { _window = window }
 
     override fun applicationDidFinishLaunching(application: UIApplication) {
-        super.applicationDidFinishLaunching(application)
 
         println("HI!!!!!!!")
 
         runBlocking {
-            val client = HttpClient(Apache) {
-                install(JsonFeature) {
-                }
-            }
+            val client = HttpClient()
 
-            val message = client.post<Person> {
-                url("http://localhost:8080/")
+            val message = client.post<Person> { //(path = "/path") {
+                url("http://localhost:8080/path")
                 contentType(ContentType.Application.Json)
-                body = Person(names = "James", "Spatchcock")
+                body = Person("James", "Spatchcock")
             }
 
             println("CLIENT: Message from the server: $message")

@@ -33,6 +33,13 @@ kotlin {
 
     sourceSets {
 
+        val commonMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-json:$ktor_version")
+            }
+        }
+        
         val iosMain by getting {
 
             dependencies {
@@ -42,9 +49,7 @@ kotlin {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlin_coroutines_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
-                implementation("io.ktor:ktor-client:$ktor_version")
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-json:$ktor_version")
+                implementation("io.ktor:ktor-client-ios:$ktor_version")
             }
         }
     }

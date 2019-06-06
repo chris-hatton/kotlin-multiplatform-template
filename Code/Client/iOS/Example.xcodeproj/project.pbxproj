@@ -232,7 +232,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n#if [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  echo \"INFO: Building Kotlin for Xcode :-)\"\n  cd \"$SRCROOT/Supporting Files\"\n  sh -c \". gradlew buildForXcode\"\n#else\n#  echo \"WARNING: Not a Kotlin Native Build Capable environment\"\n#fi\n\necho \"INFO: Target build path: $TARGET_BUILD_DIR\"\necho \"INFO: Executable path: $EXECUTABLE_PATH\"\necho \"INFO: Target name: $TARGET_NAME\"\n\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n";
+			shellScript = "echo \"INFO:\"\npwd\necho \"INFO: Target build path: $TARGET_BUILD_DIR\"\necho \"INFO: Executable path: $EXECUTABLE_PATH\"\necho \"INFO: Target name: $TARGET_NAME\"\n\nrm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n#if [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  echo \"INFO: Building Kotlin for Xcode :-)\"\n  cd \"$SRCROOT/Supporting Files\"\n  sh -c \". gradlew buildForXcode\"\n#else\n#  echo \"WARNING: Not a Kotlin Native Build Capable environment\"\n#fi\n\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

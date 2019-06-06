@@ -30,7 +30,5 @@ class ViewController : UIViewController {
     @ObjCAction
     fun buttonPressed() {
         label.text = "Konan says: 'Hellooo, ${textField.text}!'"
-
-sfdsfsd
     }
 }
