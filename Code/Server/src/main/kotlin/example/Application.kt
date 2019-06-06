@@ -1,5 +1,6 @@
 package example
 
+import example.model.Person
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -12,6 +13,7 @@ import io.ktor.locations.KtorExperimentalLocationsAPI
 import io.ktor.locations.Location
 import io.ktor.locations.Locations
 import io.ktor.locations.get
+import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
@@ -92,6 +94,12 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
 
+        }
+
+        //===========
+
+        get("/person") {
+            call.respond(Person("Mark", "Halliwell"))
         }
     }
 }

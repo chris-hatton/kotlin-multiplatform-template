@@ -19,10 +19,11 @@ buildscript {
         google()
         jcenter()
         maven( url = "https://kotlin.bintray.com/kotlinx" )
+        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.0")
+        classpath("com.android.tools.build:gradle:3.4.1")
         classpath(kotlin("gradle-plugin", version = extra["kotlin_version"].toString()))
         classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:${extra["android_gradle_plugin_version"].toString()}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${extra["kotlin_version"].toString()}")

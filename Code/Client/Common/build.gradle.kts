@@ -32,9 +32,8 @@ repositories {
 }
 
 kotlin {
-    targets {
-        jvm {}
-    }
+
+    jvm {}
 
     targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosX64"), "ios") {
         binaries {

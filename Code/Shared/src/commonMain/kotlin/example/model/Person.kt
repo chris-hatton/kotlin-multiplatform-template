@@ -1,8 +1,10 @@
 package example.model
 
-data class Person(
+public data class Person(
     val names: List<String>
 ) {
+    constructor(vararg names: String) : this(names.toList())
+
     val firstName : String? = names.firstOrNull()
     val lastName  : String? = if(names.size<2) null else names.last()
 

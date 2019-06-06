@@ -6,6 +6,8 @@
 //  Copyright © 2019 Arvis. All rights reserved.
 //
 
+package example
+
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.UIKit.*
@@ -27,6 +29,8 @@ class ViewController : UIViewController {
 
     @ObjCAction
     fun buttonPressed() {
-        label.text = "Konan says: 'Hello, ${textField.text}!'"
+        label.text = "Konan says: 'Hellooo, ${textField.text}!'"
+
+sfdsfsd
     }
 }

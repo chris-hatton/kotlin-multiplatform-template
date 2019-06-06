@@ -10,9 +10,6 @@
 		3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E126FF65199B795AF3C8052 /* Assets.xcassets */; };
 		3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126706756782E8F17EC3D0 /* Main.storyboard */; };
 		3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126A5056763FEB8F1500A6 /* LaunchScreen.storyboard */; };
-		838D604722A4E3CF0005B387 /* ViewController.kt in Resources */ = {isa = PBXBuildFile; fileRef = 838D604422A4E3CE0005B387 /* ViewController.kt */; };
-		838D604822A4E3CF0005B387 /* main.kt in Resources */ = {isa = PBXBuildFile; fileRef = 838D604522A4E3CE0005B387 /* main.kt */; };
-		838D604922A4E3CF0005B387 /* AppDelegate.kt in Resources */ = {isa = PBXBuildFile; fileRef = 838D604622A4E3CE0005B387 /* AppDelegate.kt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +24,17 @@
 		3E126F6C47E14C2E6203A2A2 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.gradle; path = build.gradle.kts; sourceTree = "<group>"; };
 		3E126FCD76D47714132717C1 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E126FF65199B795AF3C8052 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		838D604422A4E3CE0005B387 /* ViewController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ViewController.kt; sourceTree = "<group>"; };
-		838D604522A4E3CE0005B387 /* main.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.kt; sourceTree = "<group>"; };
-		838D604622A4E3CE0005B387 /* AppDelegate.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AppDelegate.kt; sourceTree = "<group>"; };
+		831B090122A8656E00066103 /* commonTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonTest; path = ../../../Shared/src/commonTest; sourceTree = "<group>"; };
+		831B090222A8656E00066103 /* commonMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonMain; path = ../../../Shared/src/commonMain; sourceTree = "<group>"; };
+		831B090322A8656F00066103 /* iosTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosTest; path = ../../../Shared/src/iosTest; sourceTree = "<group>"; };
+		831B090422A8656F00066103 /* iosMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosMain; path = ../../../Shared/src/iosMain; sourceTree = "<group>"; };
+		831B090922A8689700066103 /* iosMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosMain; path = ../../Common/src/iosMain; sourceTree = "<group>"; };
+		831B090A22A8689700066103 /* commonMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonMain; path = ../../Common/src/commonMain; sourceTree = "<group>"; };
+		831B090B22A8689700066103 /* iosTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosTest; path = ../../Common/src/iosTest; sourceTree = "<group>"; };
+		831B090C22A8689700066103 /* commonTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonTest; path = ../../Common/src/commonTest; sourceTree = "<group>"; };
+		831B091122A9AAB300066103 /* ViewController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ViewController.kt; sourceTree = "<group>"; };
+		831B091222A9AAB300066103 /* AppDelegate.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AppDelegate.kt; sourceTree = "<group>"; };
+		831B091322A9AAB300066103 /* main.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.kt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,57 +101,58 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		3E126D37F8DF59895D11992E /* src */ = {
-			isa = PBXGroup;
-			children = (
-				838D604022A4E3CE0005B387 /* iosMain */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 		3E126D8C1D412638B67D4739 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				831B090F22A9AAB300066103 /* kotlin */,
+				831B08FF22A8653B00066103 /* Client-Common */,
+				831B08FD22A8650A00066103 /* Shared */,
 				3E126A0305764B8AD4FDA7DA /* Supporting Files */,
 				3E126320BD9D7B493DCFA1C4 /* Info.plist */,
 				3E126FF65199B795AF3C8052 /* Assets.xcassets */,
 				3E126A5056763FEB8F1500A6 /* LaunchScreen.storyboard */,
 				3E126706756782E8F17EC3D0 /* Main.storyboard */,
-				3E126D37F8DF59895D11992E /* src */,
 			);
 			path = Example;
 			sourceTree = "<group>";
 		};
-		838D604022A4E3CE0005B387 /* iosMain */ = {
+		831B08FD22A8650A00066103 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				838D604122A4E3CE0005B387 /* resources */,
-				838D604222A4E3CE0005B387 /* kotlin */,
+				831B090222A8656E00066103 /* commonMain */,
+				831B090122A8656E00066103 /* commonTest */,
+				831B090422A8656F00066103 /* iosMain */,
+				831B090322A8656F00066103 /* iosTest */,
 			);
-			path = iosMain;
+			name = Shared;
 			sourceTree = "<group>";
 		};
-		838D604122A4E3CE0005B387 /* resources */ = {
+		831B08FF22A8653B00066103 /* Client-Common */ = {
 			isa = PBXGroup;
 			children = (
+				831B090A22A8689700066103 /* commonMain */,
+				831B090C22A8689700066103 /* commonTest */,
+				831B090922A8689700066103 /* iosMain */,
+				831B090B22A8689700066103 /* iosTest */,
 			);
-			path = resources;
+			name = "Client-Common";
 			sourceTree = "<group>";
 		};
-		838D604222A4E3CE0005B387 /* kotlin */ = {
+		831B090F22A9AAB300066103 /* kotlin */ = {
 			isa = PBXGroup;
 			children = (
-				838D604322A4E3CE0005B387 /* example */,
+				831B091022A9AAB300066103 /* example */,
+				831B091322A9AAB300066103 /* main.kt */,
 			);
-			path = kotlin;
+			name = kotlin;
+			path = src/iosMain/kotlin;
 			sourceTree = "<group>";
 		};
-		838D604322A4E3CE0005B387 /* example */ = {
+		831B091022A9AAB300066103 /* example */ = {
 			isa = PBXGroup;
 			children = (
-				838D604422A4E3CE0005B387 /* ViewController.kt */,
-				838D604522A4E3CE0005B387 /* main.kt */,
-				838D604622A4E3CE0005B387 /* AppDelegate.kt */,
+				831B091122A9AAB300066103 /* ViewController.kt */,
+				831B091222A9AAB300066103 /* AppDelegate.kt */,
 			);
 			path = example;
 			sourceTree = "<group>";
@@ -178,8 +184,9 @@
 		3E12643B8C31C4ADDFFA0A81 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = Arvis;
+				ORGANIZATIONNAME = "Chris Hatton";
 			};
 			buildConfigurationList = 3E126001236166F3428B883E /* Build configuration list for PBXProject "Example" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -205,9 +212,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */,
-				838D604922A4E3CF0005B387 /* AppDelegate.kt in Resources */,
-				838D604822A4E3CF0005B387 /* main.kt in Resources */,
-				838D604722A4E3CF0005B387 /* ViewController.kt in Resources */,
 				3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */,
 				3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */,
 			);
@@ -228,7 +232,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\nif [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  cd \"$SRCROOT/Supporting Files\"\n  sh -c \". gradlew buildForXcode\"\nfi\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"";
+			shellScript = "rm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n#if [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  echo \"INFO: Building Kotlin for Xcode :-)\"\n  cd \"$SRCROOT/Supporting Files\"\n  sh -c \". gradlew buildForXcode\"\n#else\n#  echo \"WARNING: Not a Kotlin Native Build Capable environment\"\n#fi\n\necho \"INFO: Target build path: $TARGET_BUILD_DIR\"\necho \"INFO: Executable path: $EXECUTABLE_PATH\"\necho \"INFO: Target name: $TARGET_NAME\"\n\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -313,6 +317,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};
@@ -325,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.chrishatton.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -386,6 +391,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
 		};
@@ -398,7 +404,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.chrishatton.example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
 		};

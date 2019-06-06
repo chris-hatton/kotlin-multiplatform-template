@@ -10,7 +10,7 @@ buildscript {
         maven( url = "https://kotlin.bintray.com/kotlinx" )
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.0")
+        classpath("com.android.tools.build:gradle:3.4.1")
         classpath(kotlin("gradle-plugin", version = kotlin_version))
         classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:$android_gradle_plugin_version")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")

@@ -9,35 +9,32 @@ val ktor_version                 : String = extra["ktor_version"].toString()
 val kotlin_serialization_version : String = extra["kotlin_serialization_version"].toString()
 
 plugins {
-    kotlin("multiplatform") version "1.3.31"
+    kotlin("multiplatform")
     kotlin("xcode-compat") version "0.1"
 }
 
 kotlin {
     xcode {
-        setupApplication("Example")
-    }
-    
-    targets {
-        logger.lifecycle("Targets: ${this.toString()}")
+        setupApplication("ios")
     }
 
-    // This is for iPhone emulator
-    // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
     targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosX64"), "ios") {
         binaries {
             framework {
                 // Framework configuration
-                embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
+                //embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
             }
         }
     }
 
+    targets {
+        // Target setup
+    }
+
     sourceSets {
 
-        logger.lifecycle("SourceSets: ${this.toString()}")
-        
         val iosMain by getting {
+
             dependencies {
                 
                 implementation(project(":client-common"))
@@ -47,6 +44,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
                 implementation("io.ktor:ktor-client:$ktor_version")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-json:$ktor_version")
             }
         }
     }
