@@ -17,7 +17,7 @@ import kotlinx.cinterop.*
 import kotlinx.coroutines.runBlocking
 import platform.UIKit.*
 import example.model.Person
-import io.ktor.client.request.get
+import io.ktor.client.features.json.JsonFeature
 
 class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
 
@@ -34,7 +34,9 @@ class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
         println("HI!!!!!!!")
 
         runBlocking {
-            val client = HttpClient()
+            val client = HttpClient {
+                install(JsonFeature)
+            }
 
             val message = client.post<Person> { //(path = "/path") {
                 url("http://localhost:8080/path")

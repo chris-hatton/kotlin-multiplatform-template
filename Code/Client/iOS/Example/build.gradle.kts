@@ -37,6 +37,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-json:$ktor_version")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization_version")
             }
         }
         
@@ -47,9 +48,14 @@ kotlin {
                 implementation(project(":client-common"))
                 implementation(project(":shared"))
 
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$kotlin_coroutines_version")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:$kotlin_coroutines_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
-                implementation("io.ktor:ktor-client-ios:$ktor_version")
+                //implementation("io.ktor:ktor-client-ios:$ktor_version")
+                //implementation("io.ktor:ktor-client-json-iosx64:$ktor_version")
+
+                implementation("io.ktor:ktor-client-ios:${ktor_version}")
+                implementation("io.ktor:ktor-client-json-native:${ktor_version}")
+                implementation("io.ktor:ktor-client-serialization-native:${ktor_version}")
             }
         }
     }
