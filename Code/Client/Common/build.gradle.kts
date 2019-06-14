@@ -48,6 +48,7 @@ kotlin {
 
         commonMain {
             dependencies {
+                implementation(project(":shared"))
                 implementation(kotlin("stdlib-common"))
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")

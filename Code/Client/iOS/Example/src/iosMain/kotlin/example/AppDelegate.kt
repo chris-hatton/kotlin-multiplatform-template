@@ -8,20 +8,21 @@
 
 package example
 
-import io.ktor.client.HttpClient
-import io.ktor.client.request.post
-import io.ktor.client.request.url
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
-import kotlinx.cinterop.*
-import kotlinx.coroutines.runBlocking
-import platform.UIKit.*
 import example.model.Person
+import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import kotlinx.cinterop.initBy
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.UnstableDefault
+import platform.UIKit.*
 
 class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
 
-    companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta {}
+    companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta {
+        val instance : AppDelegate get() = UIApplication.sharedApplication.delegate as AppDelegate
+    }
 
     override fun init() = initBy(AppDelegate())
 
@@ -29,24 +30,25 @@ class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
     override fun window() = _window
     override fun setWindow(window: UIWindow?) { _window = window }
 
+    @UnstableDefault
+    @ImplicitReflectionSerializer
     override fun applicationDidFinishLaunching(application: UIApplication) {
+        println("Startup")
+    }
 
-        println("HI!!!!!!!")
-
-        runBlocking {
-            val client = HttpClient {
-                install(JsonFeature)
+    val client : HttpClient by lazy {
+        HttpClient {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer().apply {
+                    setMapper( type = Person::class, serializer = Person.serializer())
+                }
             }
-
-            val message = client.post<Person> { //(path = "/path") {
-                url("http://localhost:8080/path")
-                contentType(ContentType.Application.Json)
-                body = Person("James", "Spatchcock")
-            }
-
-            println("CLIENT: Message from the server: $message")
-
-            client.close()
         }
+    }
+
+    val createMainScope : ()->CoroutineScope = { MainScope() }
+
+    override fun applicationWillTerminate(application: UIApplication) {
+        client.close()
     }
 }

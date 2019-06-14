@@ -9,13 +9,11 @@ import io.ktor.features.*
 import io.ktor.http.ContentType
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
-import io.ktor.locations.Locations
-import io.ktor.locations.get
+import io.ktor.locations.*
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
+import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.sessions.*
 import io.ktor.websocket.webSocket
@@ -23,6 +21,10 @@ import java.time.Duration
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
+/**
+ * To run start with Gretty Gradle task 'appStartWar'.
+ * To debug start 'appStartWarDebug' and attach debugger on 5005 when execution first pauses.
+ */
 @KtorExperimentalLocationsAPI
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
@@ -98,8 +100,10 @@ fun Application.module(testing: Boolean = false) {
 
         //===========
 
-        get("/person") {
-            call.respond(Person("Mark", "Halliwell"))
+        post<Person>("/person") { person:Person ->
+            val acquaintedPerson = Person("Mark", "Halliwell")
+            println("I think ${person.fullName} might know ${acquaintedPerson.fullName}")
+            call.respond(acquaintedPerson)
         }
     }
 }

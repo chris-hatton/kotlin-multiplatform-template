@@ -110,8 +110,12 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                //implementation("io.ktor:ktor-client-ios:$ktor_version")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:$kotlin_coroutines_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
+            
+                implementation("io.ktor:ktor-client-ios:${ktor_version}")
+                implementation("io.ktor:ktor-client-json-native:${ktor_version}")
+                implementation("io.ktor:ktor-client-serialization-native:${ktor_version}")
             }
         }
         val iosTest by getting {

@@ -18,6 +18,7 @@
 		3E12638C6B9D79AA36D99C8A /* gradle-wrapper.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "gradle-wrapper.jar"; sourceTree = "<group>"; };
 		3E12653A338B45B178CCB663 /* gradle-wrapper.properties */ = {isa = PBXFileReference; lastKnownFileType = file.properties; path = "gradle-wrapper.properties"; sourceTree = "<group>"; };
 		3E126598A8A1C7A7AC251475 /* gradlew */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradlew; sourceTree = "<group>"; };
+		3E12676EE9F45A466B3D8DDF /* Coroutines.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; path = Coroutines.kt; sourceTree = "<group>"; };
 		3E126A27A3879302B80D9D34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E126C2686028C2C12CF89C3 /* settings.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.gradle; path = settings.gradle.kts; sourceTree = "<group>"; };
 		3E126EBACFE3FFB12FCDB06D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -32,7 +33,7 @@
 		831B090A22A8689700066103 /* commonMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonMain; path = ../../Common/src/commonMain; sourceTree = "<group>"; };
 		831B090B22A8689700066103 /* iosTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosTest; path = ../../Common/src/iosTest; sourceTree = "<group>"; };
 		831B090C22A8689700066103 /* commonTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonTest; path = ../../Common/src/commonTest; sourceTree = "<group>"; };
-		831B091122A9AAB300066103 /* ViewController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ViewController.kt; sourceTree = "<group>"; };
+		831B091122A9AAB300066103 /* FirstViewController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.kt; path = FirstViewController.kt; sourceTree = "<group>"; };
 		831B091222A9AAB300066103 /* AppDelegate.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AppDelegate.kt; sourceTree = "<group>"; };
 		831B091322A9AAB300066103 /* main.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.kt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,8 +152,9 @@
 		831B091022A9AAB300066103 /* example */ = {
 			isa = PBXGroup;
 			children = (
-				831B091122A9AAB300066103 /* ViewController.kt */,
+				831B091122A9AAB300066103 /* FirstViewController.kt */,
 				831B091222A9AAB300066103 /* AppDelegate.kt */,
+				3E12676EE9F45A466B3D8DDF /* Coroutines.kt */,
 			);
 			path = example;
 			sourceTree = "<group>";
