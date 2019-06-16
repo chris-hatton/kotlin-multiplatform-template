@@ -6,6 +6,7 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.features.*
+import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
@@ -29,6 +30,12 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
+
+    install(CallLogging)
+
+    install(ContentNegotiation) {
+        register(ContentType.Application.Json, GsonConverter())
+    }
 
     install(Locations) {
     }
