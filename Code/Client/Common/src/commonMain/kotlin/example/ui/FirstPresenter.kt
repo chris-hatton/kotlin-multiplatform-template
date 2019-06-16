@@ -30,7 +30,7 @@ class FirstPresenter(
                     body = person
                 }
             } catch(e: Exception) {
-                println("Exception: $e")
+                println("Exception: $e, cause: ${e.cause}")
                 Person("Nigel", "Ernest", "Body")
             }
 
