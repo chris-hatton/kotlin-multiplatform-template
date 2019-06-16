@@ -41,6 +41,11 @@ android {
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
     }
+    sourceSets {
+        this["main"].java.srcDir("src/main/kotlin")
+        this["test"].java.srcDir("src/test/kotlin")
+        this["androidTest"].java.srcDir("src/androidTest/kotlin")
+    }
 }
 
 val kotlin_version            : String = extra["kotlin_version"].toString()

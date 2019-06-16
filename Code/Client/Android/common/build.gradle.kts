@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -34,11 +33,16 @@ android {
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
     }
+    sourceSets {
+        this["main"].java.srcDir("src/main/kotlin")
+        this["test"].java.srcDir("src/test/kotlin")
+        this["androidTest"].java.srcDir("src/androidTest/kotlin")
+    }
 }
 
-val kotlin_version            : String = extra["kotlin_version"].toString()
-val kotlin_coroutines_version : String = extra["kotlin_coroutines_version"].toString()
-val ktor_version              : String = extra["ktor_version"].toString()
+val kotlin_version: String = extra["kotlin_version"].toString()
+val kotlin_coroutines_version: String = extra["kotlin_coroutines_version"].toString()
+val ktor_version: String = extra["ktor_version"].toString()
 
 dependencies {
 
@@ -53,8 +57,7 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:$ktor_version")
 
     implementation("androidx.appcompat:appcompat:1.0.2")
-//    testImplementation 'junit:junit:4.12'
+    testImplementation("junit:junit:4.12")
 //    androidTestImplementation 'androidx.test:runner:1.1.1'
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
-
