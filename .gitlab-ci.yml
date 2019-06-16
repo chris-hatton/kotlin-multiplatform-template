@@ -52,7 +52,7 @@ build-server:
 test-client:
   stage: test-client
   script:
-    - cd Code/Client
+    - cd Code/Client/Android
     - ./gradlew --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}-Client"
