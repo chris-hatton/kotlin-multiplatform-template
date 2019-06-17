@@ -26,6 +26,7 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        getByName("debug"){}
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -54,14 +55,14 @@ val ktor_version              : String = extra["ktor_version"].toString()
 
 dependencies {
 
+    implementation(project(":android-client-common"))
+    implementation(project(":client-common"))
+    implementation(project(":shared"))
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
     implementation("androidx.leanback:leanback:1.0.0")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("com.github.bumptech.glide:glide:3.8.0")
-
-    // Project
-    project(":common")
-    project(":shared")
 
     // Kotlin Core
     implementation(kotlin("stdlib"))

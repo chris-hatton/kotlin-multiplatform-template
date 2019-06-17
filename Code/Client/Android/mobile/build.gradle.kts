@@ -54,6 +54,10 @@ val ktor_version              : String = extra["ktor_version"].toString()
 
 dependencies {
 
+    implementation(project(":android-client-common"))
+    implementation(project(":client-common"))
+    implementation(project(":shared"))
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.core:core-ktx:1.0.1")
@@ -61,10 +65,6 @@ dependencies {
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test:runner:1.1.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.1.1")
-
-    // Project
-    project(":common")
-    project(":shared")
 
     // Kotlin Core
     implementation(kotlin("stdlib"))

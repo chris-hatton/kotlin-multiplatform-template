@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-platform-android")
@@ -10,7 +10,6 @@ android {
     compileSdkVersion(28)
     defaultConfig {
         multiDexEnabled = true
-        applicationId = "org.chrishatton.projectclient"
         minSdkVersion(21)
         targetSdkVersion(28)
         versionCode = 1
@@ -46,7 +45,8 @@ val ktor_version: String = extra["ktor_version"].toString()
 
 dependencies {
 
-    project(":client-common")
+    implementation(project(":client-common"))
+    implementation(project(":shared"))
 
     // Kotlin Core
     implementation(kotlin("stdlib"))
@@ -58,6 +58,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.0.2")
     testImplementation("junit:junit:4.12")
+
 //    androidTestImplementation 'androidx.test:runner:1.1.1'
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }

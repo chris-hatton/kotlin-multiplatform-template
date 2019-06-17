@@ -1,15 +1,18 @@
-package example
+package example.common
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import example.common.R
+import androidx.fragment.app.Fragment
+import example.ui.contract.FirstViewContract
+import kotlinx.android.synthetic.main.fragment_first.responseText
 
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), FirstViewContract {
+
+    override fun displayGreeting(text: String) {
+        responseText.text = text
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
