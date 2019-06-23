@@ -40,6 +40,7 @@ android {
         exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
+        exclude("META-INF/ktor-client-json.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")
@@ -73,6 +74,7 @@ dependencies {
     // Ktor
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-json:$ktor_version")
 
     // Android
     implementation("com.android.support:appcompat-v7:28.0.0")

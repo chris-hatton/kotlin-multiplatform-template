@@ -4,26 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import example.ui.FirstPresenter
+import example.ui.contract.FirstPresenterContract
 import example.ui.contract.FirstViewContract
-import kotlinx.android.synthetic.main.fragment_first.responseText
-import kotlinx.android.synthetic.main.fragment_first.sendButton
-import kotlinx.android.synthetic.main.fragment_first.nameEntry
+import kotlinx.android.synthetic.main.fragment_first.*
 import kotlinx.android.synthetic.main.fragment_first.view.*
 
-class FirstFragment : Fragment(), FirstViewContract {
+class FirstFragment : BaseFragment<FirstViewContract, FirstPresenterContract>(), FirstViewContract {
 
     override fun displayGreeting(text: String) {
         responseText.text = text
     }
 
     override val presenter : FirstPresenter by lazy {
-        FirstPresenter(
-            client = Example.httpClient,
-            createMainScope = { MainScope() },
-            view = this
-        )
+        FirstPresenter(view = this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +36,4 @@ class FirstFragment : Fragment(), FirstViewContract {
             }
         }
     }
-
-
 }

@@ -8,8 +8,6 @@
 
 package example
 
-import example.ui.FirstPresenter
-import example.ui.contract.FirstViewContract
 import kotlinx.cinterop.ExportObjCClass
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.ObjCOutlet
@@ -18,6 +16,10 @@ import platform.UIKit.UIButton
 import platform.UIKit.UILabel
 import platform.UIKit.UITextField
 import platform.UIKit.UIViewController
+import example.ui.contract.FirstViewContract
+import example.ui.contract.FirstPresenterContract
+import example.ui.FirstPresenter
+import example.ui.ViewContract
 
 @ExportObjCClass
 class FirstViewController : UIViewController {
@@ -42,16 +44,19 @@ class FirstViewController : UIViewController {
     @ObjCAction
     fun buttonPressed() = viewAdapter.presenter.didSetName(name = textField.text ?: "")
 
-    private val viewAdapter = object : FirstViewContract {
+    private val viewAdapter = FirstViewAdapter()
+
+    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter,FirstViewContract,FirstPresenterContract>(), FirstViewContract {
         override fun displayGreeting(text: String) {
             label.text = text
         }
 
         override val presenter: FirstPresenter by lazy {
             FirstPresenter(
-                client          = AppDelegate.instance.client,
-                createMainScope = AppDelegate.instance.createMainScope,
-                view            = this
+                client   = AppDelegate.instance.client,
+                uiScope  = UiScope,
+                netScope = UiScope,
+                view     = this
             )
         }
     }

@@ -1,40 +1,62 @@
 package example.ui
 
+import example.client
 import example.model.Person
+import example.netScope
 import example.ui.contract.FirstPresenterContract
 import example.ui.contract.FirstViewContract
-import io.ktor.client.HttpClient
+import example.uiScope
 import io.ktor.client.request.post
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 class FirstPresenter(
-        val client: HttpClient,
-        val createMainScope : ()->CoroutineScope,
         override val view: FirstViewContract
 ) : FirstPresenterContract {
-    override fun didSetName(name: String) {
 
-        createMainScope().launch {
+    private lateinit var setNameChannel : Channel<String>
+    private lateinit var peopleChannel  : Channel<Pair<Person, Person>>
 
-            val person = Person(names = name.split(" "))
+    override fun onAttach() {
 
-            val otherPerson = try {
-                 client.post<Person> {
-                    url("http://localhost:8080/person")
-                    contentType(ContentType.Application.Json)
-                    body = person
+        setNameChannel = Channel()
+        peopleChannel  = Channel()
+
+        netScope.launch {
+            for (name in setNameChannel) {
+                val person = Person(names = name.split(" "))
+                val otherPerson = try {
+                    client.post<Person> {
+                        url("http://localhost:8080/person")
+                        contentType(ContentType.Application.Json)
+                        body = person
+                    }
+                } catch(e: Exception) {
+                    println("Exception: $e, cause: ${e.cause}")
+                    Person("Nigel", "Ernest", "Body")
                 }
-            } catch(e: Exception) {
-                println("Exception: $e, cause: ${e.cause}")
-                Person("Nigel", "Ernest", "Body")
+                peopleChannel.send(person to otherPerson)
             }
+        }
 
-            view.displayGreeting(text = "Hello ${person.firstName}, do you know ${otherPerson.fullName}?")
+        uiScope.launch {
+            for((person,otherPerson) in peopleChannel) {
+                view.displayGreeting(text = "Hello ${person.firstName}, do you know ${otherPerson.fullName}?")
+            }
+        }
+    }
+
+    override fun onDetach() {
+        setNameChannel.close()
+        peopleChannel.close()
+    }
+
+    override fun didSetName(name: String) {
+        uiScope.launch {
+            setNameChannel.send(name)
         }
     }
 }

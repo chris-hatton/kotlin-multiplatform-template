@@ -4,14 +4,24 @@ import kotlinx.coroutines.*
 import platform.darwin.*
 import kotlin.coroutines.CoroutineContext
 
-//private class MainDispatcher: CoroutineDispatcher() {
-//    override fun dispatch(context: CoroutineContext, block: Runnable) {
-//        dispatch_async(dispatch_get_main_queue()) { block.run() }
-//    }
-//}
+actual val uiScope = object : CoroutineScope {
+    private val dispatcher = UiDispatcher
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = dispatcher + job
+}
+
+actual val netScope = object : CoroutineScope {
+    private val dispatcher = UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = dispatcher + job
+}
 
 @UseExperimental(InternalCoroutinesApi::class)
-object MainDispatcher: CoroutineDispatcher(), Delay {
+object UiDispatcher: CoroutineDispatcher(), Delay {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         dispatch_async(dispatch_get_main_queue()) {
@@ -61,12 +71,4 @@ object MainDispatcher: CoroutineDispatcher(), Delay {
 
         return handle
     }
-}
-
-internal class MainScope: CoroutineScope {
-    private val dispatcher = MainDispatcher
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
 }

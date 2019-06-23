@@ -77,14 +77,20 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlin_serialization_version")
+
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                //implementation("io.ktor:ktor-client-android:$ktor_version")
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.ktor:ktor-client-json:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
+
             }
         }
         val jvmTest by getting {
             dependencies {
+
                 implementation(kotlin("test-junit"))
                 //implementation(kotlin("test-annotations"))
             }

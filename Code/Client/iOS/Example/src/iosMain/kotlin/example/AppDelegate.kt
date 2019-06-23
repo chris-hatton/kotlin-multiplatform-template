@@ -36,18 +36,6 @@ class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
         println("Startup")
     }
 
-    val client : HttpClient by lazy {
-        HttpClient {
-            install(JsonFeature) {
-                serializer = KotlinxSerializer().apply {
-                    setMapper( type = Person::class, serializer = Person.serializer())
-                }
-            }
-        }
-    }
-
-    val createMainScope : ()->CoroutineScope = { MainScope() }
-
     override fun applicationWillTerminate(application: UIApplication) {
         client.close()
     }
