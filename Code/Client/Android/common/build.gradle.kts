@@ -55,6 +55,8 @@ dependencies {
     // Ktor
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-json:$ktor_version")
+    implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
 
     implementation("androidx.appcompat:appcompat:1.0.2")
     testImplementation("junit:junit:4.12")
