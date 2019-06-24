@@ -25,15 +25,18 @@ class FirstPresenter(
         setNameChannel = Channel()
         peopleChannel  = Channel()
 
-        netScope.launch {
+        uiScope.launch {
             for (name in setNameChannel) {
                 val person = Person(names = name.split(" "))
                 val otherPerson = try {
-                    client.post<Person> {
+                    println("A")
+                    val returnPerson = client.post<Person> {
                         url("http://localhost:8080/person")
                         contentType(ContentType.Application.Json)
                         body = person
                     }
+                    println("B")
+                    returnPerson
                 } catch(e: Exception) {
                     println("Exception: $e, cause: ${e.cause}")
                     Person("Nigel", "Ernest", "Body")
@@ -56,6 +59,7 @@ class FirstPresenter(
 
     override fun didSetName(name: String) {
         uiScope.launch {
+            //println("Hi")
             setNameChannel.send(name)
         }
     }

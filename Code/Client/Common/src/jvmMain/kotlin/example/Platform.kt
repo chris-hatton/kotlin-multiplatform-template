@@ -1,4 +1,4 @@
 
 package example
 
-actual val platformName : String = "Android"
+actual val platformName : String = "JVM"
