@@ -21,7 +21,7 @@ actual val netScope = object : CoroutineScope {
 }
 
 @UseExperimental(InternalCoroutinesApi::class)
-object UiDispatcher: CoroutineDispatcher(), Delay {
+private object UiDispatcher: CoroutineDispatcher(), Delay {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         dispatch_async(dispatch_get_main_queue()) {

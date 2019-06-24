@@ -20,6 +20,7 @@ import example.ui.contract.FirstViewContract
 import example.ui.contract.FirstPresenterContract
 import example.ui.FirstPresenter
 import example.ui.ViewContract
+import kotlinx.cinterop.ObjCMethod
 
 @ExportObjCClass
 class FirstViewController : UIViewController {
@@ -42,7 +43,9 @@ class FirstViewController : UIViewController {
     }
 
     @ObjCAction
-    fun buttonPressed() = viewAdapter.presenter.didSetName(name = textField.text ?: "")
+    fun buttonPressed() {
+        viewAdapter.presenter.didSetName(name = textField.text ?: "")
+    }
 
     private val viewAdapter = FirstViewAdapter()
 
@@ -53,11 +56,20 @@ class FirstViewController : UIViewController {
 
         override val presenter: FirstPresenter by lazy {
             FirstPresenter(
-                client   = AppDelegate.instance.client,
-                uiScope  = UiScope,
-                netScope = UiScope,
-                view     = this
+                view = this
             )
         }
+    }
+
+    //@ObjCMethod(selector = "viewWillAppear:",bridge = "viewWillAppear")
+    override fun viewWillAppear(animated: Boolean) {
+        super.viewWillAppear(animated)
+        viewAdapter.viewWillAppear(animated)
+    }
+
+    //@ObjCMethod(selector = "viewDidDisappear:",bridge = "viewDidDisappear")
+    override fun viewDidDisappear(animated: Boolean) {
+        viewAdapter.viewDidDisappear(animated)
+        super.viewDidDisappear(animated)
     }
 }
