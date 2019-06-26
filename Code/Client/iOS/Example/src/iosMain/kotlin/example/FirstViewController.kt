@@ -1,10 +1,3 @@
-//
-//  FirstViewController.kt
-//  Example
-//
-//  Created by Christopher Hatton on 2019-05-04.
-//  Copyright © 2019 Arvis. All rights reserved.
-//
 
 package example
 
@@ -19,8 +12,6 @@ import platform.UIKit.UIViewController
 import example.ui.contract.FirstViewContract
 import example.ui.contract.FirstPresenterContract
 import example.ui.FirstPresenter
-import example.ui.ViewContract
-import kotlinx.cinterop.ObjCMethod
 
 @ExportObjCClass
 class FirstViewController : UIViewController {
@@ -56,18 +47,17 @@ class FirstViewController : UIViewController {
 
         override val presenter: FirstPresenter by lazy {
             FirstPresenter(
-                view = this
+                baseUrl = "http://localhost:8080",
+                view    = this
             )
         }
     }
 
-    //@ObjCMethod(selector = "viewWillAppear:",bridge = "viewWillAppear")
     override fun viewWillAppear(animated: Boolean) {
         super.viewWillAppear(animated)
         viewAdapter.viewWillAppear(animated)
     }
 
-    //@ObjCMethod(selector = "viewDidDisappear:",bridge = "viewDidDisappear")
     override fun viewDidDisappear(animated: Boolean) {
         viewAdapter.viewDidDisappear(animated)
         super.viewDidDisappear(animated)

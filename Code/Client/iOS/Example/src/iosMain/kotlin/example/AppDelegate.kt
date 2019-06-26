@@ -18,13 +18,16 @@ import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import platform.UIKit.*
 
-class AppDelegate : UIResponder(), UIApplicationDelegateProtocol {
+class AppDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta {
         val instance : AppDelegate get() = UIApplication.sharedApplication.delegate as AppDelegate
     }
 
-    override fun init() = initBy(AppDelegate())
+    @OverrideInit
+    constructor() : super()
+
+    //override fun init() = initBy(AppDelegate())
 
     private var _window: UIWindow? = null
     override fun window() = _window

@@ -14,9 +14,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 class FirstPresenter(
+        val baseUrl : String,
         override val view: FirstViewContract
 ) : FirstPresenterContract {
-
     private lateinit var setNameChannel : Channel<String>
     private lateinit var peopleChannel  : Channel<Pair<Person, Person>>
 
@@ -27,13 +27,14 @@ class FirstPresenter(
         setNameChannel = Channel()
         peopleChannel  = Channel()
 
-        uiScope.launch {
+        netScope.launch {
+            println("Hi! N")
             for (name in setNameChannel) {
                 val person = Person(names = name.split(" "))
                 val otherPerson = try {
                     println("A")
                     val returnPerson = client.post<Person> {
-                        url("http://localhost:8080/person")
+                        url("$baseUrl/person")
                         contentType(ContentType.Application.Json)
                         body = person
                     }
