@@ -1,20 +1,19 @@
 package example
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import java.util.concurrent.*
 import kotlin.coroutines.CoroutineContext
 
-actual val uiScope = object : CoroutineScope {
-    private val dispatcher = Dispatchers.Main
-    private val job = Job()
+actual val uiScope = Dispatchers.Main.createScope()
 
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
-}
+actual val processScope = ThreadPoolExecutor(1, 4, 1, TimeUnit.MINUTES, LinkedBlockingQueue<Runnable>())
+    .asCoroutineDispatcher()
+    .createScope()
 
-actual val netScope = object : CoroutineScope {
-    private val dispatcher = Dispatchers.IO
+actual val netScope = Dispatchers.IO.createScope()
+
+private fun CoroutineDispatcher.createScope() = object : CoroutineScope {
+    private val dispatcher = this@createScope
     private val job = Job()
 
     override val coroutineContext: CoroutineContext

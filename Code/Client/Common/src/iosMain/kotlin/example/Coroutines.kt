@@ -12,6 +12,14 @@ actual val uiScope = object : CoroutineScope {
         get() = dispatcher + job
 }
 
+actual val processScope: CoroutineScope = object : CoroutineScope {
+    private val dispatcher = UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = dispatcher + job
+}
+
 actual val netScope = object : CoroutineScope {
     private val dispatcher = UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
     private val job = Job()
