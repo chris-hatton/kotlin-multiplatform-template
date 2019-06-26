@@ -22,6 +22,8 @@ class FirstPresenter(
 
     override fun onAttach() {
 
+        println("Hey")
+
         setNameChannel = Channel()
         peopleChannel  = Channel()
 

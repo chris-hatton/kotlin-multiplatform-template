@@ -64,6 +64,10 @@ version = "0.0.1"
 
 kotlin {
     
+//    targets {
+//        jvm()
+//    }
+    
     jvm {}
 
     // This is for iPhone emulator
