@@ -3,9 +3,10 @@ apply {
     from("$rootDir/common.gradle.kts")
 }
 
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
+val ktor_version                 : String by project
+val kotlin_version               : String by project
+val logback_version              : String by project
+val kotlin_serialization_version : String by project
 
 project.buildscript {
     repositories {
@@ -17,8 +18,7 @@ project.buildscript {
         // This should not be required - this is *not* an Android project.
         // Seems to be a current limitation of dependency on MPP project?
         classpath("com.android.tools.build:gradle:3.4.1")
-
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.31")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.40")
     }
 }
 
@@ -40,11 +40,11 @@ repositories {
 
 plugins {
     application
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.40"
     war
     id("org.gretty") version "2.2.0"
     id("org.jetbrains.dokka") version "0.9.18"
-    id("kotlinx-serialization") version "1.3.31"
+    id("kotlinx-serialization") version "1.3.40"
 }
 
 group = "Server"
@@ -74,7 +74,7 @@ dependencies {
 
     compile(project(":shared"))
 
-    compile("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.0")
+    compile("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization_version")
 
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
     compile("io.ktor:ktor-server-servlet:$ktor_version")
