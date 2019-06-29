@@ -18,7 +18,7 @@ android {
     compileSdkVersion(28)
     defaultConfig {
         multiDexEnabled = true
-        applicationId = "org.chrishatton.projectclient"
+        applicationId = "org.chrishatton.example"
         minSdkVersion(21)
         targetSdkVersion(28)
         versionCode = 1
@@ -42,6 +42,7 @@ android {
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
         exclude("META-INF/ktor-client-json.kotlin_module")
+        exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")

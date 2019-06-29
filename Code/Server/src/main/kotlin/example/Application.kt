@@ -1,6 +1,6 @@
 package example
 
-import example.model.Person
+import org.chrishatton.example.model.Person
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install

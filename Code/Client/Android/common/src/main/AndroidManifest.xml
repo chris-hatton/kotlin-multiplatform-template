@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="example.common">
+          package="org.chrishatton.example.common">
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
 

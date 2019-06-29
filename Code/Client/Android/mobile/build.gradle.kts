@@ -18,7 +18,7 @@ android {
     compileSdkVersion(28)
     defaultConfig {
         multiDexEnabled = true
-        applicationId = "org.chrishatton.projectclient"
+        applicationId = "org.chrishatton.example"
         minSdkVersion(21)
         targetSdkVersion(28)
         versionCode = 1
