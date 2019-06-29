@@ -51,7 +51,7 @@ kotlin {
                 implementation(project(":shared"))
                 implementation(kotlin("stdlib-common"))
                 implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
                 //implementation("io.ktor:ktor-client-websocket:$ktor_version")
             }
