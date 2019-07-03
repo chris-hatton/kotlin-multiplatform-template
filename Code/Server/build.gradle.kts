@@ -1,14 +1,23 @@
 
-apply {
-    from("$rootDir/common.gradle.kts")
-}
+val kotlinXSerializationRuntimeJvm : String by extra
+val kotlinStandardLibrary8         : String by extra
 
-val ktor_version                 : String by extra
-val kotlin_version               : String by extra
-val logback_version              : String by extra
-val kotlin_serialization_version : String by extra
+val ktorServerServlet  : String by extra
+val ktorServerNetty    : String by extra
+val ktorServerCore     : String by extra
+val ktorLocations      : String by extra
+val ktorServerSessions : String by extra
+val ktorAuth           : String by extra
+val ktorWebsockets     : String by extra
+val ktorGson           : String by extra
+val logBackClassic     : String by extra
 
-project.buildscript {
+val ktorServerTests : String by extra
+
+buildscript {
+
+    apply(from = "$rootDir/common.gradle.kts")
+
     repositories {
         google()
         jcenter()
@@ -22,7 +31,7 @@ project.buildscript {
     }
 }
 
-project.allprojects.forEach {
+allprojects.forEach {
     repositories {
         mavenLocal()
         jcenter()
@@ -72,28 +81,21 @@ tasks.dokka {
 
 dependencies {
 
-    compile(project(":shared"))
+    implementation(project(":shared"))
 
-    compile("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization_version")
+    implementation(kotlinXSerializationRuntimeJvm)
+    implementation(kotlinStandardLibrary8)
 
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version")
-    compile("io.ktor:ktor-server-servlet:$ktor_version")
-    compile("io.ktor:ktor-server-netty:$ktor_version")
-    compile("ch.qos.logback:logback-classic:$logback_version")
-    compile("io.ktor:ktor-server-core:$ktor_version")
-    compile("io.ktor:ktor-locations:$ktor_version")
-    compile("io.ktor:ktor-server-sessions:$ktor_version")
-    compile("io.ktor:ktor-auth:$ktor_version")
-//    compile("io.ktor:ktor-client-core:$ktor_version")
-//    compile("io.ktor:ktor-client-core-jvm:$ktor_version")
-//    compile("io.ktor:ktor-client-jetty:$ktor_version")
-//    compile("io.ktor:ktor-client-json-jvm:$ktor_version")
-//    compile("io.ktor:ktor-client-gson:$ktor_version")
-//    compile("io.ktor:ktor-client-cio:$ktor_version")
-    compile("io.ktor:ktor-websockets:$ktor_version")
-//    compile("io.ktor:ktor-client-logging-jvm:$ktor_version")
-    implementation("io.ktor:ktor-gson:$ktor_version")
+    implementation(ktorServerServlet)
+    implementation(ktorServerNetty)
+    implementation(ktorServerCore)
+    implementation(ktorLocations)
+    implementation(ktorServerSessions)
+    implementation(ktorAuth)
+    implementation(ktorWebsockets)
+    implementation(ktorGson)
+    implementation(logBackClassic)
 
-    testCompile("io.ktor:ktor-server-tests:$ktor_version")
+    testCompile(ktorServerTests)
 }
 
