@@ -10,12 +10,14 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-    id("kotlin-platform-android")
+    //id("kotlin-platform-android")
     id("kotlinx-serialization")
 }
 
 android {
+
     compileSdkVersion(28)
+
     defaultConfig {
         multiDexEnabled = true
         applicationId = "org.chrishatton.example"
@@ -25,6 +27,7 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         getByName("debug"){}
         getByName("release") {
@@ -32,6 +35,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     packagingOptions {
         exclude("META-INF/ktor-http.kotlin_module")
         exclude("META-INF/kotlinx-io.kotlin_module")
@@ -44,6 +48,7 @@ android {
         exclude("META-INF/ktor-client-json.kotlin_module")
         exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
     }
+
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")
         this["test"].java.srcDir("src/test/kotlin")
@@ -51,35 +56,53 @@ android {
     }
 }
 
-val kotlin_version            : String = extra["kotlin_version"].toString()
-val kotlin_coroutines_version : String = extra["kotlin_coroutines_version"].toString()
-val ktor_version              : String = extra["ktor_version"].toString()
+val kotlinStandardLibrary    : String by extra
+val ktorClientAndroid        : String by extra
+val ktorClientCio            : String by extra
+val ktorClientJson           : String by extra
+val androidXAppCompat        : String by extra
+val androidXCoreKtx          : String by extra
+val androidXConstraintLayout : String by extra
+val kotlinXCoroutinesAndroid : String by extra
+val jUnit                    : String by extra
+val androidXTestRunner       : String by extra
+val androidXTestEspressoCore : String by extra
+
+val androidTvLeanback : String by extra
+val glideImageLibrary : String by extra
+
+val androidClientCommonProject : ()->ProjectDependency by extra
+val clientCommonProject        : ()->ProjectDependency by extra
+val sharedProject              : ()->ProjectDependency by extra
 
 dependencies {
 
-    implementation(project(":android-client-common"))
-    implementation(project(":client-common"))
-    implementation(project(":shared"))
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
-    implementation("androidx.leanback:leanback:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    implementation("com.github.bumptech.glide:glide:3.8.0")
+    // Projects
+    implementation(androidClientCommonProject())
+    implementation(clientCommonProject())
+    implementation(sharedProject())
 
     // Kotlin Core
-    implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version")
+    implementation(kotlinStandardLibrary)
 
     // Ktor
-    implementation("io.ktor:ktor-client-android:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-json:$ktor_version")
+    implementation(ktorClientAndroid)
+    implementation(ktorClientCio)
+    implementation(ktorClientJson)
 
     // Android
-    implementation("com.android.support:appcompat-v7:28.0.0")
-    implementation("com.android.support.constraint:constraint-layout:1.1.3")
-    androidTestImplementation("com.android.support.test:runner:1.0.2")
+    implementation(androidXAppCompat)
+    implementation(androidXCoreKtx)
+    implementation(androidXConstraintLayout)
+    implementation(kotlinXCoroutinesAndroid)
 
-//    testImplementation(kotlin("test"))
-//    testImplementation(kotlin("test-junit"))
+    // Test
+    testImplementation(jUnit)
+
+    // Android Test
+    androidTestImplementation(androidXTestRunner)
+    androidTestImplementation(androidXTestEspressoCore)
+
+    implementation(androidTvLeanback)
+    implementation(glideImageLibrary)
 }

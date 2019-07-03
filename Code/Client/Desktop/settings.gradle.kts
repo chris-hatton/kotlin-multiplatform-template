@@ -1,3 +1,4 @@
+import java.io.File
 
 // Workaround for: https://youtrack.jetbrains.com/issue/KT-27612
 pluginManagement {
@@ -18,6 +19,9 @@ rootProject.name = "client"
 // Use Gradle Metadata to resolve MPP artifacts: https://github.com/gradle/gradle/blob/master/subprojects/docs/src/docs/design/gradle-module-metadata-1.0-specification.md
 enableFeaturePreview("GRADLE_METADATA")
 
-include(":app")
-include(":Shared")
-project(":Shared").projectDir = File(settingsDir, "../Shared")
+//include(":app")
+include(":shared",":client-common")
+
+project(":shared").projectDir = File(settingsDir, "../../Shared")
+
+project(":client-common").projectDir = File(settingsDir, "../Common")

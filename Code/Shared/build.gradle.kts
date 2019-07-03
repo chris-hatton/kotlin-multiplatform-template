@@ -4,26 +4,21 @@ apply {
     from("$rootDir/common.gradle.kts")
 }
 
-val kotlin_version               : String by project
-val ktor_version                 : String by project
-val kotlin_serialization_version : String by project
-val kotlin_coroutines_version    : String by project
+val kotlinXSerializationRuntimeCommon : String by extra
+val kotlinXCoroutinesCore             : String by extra
+val kotlinXCoroutinesIosX64           : String by extra
+val ktorClientIos                     : String by extra
+val kotlinXSerializationRuntimeNative : String by extra
+val ktorClientJsonNative              : String by extra
+val ktorClientSerializationNative     : String by extra
+val kotlinXSerializationRuntimeJvm    : String by extra
 
 buildscript {
 
-    // Hack to get common properties read at this point,
-    // since Gradle (Kotlin DSL) has no way to include a function.
-    run {
-        java.util.Properties().apply {
-            File("$rootDir/common.properties").inputStream().use { fis ->
-                load(fis)
-            }
-        }.forEach {
-            extra[it.key.toString()] = it.value
-        }
-    }
+    apply( from = "common.gradle.kts")
 
-    val kotlin_version : String by project
+    val kotlinVersion             : String by extra
+    val kotlinSerializationPlugin : String by extra
 
     repositories {
         google()
@@ -33,8 +28,8 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
-        classpath(kotlin("gradle-plugin", version = kotlin_version))
+        classpath(kotlinSerializationPlugin)
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
     }
 }
 
@@ -86,8 +81,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlin_serialization_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
+                implementation(kotlinXSerializationRuntimeCommon)
+                implementation(kotlinXCoroutinesCore)
             }
         }
         val commonTest by getting {
@@ -100,9 +95,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
-                //implementation("io.ktor:ktor-client:$ktor_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization_version")
-                //implementation("org.jetbrains.kotlinx:kotlinx-serialization:$kotlin_serialization_version")
+                implementation(kotlinXSerializationRuntimeJvm)
             }
         }
         val jvmTest by getting {
@@ -114,12 +107,12 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:$kotlin_coroutines_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
+                implementation(kotlinXCoroutinesIosX64)
+                implementation(kotlinXSerializationRuntimeNative)
             
-                implementation("io.ktor:ktor-client-ios:${ktor_version}")
-                implementation("io.ktor:ktor-client-json-native:${ktor_version}")
-                implementation("io.ktor:ktor-client-serialization-native:${ktor_version}")
+                implementation(ktorClientIos)
+                implementation(ktorClientJsonNative)
+                implementation(ktorClientSerializationNative)
             }
         }
         val iosTest by getting {

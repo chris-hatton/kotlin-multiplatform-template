@@ -39,28 +39,38 @@ android {
     }
 }
 
-val kotlin_version: String = extra["kotlin_version"].toString()
-val kotlin_coroutines_version: String = extra["kotlin_coroutines_version"].toString()
-val ktor_version: String = extra["ktor_version"].toString()
+val kotlin_version            : String by extra
+val ktor_version              : String by extra
+
+val ktorClientAndroid        : String by extra
+val ktorClientCio            : String by extra
+val ktorClientJson           : String by extra
+
+val kotlinXCoroutinesAndroid : String by extra
+val androidXAppCompat        : String by extra
+
+val jUnit                    : String by extra
+
+val clientCommonProject : ()->ProjectDependency by extra
+val sharedProject       : ()->ProjectDependency by extra
 
 dependencies {
 
-    implementation(project(":client-common"))
-    implementation(project(":shared"))
+    implementation(clientCommonProject())
+    implementation(sharedProject())
 
     // Kotlin Core
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version")
+
+    // Android
+    implementation(kotlinXCoroutinesAndroid)
+    implementation(androidXAppCompat)
 
     // Ktor
-    implementation("io.ktor:ktor-client-android:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-json:$ktor_version")
-    implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
+    implementation(ktorClientAndroid)
+    implementation(ktorClientCio)
+    implementation(ktorClientJson)
 
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    testImplementation("junit:junit:4.12")
-
-//    androidTestImplementation 'androidx.test:runner:1.1.1'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    // Testing
+    testImplementation(jUnit)
 }

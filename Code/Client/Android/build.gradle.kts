@@ -3,17 +3,11 @@
 
 buildscript {
 
-    // Hack to get common properties read at this point,
-    // since Gradle (Kotlin DSL) has no way to include a function.
-    run {
-        java.util.Properties().apply {
-            File("$rootDir/common.properties").inputStream().use { fis ->
-                load(fis)
-            }
-        }.forEach {
-            extra[it.key.toString()] = it.value
-        }
-    }
+    apply( from = "common.gradle.kts")
+
+    val kotlinVersion             : String by extra
+    val androidGradlePlugin       : String by extra
+    val androidGradleDokkaPlugin  : String by extra
 
     repositories {
         google()
@@ -23,18 +17,16 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:3.4.1")
-        classpath(kotlin("gradle-plugin", version = extra["kotlin_version"].toString()))
-        classpath("org.jetbrains.dokka:dokka-android-gradle-plugin:${extra["android_gradle_plugin_version"].toString()}")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${extra["kotlin_version"].toString()}")
+        classpath(androidGradlePlugin)
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(androidGradleDokkaPlugin)
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
     }
 }
 
 allprojects {
 
-    apply {
-        from("$rootDir/common.gradle.kts")
-    }
+    apply( from = "$rootDir/common.gradle.kts")
 
     repositories {
         google()
