@@ -1,17 +1,9 @@
 
 buildscript {
 
-    // Hack to get common properties read at this point,
-    // since Gradle (Kotlin DSL) has no way to include a function.
-    run {
-        java.util.Properties().apply {
-            File("$rootDir/common.properties").inputStream().use { fis ->
-                load(fis)
-            }
-        }.forEach {
-            extra[it.key.toString()] = it.value
-        }
-    }
+    apply( from = "common.gradle.kts")
+
+    val kotlin_version : String by extra
 
     repositories {
         google()
@@ -21,16 +13,12 @@ buildscript {
     }
 
     dependencies {
-        classpath(kotlin("gradle-plugin", version = extra["kotlin_version"].toString()))
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${extra["kotlin_version"].toString()}")
+        classpath(kotlin("gradle-plugin", version = kotlin_version ))
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
     }
 }
 
 allprojects {
-
-    apply {
-        from("${rootProject.projectDir}/common.gradle.kts")
-    }
 
     repositories {
         google()

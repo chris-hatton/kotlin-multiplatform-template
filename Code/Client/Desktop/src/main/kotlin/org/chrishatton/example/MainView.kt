@@ -1,8 +1,5 @@
 import javafx.collections.FXCollections
-import tornadofx.SmartResize
-import tornadofx.View
-import tornadofx.column
-import tornadofx.tableview
+import tornadofx.*
 import java.time.LocalDate
 
 class MainView : View() {

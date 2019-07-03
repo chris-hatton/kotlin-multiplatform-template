@@ -1,13 +1,32 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
-val ktor_version                 : String by project
-val kotlin_serialization_version : String by project
-val kotlin_coroutines_version    : String by project
+val ktor_version                 : String by extra
+val kotlin_serialization_version : String by extra
+val kotlin_coroutines_version    : String by extra
+
+val kotlinXCoroutinesCore   : String by extra
+val kotlinXCoroutinesIosX64 : String by extra
+
+val ktorClientCore             : String by extra
+val ktorClientCio              : String by extra
+val ktorClientJson             : String by extra
+val ktorClientSerializationJvm : String by extra
+
+val ktorClientIos        : String by extra
+val ktorClientCodeIosX64 : String by extra
+
+val kotlinXSerializationRuntimeNative : String by extra
+val kotlinXSerializationRuntimeCommon : String by extra
+
+val sharedProject : ()->ProjectDependency by extra
 
 buildscript {
 
-    val kotlin_version : String by project
+    apply( from = "common.gradle.kts")
+
+    val kotlinVersion             : String by extra
+    val kotlinSerializationPlugin : String by extra
 
     repositories {
         google()
@@ -15,8 +34,8 @@ buildscript {
         maven( url = "https://kotlin.bintray.com/kotlinx" )
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlin_version))
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(kotlinSerializationPlugin)
     }
 }
 
@@ -48,12 +67,11 @@ kotlin {
 
         commonMain {
             dependencies {
-                implementation(project(":shared"))
+                implementation(sharedProject())
                 implementation(kotlin("stdlib-common"))
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
-                //implementation("io.ktor:ktor-client-websocket:$ktor_version")
+                implementation(ktorClientCore)
+                implementation(kotlinXCoroutinesCore)
+                implementation(ktorClientCio)
             }
         }
         commonTest {
@@ -65,10 +83,10 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-iosx64:$kotlin_coroutines_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$kotlin_serialization_version")
-                implementation("io.ktor:ktor-client-ios:$ktor_version")
-                implementation("io.ktor:ktor-client-core-iosx64:$ktor_version")
+                implementation(kotlinXCoroutinesIosX64)
+                implementation(kotlinXSerializationRuntimeNative)
+                implementation(ktorClientIos)
+                implementation(ktorClientCodeIosX64)
             }
         }
         val iosTest by getting {
@@ -77,14 +95,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$kotlin_serialization_version")
+                implementation(kotlinXCoroutinesCore)
+                implementation(kotlinXSerializationRuntimeCommon)
 
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                //implementation("io.ktor:ktor-client-android:$ktor_version")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
-                implementation("io.ktor:ktor-client-json:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
+                implementation(ktorClientCore)
+                implementation(ktorClientCio)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerializationJvm)
 
             }
         }

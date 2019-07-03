@@ -3,10 +3,10 @@ apply {
     from("$rootDir/common.gradle.kts")
 }
 
-val ktor_version                 : String by project
-val kotlin_version               : String by project
-val logback_version              : String by project
-val kotlin_serialization_version : String by project
+val ktor_version                 : String by extra
+val kotlin_version               : String by extra
+val logback_version              : String by extra
+val kotlin_serialization_version : String by extra
 
 project.buildscript {
     repositories {
