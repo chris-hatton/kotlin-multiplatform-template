@@ -39,9 +39,6 @@ android {
     }
 }
 
-val kotlin_version            : String by extra
-val ktor_version              : String by extra
-
 val ktorClientAndroid        : String by extra
 val ktorClientCio            : String by extra
 val ktorClientJson           : String by extra
