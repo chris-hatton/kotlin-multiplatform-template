@@ -1,8 +1,21 @@
 
-val kotlin_version            : String by extra
-val kotlin_coroutines_version : String by extra
-val ktor_version              : String by extra
-val tornadofx_version         : String by extra
+val kotlinVersion           : String by extra
+val kotlinCoroutinesVersion : String by extra
+val ktorVersion             : String by extra
+val tornadoFxVersion        : String by extra
+val kotlinStandardLibrary7  : String by extra
+val javaFxBase              : String by extra
+val javaFxGraphics          : String by extra
+val javaFxControls          : String by extra
+
+val kotlinXCoroutinesCore : String by extra
+val tornadoFx             : String by extra
+val ktorClient            : String by extra
+val ktorClientCio         : String by extra
+val ktorClientJson        : String by extra
+
+val clientCommonProject : ()->ProjectDependency by extra
+val sharedProject       : ()->ProjectDependency by extra
 
 plugins {
     kotlin("jvm" ) version "1.3.40"
@@ -15,11 +28,9 @@ buildscript {
 
     apply( from = "common.gradle.kts")
 
-    val kotlin_version               : String by extra
-    val javafx_gradle_plugin_version : String by extra
-    val javafx_plugin_version        : String by extra
-
-    println("-$kotlin_version-")
+    val kotlinVersion             : String by extra
+    val javaFxGradlePlugin        : String by extra
+    val kotlinSerializationPlugin : String by extra
 
     repositories {
         google()
@@ -31,10 +42,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath("org.openjfx:javafx-plugin:$javafx_plugin_version")
-        classpath(kotlin("gradle-plugin", version = kotlin_version))
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
-        classpath("de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:$javafx_gradle_plugin_version")
+        classpath(javaFxGradlePlugin)
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(kotlinSerializationPlugin)
     }
 }
 
@@ -56,14 +66,14 @@ repositories {
 
 dependencies {
 
-    implementation(project(":client-common"))
-    implementation(project(":shared"))
+    implementation(clientCommonProject())
+    implementation(sharedProject())
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
+    implementation(kotlinStandardLibrary7)
 
     // Kotlin Core
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version")
+    implementation(kotlinXCoroutinesCore)
 
     // JavaFX
     val currentOS = org.gradle.internal.os.OperatingSystem.current()
@@ -74,19 +84,16 @@ dependencies {
         else                -> throw Exception("Unsupported OS ${currentOS.name}")
     }
 
-    implementation("org.openjfx:javafx-base:11:${javaFxPlatformId}")
-    implementation("org.openjfx:javafx-graphics:11:${javaFxPlatformId}")
-    implementation("org.openjfx:javafx-controls:11:${javaFxPlatformId}")
+    implementation("$javaFxBase:$javaFxPlatformId")
+    implementation("$javaFxGraphics:$javaFxPlatformId")
+    implementation("$javaFxControls:$javaFxPlatformId")
 
-    implementation("no.tornado:tornadofx:$tornadofx_version")
+    implementation(tornadoFx)
 
     // Ktor
-    implementation("io.ktor:ktor-client:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-json:$ktor_version")
-
-//    testImplementation(kotlin("test"))
-//    testImplementation(kotlin("test-junit"))
+    implementation(ktorClient)
+    implementation(ktorClientCio)
+    implementation(ktorClientJson)
 }
 
 ///=========

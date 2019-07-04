@@ -24,7 +24,7 @@ buildscript {
         maven( url = "https://kotlin.bintray.com/kotlinx" )
     }
     dependencies {
-        // This should not be required - this is *not* an Android project.
+        // This should not be required as this is *not* an Android project.
         // Seems to be a current limitation of dependency on MPP project?
         classpath("com.android.tools.build:gradle:3.4.1")
         classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.40")
