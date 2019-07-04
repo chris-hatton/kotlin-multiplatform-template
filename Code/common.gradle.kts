@@ -3,11 +3,11 @@ import java.util.*
 /**
  * Load entries from 'common.properties' into the context Gradle project's 'extra' properties.
  *
- * This is used to keep Kotlin language, Ktor and other library dependencies the same across
+ * This is used to keep Kotlin language, Ktor and other library dependencies consistent across
  * several Multi-platform sub-projects.
  *
  * Even when referencing dependencies centrally in this way, version numbers which are common to families
- * of dependencies e.g. multi-platform Ktor components, would require repeatition and maintenance in sync.
+ * of dependencies e.g. multi-platform Ktor components, would require repetition and maintenance.
  *
  * So, to ease maintenance of dependencies referenced in 'common.properties', substitutions in the familiar
  * form '$token' are also resolved by this loading code, where 'token' may be the key of another value in the
@@ -31,31 +31,31 @@ fun loadSubstitutedPropertiesToExtra(fileName: String) {
     }
 
     // Define recursive substitution by $token
-    fun getSubstituted(key: String) : String? {
+    fun getResolved(key: String) : String? {
 
         val substituteRegex = Regex("\\\$([A-Za-z_0-9]+)")
 
         fun substitute(value: String) : String {
-            var subbedValue : String = value
+            var resolvingValue : String = value
             do {
-                val lastValue = subbedValue
-                subbedValue = substituteRegex.replace(value) { result ->
+                val lastValue = resolvingValue
+                resolvingValue = substituteRegex.replace(value) { result ->
                     val substitutionKey : String = result.groupValues[1]
-                    getSubstituted(substitutionKey) ?: throw Exception("Couldn't find substitution for key '$substitutionKey'")
+                    getResolved(substitutionKey) ?: throw Exception("Couldn't find substitution for key '$substitutionKey'")
                 }
-            } while(lastValue != subbedValue) // Keep resolving until the string stabilises
-            return subbedValue
+            } while(lastValue != resolvingValue) // Iteratively resolve until the string stabilises
+            return resolvingValue
         }
 
         val unsubbedValue : String = properties.get(key) as? String ?: return null
         return substitute(value = unsubbedValue)
     }
 
-    // Copy substituted values into Gradle 'extra'
+    // Copy resolved values into Gradle 'extra'
     properties.forEach { (key,_) ->
-        val fullValue = getSubstituted(key as String)
-        println("$key = $fullValue")
-        extra[key.toString()] = fullValue
+        val resolvedValue = getResolved(key as String)
+        println("$key = $resolvedValue")
+        extra[key.toString()] = resolvedValue
     }
 }
 
