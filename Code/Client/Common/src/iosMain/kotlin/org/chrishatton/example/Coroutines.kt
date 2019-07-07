@@ -4,6 +4,8 @@ import kotlinx.coroutines.*
 import platform.darwin.*
 import kotlin.coroutines.CoroutineContext
 
+@kotlinx.coroutines.InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 actual val uiScope = object : CoroutineScope {
     private val dispatcher = UiDispatcher
     private val job = Job()
@@ -12,6 +14,8 @@ actual val uiScope = object : CoroutineScope {
         get() = dispatcher + job
 }
 
+@kotlinx.coroutines.InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 actual val processScope: CoroutineScope = object : CoroutineScope {
     private val dispatcher =
         UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
@@ -21,6 +25,8 @@ actual val processScope: CoroutineScope = object : CoroutineScope {
         get() = dispatcher + job
 }
 
+@kotlinx.coroutines.InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 actual val netScope = object : CoroutineScope {
     private val dispatcher =
         UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
@@ -30,7 +36,8 @@ actual val netScope = object : CoroutineScope {
         get() = dispatcher + job
 }
 
-@UseExperimental(InternalCoroutinesApi::class)
+@InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 private object UiDispatcher: CoroutineDispatcher(), Delay {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
@@ -44,11 +51,13 @@ private object UiDispatcher: CoroutineDispatcher(), Delay {
         }
     }
 
-    @InternalCoroutinesApi
+    @kotlinx.coroutines.InternalCoroutinesApi
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     override fun scheduleResumeAfterDelay(timeMillis: Long, continuation: CancellableContinuation<Unit>) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeMillis * 1_000_000), dispatch_get_main_queue()) {
             try {
                 with(continuation) {
+
                     resumeUndispatched(Unit)
                 }
             } catch (err: Throwable) {
@@ -58,7 +67,8 @@ private object UiDispatcher: CoroutineDispatcher(), Delay {
         }
     }
 
-    @InternalCoroutinesApi
+    @kotlinx.coroutines.InternalCoroutinesApi
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     override fun invokeOnTimeout(timeMillis: Long, block: Runnable): DisposableHandle {
         val handle = object : DisposableHandle {
             var disposed = false

@@ -1,29 +1,4 @@
 
-val kotlinVersion           : String by extra
-val kotlinCoroutinesVersion : String by extra
-val ktorVersion             : String by extra
-val tornadoFxVersion        : String by extra
-val kotlinStandardLibrary7  : String by extra
-val javaFxBase              : String by extra
-val javaFxGraphics          : String by extra
-val javaFxControls          : String by extra
-
-val kotlinXCoroutinesCore : String by extra
-val tornadoFx             : String by extra
-val ktorClient            : String by extra
-val ktorClientCio         : String by extra
-val ktorClientJson        : String by extra
-
-val clientCommonProject : ()->ProjectDependency by extra
-val sharedProject       : ()->ProjectDependency by extra
-
-plugins {
-    kotlin("jvm" ) version "1.3.40"
-    id("application")
-    id("org.openjfx.javafxplugin") version "0.0.7"
-    id("kotlinx-serialization") version "1.3.40"
-}
-
 buildscript {
 
     apply( from = "common.gradle.kts")
@@ -40,17 +15,110 @@ buildscript {
         maven {
             setUrl("https://plugins.gradle.org/m2/")
         }
+        maven {
+            setUrl("http://sandec.bintray.com/repo")
+        }
     }
+
     dependencies {
         classpath(javaFxGradlePlugin)
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
+        classpath("no.tornado:fxlauncher-gradle-plugin:1.0.15")
     }
 }
 
+val kotlinVersion           : String by extra
+val kotlinCoroutinesVersion : String by extra
+val ktorVersion             : String by extra
+val tornadoFxVersion        : String by extra
+val kotlinStandardLibrary7  : String by extra
+val javaFxBase              : String by extra
+val javaFxGraphics          : String by extra
+val javaFxControls          : String by extra
+val javaFxFxml              : String by extra
+
+val kotlinXCoroutinesCore : String by extra
+val tornadoFx             : String by extra
+val ktorClient            : String by extra
+val ktorClientCio         : String by extra
+val ktorClientJson        : String by extra
+
+val jUnit : String by extra
+
+val clientCommonProject : ()->ProjectDependency by extra
+val sharedProject       : ()->ProjectDependency by extra
+
+val moduleName = "exampleApp"
+
+plugins {
+
+    id("application")
+    id("org.openjfx.javafxplugin") version "0.0.7"
+    id("org.beryx.jlink") version "2.9.4"
+
+    kotlin("jvm" ) version "1.3.40"
+    id("kotlinx-serialization") version "1.3.40"
+    //id("no.tornado.fxlauncher") version "1.0.15"
+}
+
+
+
+//compileKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+
+//fxlauncher {
+//    applicationVendor = "Tornado"
+//    applicationUrl = "http://tornadofx.tornado.no/kitchensink/"
+//    applicationMainClass = "tornadofx.kitchensink.app.KitchenSinkApp"
+//    acceptDowngrade = false
+//    //deployTarget = "w144768@tornadofx.tornado.no:www/kitchensink"
+//}
+
+application {
+    mainClassName = "org.chrishatton.example.ExampleApp"
+}
+
+tasks.withType<JavaCompile> {
+
+    group   = "org.chrishatton.example"
+    version = "1.0"
+    ext["moduleName"] = moduleName
+
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
+
+    inputs.property("moduleName", ext["moduleName"])
+
+    doFirst {
+        options.compilerArgs = listOf(
+                "--module-path", classpath.asPath,
+                "--add-modules", moduleName, "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.base"
+        )
+        classpath = files()
+    }
+}
+
+tasks.withType<Jar> {
+    inputs.property("moduleName", moduleName)
+    manifest {
+        attributes("Automatic-Module-Name" to moduleName)
+    }
+}
+
+/**
+ * @see [OpenJFX Docs](https://openjfx.io/openjfx-docs/))
+ */
 javafx {
     version = "11"
-    modules("javafx.controls", "javafx.fxml")
+    modules("javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.base")
+}
+
+jlink {
+    launcher {
+        name = "org.chrishatton.example"
+    }
 }
 
 repositories {
@@ -72,7 +140,6 @@ dependencies {
     implementation(kotlinStandardLibrary7)
 
     // Kotlin Core
-    implementation(kotlin("stdlib"))
     implementation(kotlinXCoroutinesCore)
 
     // JavaFX
@@ -87,6 +154,7 @@ dependencies {
     implementation("$javaFxBase:$javaFxPlatformId")
     implementation("$javaFxGraphics:$javaFxPlatformId")
     implementation("$javaFxControls:$javaFxPlatformId")
+    implementation("$javaFxFxml:$javaFxPlatformId")
 
     implementation(tornadoFx)
 
@@ -94,14 +162,15 @@ dependencies {
     implementation(ktorClient)
     implementation(ktorClientCio)
     implementation(ktorClientJson)
+
+    testImplementation(jUnit)
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
+
 
 ///=========
 
-//group 'Project'
-//version '1.0'
-//ext.moduleName = 'Project.main'
-//sourceCompatibility = 1.11
 
 
 /*
@@ -110,23 +179,7 @@ task run(type: JavaExec) {
             main = "main.Main"
 }
 
-jar {
-    inputs.property("moduleName", moduleName)
-    manifest {
-        attributes('Automatic-Module-Name': moduleName)
-    }
-}
 
-compileJava {
-    inputs.property("moduleName", moduleName)
-    doFirst {
-        options.compilerArgs = [
-            '--module-path', classpath.asPath,
-            '--add-modules', 'javafx.controls'
-        ]
-        classpath = files()
-    }
-}
 
 task createJar(type: Copy) {
     dependsOn 'jar'

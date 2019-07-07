@@ -52,11 +52,19 @@ fun loadSubstitutedPropertiesToExtra(fileName: String) {
     }
 
     // Copy resolved values into Gradle 'extra'
-    properties.forEach { (key,_) ->
+    val extraValues = properties.map { (key,_) ->
         val resolvedValue = getResolved(key as String)
-        println("$key = $resolvedValue")
-        extra[key.toString()] = resolvedValue
-    }
+        key.toString() to resolvedValue
+    }.toMap()
+
+    val pad : Int = extraValues.keys.map { it.length }.max() ?: 0
+
+    extraValues.entries
+        .sortedBy { (key,_)-> key }
+        .forEach { (key, value) ->
+            println("${key.padEnd(pad)} = $value")
+            extra[key] = value
+        }
 }
 
 loadSubstitutedPropertiesToExtra(fileName = "$rootDir/common.properties")
