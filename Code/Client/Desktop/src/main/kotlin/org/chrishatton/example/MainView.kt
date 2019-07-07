@@ -1,3 +1,5 @@
+package org.chrishatton.example
+
 import javafx.collections.FXCollections
 import tornadofx.*
 import java.time.LocalDate

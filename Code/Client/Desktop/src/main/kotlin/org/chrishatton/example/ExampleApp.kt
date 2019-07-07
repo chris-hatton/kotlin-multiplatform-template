@@ -1,6 +1,7 @@
 
-import javafx.scene.text.FontWeight
+package org.chrishatton.example
+
 import tornadofx.*
 
-class HelloWorldApp : App(MainView::class, Styles::class)
+class ExampleApp : App(MainView::class, Styles::class)
 

@@ -1,3 +1,5 @@
+package org.chrishatton.example
+
 import javafx.scene.text.FontWeight
 import tornadofx.Stylesheet
 import tornadofx.c

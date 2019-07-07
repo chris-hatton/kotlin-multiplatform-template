@@ -13,6 +13,8 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
+@kotlinx.coroutines.InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 class FirstPresenter(
         val baseUrl : String,
         override val view: FirstViewContract

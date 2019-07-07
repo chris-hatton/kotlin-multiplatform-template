@@ -1,5 +1,25 @@
+
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+
+
+buildscript {
+
+    apply( from = "common.gradle.kts")
+
+    val kotlinVersion             : String by extra
+    val kotlinSerializationPlugin : String by extra
+
+    repositories {
+        google()
+        jcenter()
+        maven( url = "https://kotlin.bintray.com/kotlinx" )
+    }
+    dependencies {
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(kotlinSerializationPlugin)
+    }
+}
 
 val ktor_version                 : String by extra
 val kotlin_serialization_version : String by extra
@@ -21,24 +41,6 @@ val kotlinXSerializationRuntimeCommon : String by extra
 
 val sharedProject : ()->ProjectDependency by extra
 
-buildscript {
-
-    apply( from = "common.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-    }
-}
-
 plugins {
     kotlin("multiplatform")
 }
@@ -58,7 +60,7 @@ kotlin {
         binaries {
             framework {
                 // Framework configuration
-                embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
+                //embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
             }
         }
     }
@@ -83,6 +85,7 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
+                implementation(sharedProject())
                 implementation(kotlinXCoroutinesIosX64)
                 implementation(kotlinXSerializationRuntimeNative)
                 implementation(ktorClientIos)
@@ -94,6 +97,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation(sharedProject())
                 implementation(kotlin("stdlib-common"))
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXSerializationRuntimeCommon)
