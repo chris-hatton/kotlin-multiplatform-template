@@ -49,7 +49,7 @@ val jUnit : String by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
-val moduleName = "exampleApp"
+//val moduleName = "exampleApp"
 
 plugins {
 
@@ -84,27 +84,29 @@ tasks.withType<JavaCompile> {
 
     group   = "org.chrishatton.example"
     version = "1.0"
-    ext["moduleName"] = moduleName
+
+    //ext["moduleName"] = moduleName
 
     sourceCompatibility = JavaVersion.VERSION_11.toString()
     targetCompatibility = JavaVersion.VERSION_11.toString()
 
-    inputs.property("moduleName", ext["moduleName"])
+    //inputs.property("moduleName", ext["moduleName"])
 
     doFirst {
+        println()""
         options.compilerArgs = listOf(
                 "--module-path", classpath.asPath,
-                "--add-modules", moduleName, "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.base"
+                "--add-modules", listOf("javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.base").joinToString(",")
         )
         classpath = files()
     }
 }
 
 tasks.withType<Jar> {
-    inputs.property("moduleName", moduleName)
-    manifest {
-        attributes("Automatic-Module-Name" to moduleName)
-    }
+//    inputs.property("moduleName", moduleName)
+//    manifest {
+//        attributes("Automatic-Module-Name" to moduleName)
+//    }
 }
 
 /**
@@ -151,10 +153,10 @@ dependencies {
         else                -> throw Exception("Unsupported OS ${currentOS.name}")
     }
 
-    implementation("$javaFxBase:$javaFxPlatformId")
-    implementation("$javaFxGraphics:$javaFxPlatformId")
-    implementation("$javaFxControls:$javaFxPlatformId")
-    implementation("$javaFxFxml:$javaFxPlatformId")
+    api("$javaFxBase:$javaFxPlatformId")
+    api("$javaFxGraphics:$javaFxPlatformId")
+    api("$javaFxControls:$javaFxPlatformId")
+    api("$javaFxFxml:$javaFxPlatformId")
 
     implementation(tornadoFx)
 
