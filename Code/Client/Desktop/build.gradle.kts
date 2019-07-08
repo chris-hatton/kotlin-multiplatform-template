@@ -1,4 +1,5 @@
-import de.dynamicfiles.projects.gradle.plugins.javafx.tasks.JfxJarTask
+import de.dynamicfiles.projects.gradle.plugins.javafx.JavaFXGradlePluginExtension
+import no.tornado.fxlauncher.gradle.FXLauncherExtension
 
 buildscript {
 
@@ -24,7 +25,7 @@ buildscript {
         classpath("de.dynamicfiles.projects.gradle.plugins:javafx-gradle-plugin:8.8.2")
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
-        classpath("no.tornado:fxlauncher-gradle-plugin:1.0.15")
+        classpath("no.tornado:fxlauncher-gradle-plugin:1.0.20")
     }
 }
 
@@ -38,11 +39,12 @@ val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
 val javaFxFxml              : String by extra
 
-val kotlinXCoroutinesCore : String by extra
-val tornadoFx             : String by extra
-val ktorClient            : String by extra
-val ktorClientCio         : String by extra
-val ktorClientJson        : String by extra
+val kotlinXCoroutinesCore   : String by extra
+val kotlinXCoroutinesJavaFx : String by extra
+val tornadoFx               : String by extra
+val ktorClient              : String by extra
+val ktorClientCio           : String by extra
+val ktorClientJson          : String by extra
 
 val jUnit : String by extra
 
@@ -52,27 +54,33 @@ val sharedProject       : ()->ProjectDependency by extra
 //val moduleName = "exampleApp"
 
 apply( plugin = "javafx-gradle-plugin" )
+apply( plugin = "no.tornado.fxlauncher" )
 
 plugins {
-
+    val kotlinVersion = "1.3.40"
     id("application")
-    //id("javafx-gradle-plugin")
-
-    kotlin("jvm" ) version "1.3.40"
-    id("kotlinx-serialization") version "1.3.40"
-    //id("no.tornado.fxlauncher") version "1.0.15"
+    kotlin("jvm" ) version kotlinVersion
+    id("kotlinx-serialization") version kotlinVersion
 }
 
-tasks.withType<JfxJarTask> {
-//    // minimal requirement for jfxJar-task
-//    mainClass("full.qualified.nameOf.TheMainClass")
-//
-//    // minimal requirement for jfxNative-task
-//    vendor = "org.chrishatton"
+val myMainClassName = "org.chrishatton.example.ExampleApp"
+val myVendor = "org.chrishatton"
+
+extensions.findByType<JavaFXGradlePluginExtension>()!!.apply {
+    mainClass = myMainClassName
+    vendor    = myVendor
 }
 
 application {
-    mainClassName = "org.chrishatton.example.ExampleApp"
+    mainClassName = myMainClassName
+}
+
+extensions.findByType<FXLauncherExtension>()!!.apply {
+    applicationVendor    = myVendor
+    //applicationUrl       = "http://fxldemo.tornado.no/"
+    applicationMainClass = myMainClassName
+    acceptDowngrade      = false
+    //deployTarget       = "w48839@fxldemo.tornado.no:fxldemo" // Optional scp target for application artifacts hosted at the above url
 }
 
 tasks.withType<JavaCompile> {
@@ -101,6 +109,7 @@ dependencies {
 
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
+    implementation(kotlinXCoroutinesJavaFx)
 
     implementation(tornadoFx)
 

@@ -1,7 +1,11 @@
 
 package org.chrishatton.example
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import tornadofx.*
 
-class ExampleApp : App(MainView::class, Styles::class)
+@ExperimentalCoroutinesApi
+@InternalCoroutinesApi
+class ExampleApp : App(FirstView::class, Styles::class)
 
