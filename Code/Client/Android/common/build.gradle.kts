@@ -1,3 +1,32 @@
+
+buildscript {
+
+    apply( from = "../common.gradle.kts")
+
+    val kotlinVersion             : String by extra
+    val androidGradlePlugin       : String by extra
+    val androidGradleDokkaPlugin  : String by extra
+
+    repositories {
+        google()
+        jcenter()
+        maven( url = "https://kotlin.bintray.com/kotlinx" )
+        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+    }
+
+    dependencies {
+        classpath(androidGradlePlugin)
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
+        classpath(androidGradleDokkaPlugin)
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
+    }
+}
+
+val androidBuildToolsVersion : String by extra
+val androidCompileSdkVersion : String by extra
+val androidTargetSdkVersion  : String by extra
+val androidMinSdkVersion     : String by extra
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -7,11 +36,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    buildToolsVersion = androidBuildToolsVersion
+
+    compileSdkVersion(androidCompileSdkVersion.toInt())
     defaultConfig {
         multiDexEnabled = true
-        minSdkVersion(21)
-        targetSdkVersion(28)
+        minSdkVersion(androidMinSdkVersion.toInt())
+        targetSdkVersion(androidTargetSdkVersion.toInt())
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
