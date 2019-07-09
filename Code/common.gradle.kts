@@ -57,12 +57,12 @@ fun loadSubstitutedPropertiesToExtra(fileName: String) {
         key.toString() to resolvedValue
     }.toMap()
 
-    val pad : Int = extraValues.keys.map { it.length }.max() ?: 0
+    //val pad : Int = extraValues.keys.map { it.length }.max() ?: 0
 
     extraValues.entries
         .sortedBy { (key,_)-> key }
         .forEach { (key, value) ->
-            println("${key.padEnd(pad)} = $value")
+            //println("${key.padEnd(pad)} = $value")
             extra[key] = value
         }
 }

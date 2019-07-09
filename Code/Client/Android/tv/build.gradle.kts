@@ -1,4 +1,20 @@
 
+//buildscript {
+//
+//    apply( from = "../common.gradle.kts")
+//
+//    val androidGradlePlugin       : String by extra
+//
+//    repositories {
+//        google()
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        classpath(androidGradlePlugin)
+//    }
+//}
+
 repositories {
     google()
     jcenter()
@@ -13,15 +29,41 @@ plugins {
     id("kotlinx-serialization")
 }
 
+val kotlinStandardLibrary7   : String by extra
+val ktorClientAndroid        : String by extra
+val ktorClientCio            : String by extra
+val ktorClientJson           : String by extra
+val androidXAppCompat        : String by extra
+val androidXCoreKtx          : String by extra
+val androidXConstraintLayout : String by extra
+val kotlinXCoroutinesAndroid : String by extra
+val jUnit                    : String by extra
+val androidXTestRunner       : String by extra
+val androidXTestEspressoCore : String by extra
+
+val androidBuildToolsVersion : String by extra
+val androidCompileSdkVersion : String by extra
+val androidTargetSdkVersion  : String by extra
+val androidMinSdkVersion     : String by extra
+
+val androidTvLeanback : String by extra
+val glideImageLibrary : String by extra
+
+val androidClientCommonProject : ()->ProjectDependency by extra
+val clientCommonProject        : ()->ProjectDependency by extra
+val sharedProject              : ()->ProjectDependency by extra
+
 android {
 
-    compileSdkVersion(28)
+    buildToolsVersion = androidBuildToolsVersion
+
+    compileSdkVersion(androidCompileSdkVersion.toInt())
 
     defaultConfig {
         multiDexEnabled = true
         applicationId = "org.chrishatton.example"
-        minSdkVersion(21)
-        targetSdkVersion(28)
+        minSdkVersion(androidMinSdkVersion.toInt())
+        targetSdkVersion(androidTargetSdkVersion.toInt())
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
@@ -55,24 +97,7 @@ android {
     }
 }
 
-val kotlinStandardLibrary7   : String by extra
-val ktorClientAndroid        : String by extra
-val ktorClientCio            : String by extra
-val ktorClientJson           : String by extra
-val androidXAppCompat        : String by extra
-val androidXCoreKtx          : String by extra
-val androidXConstraintLayout : String by extra
-val kotlinXCoroutinesAndroid : String by extra
-val jUnit                    : String by extra
-val androidXTestRunner       : String by extra
-val androidXTestEspressoCore : String by extra
 
-val androidTvLeanback : String by extra
-val glideImageLibrary : String by extra
-
-val androidClientCommonProject : ()->ProjectDependency by extra
-val clientCommonProject        : ()->ProjectDependency by extra
-val sharedProject              : ()->ProjectDependency by extra
 
 dependencies {
 

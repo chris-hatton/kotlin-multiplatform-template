@@ -14,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 class FirstFragment : BaseFragment<FirstViewContract, FirstPresenterContract>(),
     FirstViewContract {
 
@@ -21,7 +22,6 @@ class FirstFragment : BaseFragment<FirstViewContract, FirstPresenterContract>(),
         responseText.text = text
     }
 
-    @UseExperimental(ExperimentalCoroutinesApi::class)
     override val presenter : FirstPresenter by lazy {
         FirstPresenter(
             baseUrl = "http://10.0.2.2:8080",
