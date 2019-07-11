@@ -1,20 +1,4 @@
 
-//buildscript {
-//
-//    apply( from = "../common.gradle.kts")
-//
-//    val androidGradlePlugin       : String by extra
-//
-//    repositories {
-//        google()
-//        jcenter()
-//    }
-//
-//    dependencies {
-//        classpath(androidGradlePlugin)
-//    }
-//}
-
 repositories {
     google()
     jcenter()

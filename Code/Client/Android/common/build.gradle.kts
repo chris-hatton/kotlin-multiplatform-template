@@ -1,25 +1,11 @@
+import groovy.lang.Closure
 
 buildscript {
 
-    apply( from = "../common.gradle.kts")
+    println("*** BuildScript: android-client-common")
 
-    val kotlinVersion             : String by extra
-    val androidGradlePlugin       : String by extra
-    val androidGradleDokkaPlugin  : String by extra
-
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
-
-    dependencies {
-        classpath(androidGradlePlugin)
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(androidGradleDokkaPlugin)
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
-    }
+    val ccp = configurations.create("compileClasspath")
+    configurations.add(ccp)
 }
 
 val androidBuildToolsVersion : String by extra
@@ -28,12 +14,16 @@ val androidTargetSdkVersion  : String by extra
 val androidMinSdkVersion     : String by extra
 
 plugins {
+    println("*** Plugins evaluating ***")
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-platform-android")
     id("kotlinx-serialization")
 }
+
+val ccp = configurations.create("compileClasspath")
+configurations.add(ccp)
 
 android {
     buildToolsVersion = androidBuildToolsVersion
@@ -48,6 +38,7 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        getByName("debug"){}
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -68,6 +59,10 @@ android {
         this["test"].java.srcDir("src/test/kotlin")
         this["androidTest"].java.srcDir("src/androidTest/kotlin")
     }
+    lintOptions {
+        isCheckReleaseBuilds = false
+        isAbortOnError = false
+    }
 }
 
 val ktorClientAndroid        : String by extra
@@ -81,6 +76,9 @@ val jUnit                    : String by extra
 
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
+
+val androidXTestRunner       : String by extra
+val androidXTestEspressoCore : String by extra
 
 dependencies {
 
@@ -101,4 +99,8 @@ dependencies {
 
     // Testing
     testImplementation(jUnit)
+
+    // Android Test
+    androidTestImplementation(androidXTestRunner)
+    androidTestImplementation(androidXTestEspressoCore)
 }

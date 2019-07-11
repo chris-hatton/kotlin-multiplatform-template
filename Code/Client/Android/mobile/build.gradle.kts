@@ -1,20 +1,4 @@
 
-//buildscript {
-//
-//    apply( from = "../common.gradle.kts")
-//
-//    val androidGradlePlugin       : String by extra
-//
-//    repositories {
-//        google()
-//        jcenter()
-//    }
-//
-//    dependencies {
-//        classpath(androidGradlePlugin)
-//    }
-//}
-
 repositories {
     google()
     jcenter()
@@ -66,6 +50,7 @@ android {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        getByName("debug"){}
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")

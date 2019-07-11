@@ -1,13 +1,12 @@
-package org.chrishatton.project_client_android_common;
+package org.chrishatton.example.common;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -21,6 +20,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.chrishatton.project_client_android_common.test", appContext.getPackageName());
+        assertEquals("org.chrishatton.example", appContext.getPackageName());
     }
 }

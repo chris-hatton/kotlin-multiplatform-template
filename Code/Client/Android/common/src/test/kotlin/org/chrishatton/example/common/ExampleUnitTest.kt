@@ -1,4 +1,4 @@
-package example
+package org.chrishatton.example.common
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
