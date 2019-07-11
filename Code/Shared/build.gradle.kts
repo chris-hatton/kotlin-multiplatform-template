@@ -15,6 +15,8 @@ val kotlinXSerializationRuntimeJvm    : String by extra
 
 buildscript {
 
+    println("*** BuildScript: shared")
+
     apply( from = "common.gradle.kts")
 
     val kotlinVersion             : String by extra
