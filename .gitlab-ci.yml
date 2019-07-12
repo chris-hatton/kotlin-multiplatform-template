@@ -19,7 +19,7 @@ build-client:
   stage: build-client
   script:
     - cd Code/Client/Android
-    - ./gradlew --build-cache assemble
+    - ./gradlew --build-cache assemble -x lint -x lintVitalRelease
   cache:
     key: "$CI_COMMIT_REF_NAME-Client"
     policy: pull-push
@@ -38,7 +38,7 @@ build-server:
   stage: build-server
   script:
     - cd Code/Server
-    - ./gradlew --build-cache build
+    - ./gradlew --build-cache build -x lint -x lintVitalRelease
   cache:
     key: "$CI_COMMIT_REF_NAME-Server"
     policy: pull-push
@@ -53,7 +53,7 @@ test-client:
   stage: test-client
   script:
     - cd Code/Client/Android
-    - ./gradlew --build-cache check
+    - ./gradlew --build-cache check -x lint -x lintVitalRelease
   cache:
     key: "${CI_COMMIT_REF_NAME}-Client"
     policy: pull-push

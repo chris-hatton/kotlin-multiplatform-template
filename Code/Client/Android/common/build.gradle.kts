@@ -1,12 +1,3 @@
-import groovy.lang.Closure
-
-buildscript {
-
-    println("*** BuildScript: android-client-common")
-
-    val ccp = configurations.create("compileClasspath")
-    configurations.add(ccp)
-}
 
 val androidBuildToolsVersion : String by extra
 val androidCompileSdkVersion : String by extra

@@ -1,11 +1,7 @@
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
-
 buildscript {
-
-    println("*** BuildScript: client-common")
 
     apply( from = "common.gradle.kts")
 
