@@ -1,8 +1,6 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
-apply {
-    from("$rootDir/common.gradle.kts")
-}
+apply( from = "$rootDir/common.gradle.kts" )
 
 val kotlinXSerializationRuntimeCommon : String by extra
 val kotlinXCoroutinesCore             : String by extra
@@ -60,10 +58,6 @@ group = "org.chrishatton"
 version = "0.0.1"
 
 kotlin {
-    
-//    targets {
-//        jvm()
-//    }
     
     jvm {}
 
