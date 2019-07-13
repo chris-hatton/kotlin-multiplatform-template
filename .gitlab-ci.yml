@@ -6,7 +6,8 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-  - build-client
+  - build-client-desktop
+  - build-client-android
   - test-client
   - build-server
   - test-server
@@ -15,13 +16,32 @@ stages:
   - document-client
   - document-server
 
-build-client:
-  stage: build-client
+build-client-desktop:
+  stage: build-client-desktop
+  script:
+    - cd Code/Client/Desktop
+    - ./gradlew --build-cache jfxJar
+  cache:
+    key: "$CI_COMMIT_REF_NAME-Client-Desktop"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Client/Desktop/**/*
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    paths:
+      - Code/Client/Desktop/build/jfx/app/*
+
+build-client-android:
+  stage: build-client-android
   script:
     - cd Code/Client/Android
     - ./gradlew --build-cache assemble -x lint -x lintVitalRelease
   cache:
-    key: "$CI_COMMIT_REF_NAME-Client"
+    key: "$CI_COMMIT_REF_NAME-Client-Android"
     policy: pull-push
     paths:
       - build
@@ -30,9 +50,10 @@ build-client:
     changes:
       - Code/Client/Android/**/*
   artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
     paths:
-      - "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
-      - Code/Client/app/build/outputs/
+      - Code/Client/Android/mobile/build/outputs/
+      - Code/Client/Android/tv/build/outputs/
 
 build-server:
   stage: build-server
@@ -49,20 +70,35 @@ build-server:
     changes:
       - Code/Server/**/*
 
-test-client:
-  stage: test-client
+test-client-desktop:
+  stage: test-client-desktop
   script:
-    - cd Code/Client/Android
-    - ./gradlew --build-cache check -x lint -x lintVitalRelease
+    - cd Code/Client/Desktop
+    - ./gradlew --build-cache test
   cache:
-    key: "${CI_COMMIT_REF_NAME}-Client"
+    key: "${CI_COMMIT_REF_NAME}-Client-Desktop"
     policy: pull-push
     paths:
       - build
       - .gradle
   only:
     changes:
-      - Code/Client/**/*
+      - Code/Client/Desktop/**/*
+
+test-client-android:
+  stage: test-client-android
+  script:
+    - cd Code/Client/Android
+    - ./gradlew --build-cache check -x lint -x lintVitalRelease
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-Client-Android"
+    policy: pull-push
+    paths:
+      - build
+      - .gradle
+  only:
+    changes:
+      - Code/Client/Android/**/*
 
 test-server:
   stage: test-server
