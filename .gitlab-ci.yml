@@ -60,7 +60,7 @@ build-server:
   stage: build-server
   script:
     - cd Code/Server
-    - ./gradlew --build-cache build -x lint -x lintVitalRelease
+    - ./gradlew --build-cache build
   cache:
     key: "$CI_COMMIT_REF_NAME-Server"
     policy: pull-push
