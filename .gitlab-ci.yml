@@ -7,11 +7,12 @@ before_script:
 
 stages:
   - build-client-desktop
+  - test-client-desktop
   - build-client-android
-  - test-client
+  - test-client-android
   - build-server
   - test-server
-  - deploy-client
+  #- deploy-client
   - deploy-server
   - document-client
   - document-server
