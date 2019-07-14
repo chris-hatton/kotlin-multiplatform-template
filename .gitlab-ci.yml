@@ -194,20 +194,20 @@ document-server:
       - build
       - .gradle
 
- document-shared:
-  only:
-    - master
-  stage: document
-  script:
-    - cd Code/Shared
-    - ./gradlew --build-cache dokka
-    - mkdir -p /usr/share/nginx/html/example/doc/shared/
-    - rm -rf /usr/share/nginx/html/example/doc/shared/*
-    - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/shared/
-    - cp build/javadoc/style.css /usr/share/nginx/html/example/doc/
-  cache:
-    key: "${CI_COMMIT_REF_NAME}-Server"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+document-shared:
+ only:
+   - master
+ stage: document
+ script:
+   - cd Code/Shared
+   - ./gradlew --build-cache dokka
+   - mkdir -p /usr/share/nginx/html/example/doc/shared/
+   - rm -rf /usr/share/nginx/html/example/doc/shared/*
+   - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/shared/
+   - cp build/javadoc/style.css /usr/share/nginx/html/example/doc/
+ cache:
+   key: "${CI_COMMIT_REF_NAME}-Server"
+   policy: pull
+   paths:
+     - build
+     - .gradle
