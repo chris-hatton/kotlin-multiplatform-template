@@ -40,6 +40,9 @@ build-client-android:
   stage: build-client-android
   script:
     - cd Code/Client/Android
+    # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
+    # Currently necessary due to issue: https://youtrack.jetbrains.com/issue/KT-27170
+    # Re-enable lint when this issue is resolved.
     - ./gradlew --build-cache assemble -x lint -x lintVitalRelease
   cache:
     key: "$CI_COMMIT_REF_NAME-Client-Android"
@@ -71,6 +74,7 @@ build-server:
     changes:
       - Code/Server/**/*
 
+# Runs Gradle 'test' on the JavaFX Desktop Client project
 test-client-desktop:
   stage: test-client-desktop
   script:
@@ -86,10 +90,14 @@ test-client-desktop:
     changes:
       - Code/Client/Desktop/**/*
 
+# Runs Gradle 'check' on the Android Client project, covering both Mobile and TV
 test-client-android:
   stage: test-client-android
   script:
     - cd Code/Client/Android
+    # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
+    # Currently necessary due to issue: https://youtrack.jetbrains.com/issue/KT-27170
+    # Re-enable lint when this issue is resolved.
     - ./gradlew --build-cache check -x lint -x lintVitalRelease
   cache:
     key: "${CI_COMMIT_REF_NAME}-Client-Android"
@@ -101,6 +109,7 @@ test-client-android:
     changes:
       - Code/Client/Android/**/*
 
+# Runs Gradle 'check' on the Ktor-based Server project
 test-server:
   stage: test-server
   script:
@@ -166,6 +175,8 @@ deploy-server:
 #       - build
 #       - .gradle
 
+# Uses Kotlin's 'Dokka' plugin to generate and deploy documentation for the Server project
+# (including the supporting 'Shared' framework)
 document-server:
   only:
     - master
@@ -174,7 +185,6 @@ document-server:
     - cd Code/Server
     - ./gradlew --build-cache dokka
     - rm -rf /usr/share/nginx/html/example/doc/server/*
-    - mkdir -p /usr/share/nginx/html/example/doc/server/
     - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/server
     - cp build/javadoc/style.css /usr/share/nginx/html/example/doc
   cache:
