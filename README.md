@@ -14,8 +14,8 @@ The Server portion is written using JetBrain's [Ktor framework](https://ktor.io/
 
 Clients are built for:
 * Android
-** Mobile
-** TV
+  * Mobile / Tablet
+  * TV
 * JavaFX Desktop
 
 # Repositories
