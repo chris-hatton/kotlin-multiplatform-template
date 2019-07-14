@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E126FF65199B795AF3C8052 /* Assets.xcassets */; };
 		3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126706756782E8F17EC3D0 /* Main.storyboard */; };
-		3E1269E301B9C47217F0232E /* build.gradle.kts in Resources */ = {isa = PBXBuildFile; fileRef = 3E126C3F17558046BB67F60D /* build.gradle.kts */; };
 		3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126A5056763FEB8F1500A6 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -219,7 +218,6 @@
 				3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */,
 				3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */,
 				3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */,
-				3E1269E301B9C47217F0232E /* build.gradle.kts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

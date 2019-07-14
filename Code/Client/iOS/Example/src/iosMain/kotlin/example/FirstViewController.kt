@@ -50,6 +50,7 @@ class FirstViewController : UIViewController {
         }
 
         override val presenter: FirstPresenter by lazy {
+            println("Heya!")
             FirstPresenter(
                 baseUrl = "http://localhost:8080",
                 view    = this
