@@ -74,7 +74,7 @@ fun Application.module(testing: Boolean = false) {
 
     routing {
         get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+            call.respondText("HELLO WORLD!")
         }
 
         get<MyLocation> {
@@ -102,7 +102,6 @@ fun Application.module(testing: Boolean = false) {
                     send(Frame.Text("Client said: " + frame.readText()))
                 }
             }
-
         }
 
         //===========

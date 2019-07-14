@@ -24,13 +24,10 @@ class FirstPresenter(
 
     override fun onAttach() {
 
-        println("Hey")
-
         setNameChannel = Channel()
         peopleChannel  = Channel()
 
         netScope.launch {
-            println("Hi! N")
             for (name in setNameChannel) {
                 val person = Person(names = name.split(" "))
                 val otherPerson = try {

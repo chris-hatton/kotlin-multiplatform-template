@@ -8,7 +8,6 @@
 
 package example
 
-import example.model.Person
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -16,6 +15,7 @@ import kotlinx.cinterop.initBy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
+import org.chrishatton.example.client
 import platform.UIKit.*
 
 class AppDelegate : UIResponder, UIApplicationDelegateProtocol {

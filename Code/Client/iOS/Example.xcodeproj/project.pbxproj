@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E126FF65199B795AF3C8052 /* Assets.xcassets */; };
 		3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126706756782E8F17EC3D0 /* Main.storyboard */; };
+		3E1269E301B9C47217F0232E /* build.gradle.kts in Resources */ = {isa = PBXBuildFile; fileRef = 3E126C3F17558046BB67F60D /* build.gradle.kts */; };
 		3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E126A5056763FEB8F1500A6 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3E1261D372335123B6E041A4 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.kts; path = build.gradle.kts; sourceTree = "<group>"; };
 		3E126320BD9D7B493DCFA1C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		3E12638C6B9D79AA36D99C8A /* gradle-wrapper.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "gradle-wrapper.jar"; sourceTree = "<group>"; };
 		3E1263E6C4392BF67FCFE02A /* BaseViewAdapter.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; path = BaseViewAdapter.kt; sourceTree = "<group>"; };
@@ -21,6 +21,7 @@
 		3E126598A8A1C7A7AC251475 /* gradlew */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradlew; sourceTree = "<group>"; };
 		3E126A27A3879302B80D9D34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E126C2686028C2C12CF89C3 /* settings.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.gradle; path = settings.gradle.kts; sourceTree = "<group>"; };
+		3E126C3F17558046BB67F60D /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.kts; name = build.gradle.kts; path = Example/build.gradle.kts; sourceTree = "<group>"; };
 		3E126DDFB11E5A0EC643207B /* BaseViewController.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; path = BaseViewController.kt; sourceTree = "<group>"; };
 		3E126EBACFE3FFB12FCDB06D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E126F6C47E14C2E6203A2A2 /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.gradle; path = build.gradle.kts; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 				3E1269B247506B5E9A0EE5DA /* Products */,
 				3E126D8C1D412638B67D4739 /* Example */,
 				3E1267430025E8297A085BA8 /* Supporting Files */,
+				3E126C3F17558046BB67F60D /* build.gradle.kts */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,7 +100,6 @@
 		3E126A0305764B8AD4FDA7DA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3E1261D372335123B6E041A4 /* build.gradle.kts */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -218,6 +219,7 @@
 				3E126776CCE2F2CAFDC4A210 /* Assets.xcassets in Resources */,
 				3E126B5C7B4D85CDFC23C0FE /* LaunchScreen.storyboard in Resources */,
 				3E1267A1BA33895D24DBD071 /* Main.storyboard in Resources */,
+				3E1269E301B9C47217F0232E /* build.gradle.kts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
