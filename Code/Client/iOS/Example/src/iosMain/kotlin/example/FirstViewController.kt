@@ -4,16 +4,20 @@ package example
 import kotlinx.cinterop.ExportObjCClass
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.ObjCOutlet
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
+import org.chrishatton.example.ui.FirstPresenter
+import org.chrishatton.example.ui.contract.FirstPresenterContract
+import org.chrishatton.example.ui.contract.FirstViewContract
 import platform.Foundation.NSCoder
 import platform.UIKit.UIButton
 import platform.UIKit.UILabel
 import platform.UIKit.UITextField
 import platform.UIKit.UIViewController
-import example.ui.contract.FirstViewContract
-import example.ui.contract.FirstPresenterContract
-import example.ui.FirstPresenter
 
+@ExperimentalCoroutinesApi
 @ExportObjCClass
+@InternalCoroutinesApi
 class FirstViewController : UIViewController {
 
     @OverrideInit
@@ -40,7 +44,7 @@ class FirstViewController : UIViewController {
 
     private val viewAdapter = FirstViewAdapter()
 
-    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter,FirstViewContract,FirstPresenterContract>(), FirstViewContract {
+    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, FirstViewContract, FirstPresenterContract>(), FirstViewContract {
         override fun displayGreeting(text: String) {
             label.text = text
         }

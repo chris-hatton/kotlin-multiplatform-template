@@ -3,7 +3,8 @@ buildscript {
 
     apply( from = "common.gradle.kts")
 
-    val kotlin_version : String by extra
+    val kotlinSerializationPlugin : String by extra
+    val kotlinGradlePlugin        : String by extra
 
     repositories {
         google()
@@ -13,8 +14,8 @@ buildscript {
     }
 
     dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlin_version ))
-        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlin_version")
+        classpath(kotlinGradlePlugin)
+        classpath(kotlinSerializationPlugin)
     }
 }
 
