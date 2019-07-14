@@ -184,9 +184,9 @@ document-server:
   script:
     - cd Code/Server
     - ./gradlew --build-cache dokka
-    - rm -rf /usr/share/nginx/html/example/doc/server/*
-    - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/server
-    - cp build/javadoc/style.css /usr/share/nginx/html/example/doc
+    - rm -rf /usr/share/nginx/html/server/*
+    - cp -R build/javadoc/server/* /usr/share/nginx/html/server
+    - cp build/javadoc/style.css /usr/share/nginx/html/
   cache:
     key: "${CI_COMMIT_REF_NAME}-Server"
     policy: pull
