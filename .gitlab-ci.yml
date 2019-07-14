@@ -14,8 +14,7 @@ stages:
   - test-server
   #- deploy-client
   - deploy-server
-  - document-client
-  - document-server
+  - document
 
 build-client-desktop:
   stage: build-client-desktop
@@ -180,7 +179,7 @@ deploy-server:
 document-server:
   only:
     - master
-  stage: document-server
+  stage: document
   script:
     - cd Code/Server
     - ./gradlew --build-cache dokka
@@ -198,7 +197,7 @@ document-server:
  document-shared:
   only:
     - master
-  stage: document-shared
+  stage: document
   script:
     - cd Code/Shared
     - ./gradlew --build-cache dokka
