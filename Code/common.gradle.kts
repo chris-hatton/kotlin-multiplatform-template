@@ -74,3 +74,11 @@ loadSubstitutedPropertiesToExtra(fileName = "$rootDir/common.properties")
 extra["androidClientCommonProject"] = { project(":android-client-common") } //as ()->ProjectDependency
 extra["clientCommonProject"]        = { project(":client-common") }
 extra["sharedProject"]              = { project(":shared") }
+
+val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
+    "arm64" -> { println("* Compiling Kotlin for iOS ARM64 by environment *"); true }
+    "X64"   -> { println("* Compiling Kotlin for iOS X64 by environment *"); false }
+    else    -> { println("* Compiling Kotlin for iOS X64 by default *"); false }
+}
+
+extra["isIosArm64"] = isIosArm64

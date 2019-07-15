@@ -1,3 +1,12 @@
+/**
+ *
+ * Build file for the 'Client-Common' module of this Kotlin Multi-platform Application.
+ *
+ * Source files implemented in this module are accessible to all Client projects.
+ * UI Presentation logic and other Client-side business logic should reside in this module.
+ * The Presenters of the MVP architecture should be implemented in this module.
+ *
+ */
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
@@ -19,25 +28,25 @@ buildscript {
     }
 }
 
-val ktor_version                 : String by extra
-val kotlin_serialization_version : String by extra
-val kotlin_coroutines_version    : String by extra
-
-val kotlinXCoroutinesCore   : String by extra
-val kotlinXCoroutinesIosX64 : String by extra
+val kotlinXCoroutinesCore     : String by extra
+val kotlinXCoroutinesIosArm64 : String by extra
+val kotlinXCoroutinesIosX64   : String by extra
 
 val ktorClientCore             : String by extra
 val ktorClientCio              : String by extra
 val ktorClientJson             : String by extra
 val ktorClientSerializationJvm : String by extra
 
-val ktorClientIos        : String by extra
-val ktorClientCodeIosX64 : String by extra
+val ktorClientIos          : String by extra
+val ktorClientCodeIosArm64 : String by extra
+val ktorClientCodeIosX64   : String by extra
 
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeCommon : String by extra
 
 val sharedProject : ()->ProjectDependency by extra
+
+val isIosArm64 : Boolean by extra
 
 plugins {
     kotlin("multiplatform")
@@ -54,7 +63,7 @@ kotlin {
 
     jvm {}
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosX64"), "ios") {
+    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosArm64"), "ios") {
         binaries {
             framework {
                 // Framework configuration
@@ -84,10 +93,17 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(sharedProject())
-                implementation(kotlinXCoroutinesIosX64)
+
+                if(isIosArm64) {
+                    implementation(kotlinXCoroutinesIosArm64)
+                    implementation(ktorClientCodeIosArm64)
+                } else {
+                    implementation(kotlinXCoroutinesIosX64)
+                    implementation(ktorClientCodeIosX64)
+                }
+
                 implementation(kotlinXSerializationRuntimeNative)
                 implementation(ktorClientIos)
-                implementation(ktorClientCodeIosX64)
             }
         }
         val iosTest by getting {

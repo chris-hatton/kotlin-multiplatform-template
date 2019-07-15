@@ -19,8 +19,9 @@ import io.ktor.routing.routing
 import io.ktor.sessions.*
 import io.ktor.websocket.webSocket
 import java.time.Duration
+import io.ktor.server.netty.EngineMain
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 /**
  * To run start with Gretty Gradle task 'appStartWar'.
