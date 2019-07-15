@@ -6,39 +6,37 @@ import kotlin.coroutines.CoroutineContext
 
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val uiScope = object : CoroutineScope {
-    private val dispatcher = UiDispatcher
-    private val job = Job()
+actual val uiScope = createMainScope()
 
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
-}
-
+// TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+// See https://github.com/Kotlin/kotlinx.coroutines/issues/462
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val processScope: CoroutineScope = object : CoroutineScope {
-    private val dispatcher =
-        UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
-    private val job = Job()
+actual val processScope: CoroutineScope = createMainScope()
 
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
-}
-
+// TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+// See https://github.com/Kotlin/kotlinx.coroutines/issues/462
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val netScope = object : CoroutineScope {
-    private val dispatcher =
-        UiDispatcher // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
-}
+actual val netScope = createMainScope()
 
 @InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-private object UiDispatcher: CoroutineDispatcher(), Delay {
+private fun createMainScope() = object : CoroutineScope {
+    private val dispatcher = MainDispatcher
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = dispatcher + job
+}
+
+/**
+ * Implementation inspired by:
+ * https://github.com/Kotlin/kotlinx.coroutines/issues/462
+ */
+@InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+private object MainDispatcher: CoroutineDispatcher(), Delay {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         dispatch_async(dispatch_get_main_queue()) {

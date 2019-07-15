@@ -16,6 +16,8 @@ Clients are built for:
 * Android
   * Mobile / Tablet
   * TV
+* iOS
+  * Mobile / Tablet (*Not built by GitLabs CI pipeline for want of an OS-X Runner*)
 * JavaFX Desktop
 
 # Repositories
