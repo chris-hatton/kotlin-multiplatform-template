@@ -1,18 +1,9 @@
 
-val kotlinXSerializationRuntimeJvm : String by extra
-val kotlinStandardLibrary8         : String by extra
-
-val ktorServerServlet  : String by extra
-val ktorServerNetty    : String by extra
-val ktorServerCore     : String by extra
-val ktorLocations      : String by extra
-val ktorServerSessions : String by extra
-val ktorAuth           : String by extra
-val ktorWebsockets     : String by extra
-val ktorGson           : String by extra
-val logBackClassic     : String by extra
-
-val ktorServerTests : String by extra
+/**
+ *
+ * Build file for the 'Server' module of this Kotlin Multi-platform Application.
+ *
+ */
 
 buildscript {
 
@@ -33,6 +24,23 @@ buildscript {
         classpath(kotlinSerializationPlugin)
     }
 }
+
+val kotlinXSerializationRuntimeJvm : String by extra
+val kotlinStandardLibrary8         : String by extra
+
+val ktorServerServlet  : String by extra
+val ktorServerNetty    : String by extra
+val ktorServerCore     : String by extra
+val ktorLocations      : String by extra
+val ktorServerSessions : String by extra
+val ktorAuth           : String by extra
+val ktorWebsockets     : String by extra
+val ktorGson           : String by extra
+val logBackClassic     : String by extra
+
+val ktorServerTests : String by extra
+
+val sharedProject : ()->ProjectDependency by extra
 
 allprojects.forEach {
     repositories {
@@ -59,7 +67,7 @@ plugins {
     id("kotlinx-serialization") version "1.3.40"
 }
 
-group = "Server"
+group   = "Server"
 version = "0.0.1"
 
 application {
@@ -77,14 +85,14 @@ war {
 }
 
 tasks.dokka {
-    moduleName = "server"
-    outputFormat = "html"
+    moduleName      = "server"
+    outputFormat    = "html"
     outputDirectory = "$buildDir/javadoc"
 }
 
 dependencies {
 
-    implementation(project(":shared"))
+    implementation(sharedProject())
 
     implementation(kotlinXSerializationRuntimeJvm)
     implementation(kotlinStandardLibrary8)

@@ -1,3 +1,14 @@
+/**
+ *
+ * Build file for the 'Android-Client-Common' module of this Kotlin Multi-platform Application.
+ *
+ * Source files implemented in this module are accessible to all Android Client projects.
+ * Currently this means to both the Android Mobile/Tablet module and the Android TV module.
+ * Typically this module would be used to share common Fragments, custom Views or other parts
+ * of the View layer (of the MVP architecture) which it is not desirable to re-implement
+ * for both Android projects.
+ *
+ */
 
 val androidBuildToolsVersion : String by extra
 val androidCompileSdkVersion : String by extra

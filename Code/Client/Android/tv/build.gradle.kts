@@ -1,3 +1,8 @@
+/**
+ *
+ * Build file for the 'Android TV' module of this Kotlin Multi-platform Application.
+ *
+ */
 
 repositories {
     google()

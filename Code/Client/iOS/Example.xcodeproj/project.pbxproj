@@ -191,6 +191,11 @@
 				CLASSPREFIX = "";
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Chris Hatton";
+				TargetAttributes = {
+					3E126D1C5A6B1E403ADEFC30 = {
+						DevelopmentTeam = 4P899MY75T;
+					};
+				};
 			};
 			buildConfigurationList = 3E126001236166F3428B883E /* Build configuration list for PBXProject "Example" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -329,6 +334,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4P899MY75T;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.chrishatton.example;
@@ -403,6 +409,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4P899MY75T;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.chrishatton.example;

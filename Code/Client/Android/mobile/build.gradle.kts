@@ -1,4 +1,10 @@
 
+/**
+ *
+ * Build file for the 'Android Mobile/Tablet' module of this Kotlin Multi-platform Application.
+ *
+ */
+
 repositories {
     google()
     jcenter()
