@@ -20,9 +20,3 @@ Clients are built for:
   * Mobile / Tablet (*Not built by GitLabs CI pipeline for want of an OS-X Runner*)
 * JavaFX Desktop
 
-# Repositories
-
-# Deployment
-
-* Web Service Endpoint: [https://example.chrishatton.org/api/](https://example.chrishatton.org/api/)
-* Server API documentation: [https://example.chrishatton.org/doc/server/](https://example.chrishatton.org/doc/server/)
