@@ -23,4 +23,4 @@ Clients are built for:
 # Deployment
 
 * Web Service Endpoint: [https://example.chrishatton.org/api/](https://example.chrishatton.org/api/)
-* Server API documentation: [https://example.chrishatton.org/example/doc/server/](https://example.chrishatton.org/example/doc/server/)
+* Server API documentation: [https://example.chrishatton.org/doc/server/](https://example.chrishatton.org/doc/server/)
