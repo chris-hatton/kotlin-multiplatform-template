@@ -6,18 +6,13 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-  - build-client-desktop
-  - test-client-desktop
-  - build-client-android
-  - test-client-android
-  - build-server
-  - test-server
-  #- deploy-client
-  - deploy-server
+  - build
+  - test
+  - deploy
   - document
 
 build-client-desktop:
-  stage: build-client-desktop
+  stage: build
   script:
     - cd Code/Client/Desktop
     - ./gradlew --build-cache jfxJar
@@ -36,7 +31,7 @@ build-client-desktop:
       - Code/Client/Desktop/build/jfx/app/*
 
 build-client-android:
-  stage: build-client-android
+  stage: build
   script:
     - cd Code/Client/Android
     # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
@@ -59,7 +54,7 @@ build-client-android:
       - Code/Client/Android/tv/build/outputs/
 
 build-server:
-  stage: build-server
+  stage: build
   script:
     - cd Code/Server
     - ./gradlew --build-cache build
@@ -75,7 +70,7 @@ build-server:
 
 # Runs Gradle 'test' on the JavaFX Desktop Client project
 test-client-desktop:
-  stage: test-client-desktop
+  stage: test
   script:
     - cd Code/Client/Desktop
     - ./gradlew --build-cache test
@@ -91,7 +86,7 @@ test-client-desktop:
 
 # Runs Gradle 'check' on the Android Client project, covering both Mobile and TV
 test-client-android:
-  stage: test-client-android
+  stage: test
   script:
     - cd Code/Client/Android
     # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
@@ -110,7 +105,7 @@ test-client-android:
 
 # Runs Gradle 'check' on the Ktor-based Server project
 test-server:
-  stage: test-server
+  stage: test
   script:
     - cd Code/Server 
     - ./gradlew --build-cache check
@@ -145,7 +140,7 @@ test-server:
 deploy-server:
   only:
     - master
-  stage: deploy-server
+  stage: deploy
   script:
     - cd Code/Server
     - ./gradlew --build-cache war
@@ -193,21 +188,3 @@ document-server:
     paths:
       - build
       - .gradle
-
-document-shared:
- only:
-   - master
- stage: document
- script:
-   - cd Code/Shared
-   - ./gradlew --build-cache dokka
-   - mkdir -p /usr/share/nginx/html/example/doc/shared/
-   - rm -rf /usr/share/nginx/html/example/doc/shared/*
-   - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/shared/
-   - cp build/javadoc/style.css /usr/share/nginx/html/example/doc/
- cache:
-   key: "${CI_COMMIT_REF_NAME}-Server"
-   policy: pull
-   paths:
-     - build
-     - .gradle
