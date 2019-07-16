@@ -151,6 +151,9 @@ deploy-server:
     paths:
       - build
       - .gradle
+  environment:
+    name: staging
+    url: https://example.chrishatton.org/api/
 
 # document-client:
 #   only:

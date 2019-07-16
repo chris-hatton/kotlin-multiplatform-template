@@ -71,7 +71,7 @@ val myVendor = "org.chrishatton"
 
 extensions.findByType<JavaFXGradlePluginExtension>()!!.apply {
 
-    vendor    = myVendor
+    vendor = myVendor
 
     isVerbose = true
     mainClass = myMainClassName
