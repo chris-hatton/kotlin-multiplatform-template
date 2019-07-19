@@ -81,4 +81,6 @@ val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
     else    -> { println("* Compiling Kotlin for iOS X64 by default *"); false }
 }
 
-extra["isIosArm64"] = isIosArm64
+extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"
+
+

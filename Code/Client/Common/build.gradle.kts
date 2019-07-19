@@ -28,25 +28,23 @@ buildscript {
     }
 }
 
-val kotlinXCoroutinesCore     : String by extra
-val kotlinXCoroutinesIosArm64 : String by extra
-val kotlinXCoroutinesIosX64   : String by extra
+val kotlinXCoroutinesCore : String by extra
+val kotlinXCoroutinesIos  : String by extra
 
 val ktorClientCore             : String by extra
 val ktorClientCio              : String by extra
 val ktorClientJson             : String by extra
 val ktorClientSerializationJvm : String by extra
 
-val ktorClientIos          : String by extra
-val ktorClientCodeIosArm64 : String by extra
-val ktorClientCodeIosX64   : String by extra
+val ktorClientIos     : String by extra
+val ktorClientCodeIos : String by extra
 
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeCommon : String by extra
 
 val sharedProject : ()->ProjectDependency by extra
 
-val isIosArm64 : Boolean by extra
+val iosTargetName : String by extra
 
 plugins {
     kotlin("multiplatform")
@@ -63,7 +61,7 @@ kotlin {
 
     jvm {}
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosArm64"), "ios") {
+    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
         binaries {
             framework {
                 // Framework configuration
@@ -94,13 +92,7 @@ kotlin {
             dependencies {
                 implementation(sharedProject())
 
-                if(isIosArm64) {
-                    implementation(kotlinXCoroutinesIosArm64)
-                    implementation(ktorClientCodeIosArm64)
-                } else {
-                    implementation(kotlinXCoroutinesIosX64)
-                    implementation(ktorClientCodeIosX64)
-                }
+                implementation(kotlinXCoroutinesIos)
 
                 implementation(kotlinXSerializationRuntimeNative)
                 implementation(ktorClientIos)
