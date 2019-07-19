@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
+
 /**
  *
  * Build file for the 'Shared' module of this Kotlin Multi-platform Application.
@@ -6,8 +8,6 @@
  * It is particularly useful to implement Model files in Shared.
  *
  */
-
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
 buildscript {
 
@@ -32,15 +32,14 @@ buildscript {
 
 val kotlinXSerializationRuntimeCommon : String by extra
 val kotlinXCoroutinesCore             : String by extra
-val kotlinXCoroutinesIosArm64         : String by extra
-val kotlinXCoroutinesIosX64           : String by extra
+val kotlinXCoroutinesIos              : String by extra
 val ktorClientIos                     : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
 val ktorClientJsonNative              : String by extra
 val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
 
-val isIosArm64 : Boolean by extra
+val iosTargetName : String by extra
 
 repositories {
     google()
@@ -72,7 +71,7 @@ kotlin {
 
     // This is for iPhone emulator
     // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>("iosArm64"), "ios") {
+    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
         binaries {
             framework {
                 // Framework configuration
@@ -113,11 +112,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
 
-                if(isIosArm64) {
-                    implementation(kotlinXCoroutinesIosArm64)
-                } else {
-                    implementation(kotlinXCoroutinesIosX64)
-                }
+                implementation(kotlinXCoroutinesIos)
 
                 implementation(kotlinXSerializationRuntimeNative)
             
