@@ -1,5 +1,6 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 /**
  *
@@ -64,12 +65,14 @@ plugins {
     id("kotlinx-serialization") version kotlinVersion
     id("org.openjfx.javafxplugin") version "0.0.7"
     id("org.beryx.runtime") version "1.2.1"
+    //id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
 val myMainClassName = "org.chrishatton.example.ExampleApp"
 val myVendor = "org.chrishatton"
 
 application {
+    applicationName = "Example"
     mainClassName = myMainClassName
 }
 
@@ -89,10 +92,6 @@ tasks.withType<KotlinCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-application {
-    applicationName = "Example"
-}
-
 tasks.withType<JavaCompile> {
     group   = "org.chrishatton.example"
     version = "1.0"
@@ -100,6 +99,15 @@ tasks.withType<JavaCompile> {
     sourceCompatibility = JavaVersion.VERSION_12.toString()
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
+
+//tasks.withType<ShadowJar> {
+//    manifest {
+//        attributes(
+//            "Main-Class" to myMainClassName,
+//            "Add-Exports" to "javafx.controls/javafx,javafx.fxml/javafx"
+//        )
+//    }
+//}
 
 repositories {
     google()
