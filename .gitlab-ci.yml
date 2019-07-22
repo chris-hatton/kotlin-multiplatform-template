@@ -26,9 +26,9 @@ build-client-desktop:
     changes:
       - Code/Client/Desktop/**/*
   artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-DesktopClientImages"
     paths:
-      - Code/Client/Desktop/build/jfx/app/*
+      - Code/Client/Desktop/build/image/**/*
 
 build-client-android:
   stage: build
@@ -48,7 +48,7 @@ build-client-android:
     changes:
       - Code/Client/Android/**/*
   artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-AndroidApks"
     paths:
       - Code/Client/Android/mobile/build/outputs/
       - Code/Client/Android/tv/build/outputs/
