@@ -145,6 +145,11 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 }
 
+val jdkFxPlatformsHomeKey = "JDK_FX_PLATFORMS_HOME"
+val jdkFxPlatformsBaseFolder : String? = System.getenv(jdkFxPlatformsHomeKey)
+val isMultiPlatformRuntime = (jdkFxPlatformsBaseFolder != null)
+val platformIdentifiers = listOf("linux","windows","osx")
+
 runtime {
     addOptions(
         "--strip-debug",
@@ -152,5 +157,34 @@ runtime {
         "--no-header-files",
         "--no-man-pages"
     )
+
     addModules(*allModules)
+
+    if(isMultiPlatformRuntime) {
+        if(!File(jdkFxPlatformsBaseFolder).exists()) {
+            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsBaseFolder'.")
+        }
+
+        println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsBaseFolder'")
+        println("Will attempt to build runtime images for: ${platformIdentifiers.joinToString(", ")}")
+
+        val jdkBaseName = "jdk-12.0.2"
+
+        fun createPlatformPath(identifier: String)
+                = jdkFxPlatformsBaseFolder + File.separator + jdkBaseName + "-" + identifier
+
+        platformIdentifiers.forEach { platformIdentifier ->
+            val platformFolder = createPlatformPath(platformIdentifier)
+            val outcomeMessage = if(File(platformFolder).exists()) {
+                targetPlatform(platformIdentifier, platformFolder)
+                "Will create runtime image for '$platformIdentifier' using JDK+FX folder at: '$platformFolder'"
+            } else {
+                "Skipping creation of runtime image for '$platformIdentifier'; missing JDK+FX folder at: '$platformFolder'"
+            }
+            println(outcomeMessage)
+        }
+    } else {
+        println("Environment variable $jdkFxPlatformsHomeKey not set")
+        println("Building runtime image for host platform only")
+    }
 }
