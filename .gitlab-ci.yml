@@ -11,20 +11,20 @@ stages:
   - deploy
   - document
 
-build-client-desktop:
-  stage: build
-  script:
-    - cd Code/Client/Desktop
-    - ./gradlew --build-cache build
-  cache:
-    key: "$CI_COMMIT_REF_NAME-Client-Desktop"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Client/Desktop/**/*
+# build-client-desktop-jar:
+#   stage: build
+#   script:
+#     - cd Code/Client/Desktop
+#     - ./gradlew --build-cache build
+#   cache:
+#     key: "$CI_COMMIT_REF_NAME-Client-Desktop"
+#     policy: pull-push
+#     paths:
+#       - build
+#       - .gradle
+#   only:
+#     changes:
+#       - Code/Client/Desktop/**/*
 
 build-client-desktop-images:
   stage: build
