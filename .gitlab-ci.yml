@@ -15,7 +15,7 @@ build-client-desktop:
   stage: build
   script:
     - cd Code/Client/Desktop
-    - ./gradlew --build-cache jfxJar
+    - ./gradlew --build-cache runtimeZip
   cache:
     key: "$CI_COMMIT_REF_NAME-Client-Desktop"
     policy: pull-push
