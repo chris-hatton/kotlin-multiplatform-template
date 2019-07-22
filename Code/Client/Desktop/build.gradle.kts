@@ -73,9 +73,12 @@ application {
     mainClassName = myMainClassName
 }
 
+val javaFxModules = arrayOf("javafx.controls","javafx.fxml","javafx.base","javafx.graphics")
+val allModules = javaFxModules + arrayOf("java.logging")
+
 javafx {
     version = "12"
-    modules("javafx.controls","javafx.fxml")
+    modules(*javaFxModules)
 }
 
 tasks.withType<KotlinCompile> {
@@ -86,20 +89,16 @@ tasks.withType<KotlinCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-tasks.withType<JavaCompile> {
+application {
+    applicationName = "Example"
+}
 
+tasks.withType<JavaCompile> {
     group   = "org.chrishatton.example"
     version = "1.0"
 
     sourceCompatibility = JavaVersion.VERSION_12.toString()
     targetCompatibility = JavaVersion.VERSION_12.toString()
-
-    doFirst {
-        options.compilerArgs = options.compilerArgs + listOf(
-            "--module-path",classpath.asPath,
-            "--add-modules","javafx.controls,javafx.fxml"
-        )
-    }
 }
 
 repositories {
@@ -128,13 +127,17 @@ dependencies {
     implementation(ktorClientCio)
     implementation(ktorClientJson)
 
-    // JavaFX
-    compileClasspath(fileTree("/Users/Chris/Programming/javafx-jmods-12.0.1/"))
-
-    implementation(javaFxBase)
-    implementation(javaFxGraphics)
-    implementation(javaFxControls)
-    implementation(javaFxFxml)
+    /**
+     * Regarding JavaFX dependencies:
+     *
+     * The project expects that JavaFX 'jmods's are present in the /jmods folder if your JDK_HOME.
+     * Pre-compiled jmods can be downloaded, for major platforms, from: https://openjfx.io/
+     * While it is possible, for a single platform, to handle JavaFX dependencies much like
+     * any other Gradle-defined dependency, the JDK /jmods path was taken for compatibility with
+     * the multi-platform workflow implied by the Beryx Runtime plugin.
+     *
+     * For further explanation, see this blog post: TODO write blog-post
+     */
 
     // Test
     testImplementation(jUnit)
@@ -147,8 +150,7 @@ runtime {
         "--strip-debug",
         "--compress", "2",
         "--no-header-files",
-        "--no-man-pages",
-        "--module-path", sourceSets["main"].compileClasspath.asPath,
-        "--add-modules", "javafx.controls,javafx.fxml"
+        "--no-man-pages"
     )
+    addModules(*allModules)
 }
