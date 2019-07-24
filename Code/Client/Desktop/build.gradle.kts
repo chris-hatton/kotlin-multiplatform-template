@@ -1,6 +1,5 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 /**
  *
@@ -38,7 +37,7 @@ val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
 val tornadoFxVersion        : String by extra
-val kotlinStandardLibrary7  : String by extra
+val kotlinStandardLibrary8  : String by extra
 val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
@@ -61,11 +60,10 @@ val iosTargetName : String by extra
 plugins {
     val kotlinVersion = "1.3.40"
     kotlin("jvm" ) version kotlinVersion
-    //id("application")
+    id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
     id("kotlinx-serialization") version kotlinVersion
     id("org.openjfx.javafxplugin") version "0.0.7"
     id("org.beryx.runtime") version "1.2.1"
-    //id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
 val myMainClassName = "org.chrishatton.example.ExampleApp"
@@ -100,15 +98,6 @@ tasks.withType<JavaCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-//tasks.withType<ShadowJar> {
-//    manifest {
-//        attributes(
-//            "Main-Class" to myMainClassName,
-//            "Add-Exports" to "javafx.controls/javafx,javafx.fxml/javafx"
-//        )
-//    }
-//}
-
 repositories {
     google()
     jcenter()
@@ -122,7 +111,7 @@ dependencies {
     implementation(clientCommonProject())
     implementation(sharedProject())
 
-    implementation(kotlinStandardLibrary7)
+    implementation(kotlinStandardLibrary8)
 
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
