@@ -33,6 +33,9 @@ buildscript {
     }
 }
 
+// One of 'linux', 'osx' or 'windows'
+val currentOs : String by extra
+
 val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
@@ -154,6 +157,10 @@ runtime {
         "--no-header-files",
         "--no-man-pages"
     )
+
+    jpackage {
+        targetPlatformName = currentOs
+    }
 
     addModules(*allModules)
 
