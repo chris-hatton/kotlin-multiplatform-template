@@ -10,11 +10,11 @@ import org.chrishatton.example.model.Validated
 @FlowPreview
 @ExperimentalCoroutinesApi
 interface LoginContract {
-    interface Presenter : LoginContract, PresenterContract<View, Presenter> {
+    interface Presenter : LoginContract, Contract.Presenter<View, Presenter> {
 
     }
 
-    interface View : LoginContract, ViewContract<Presenter, View> {
+    interface View : LoginContract, Contract.View<Presenter, View> {
 
         val validatedUsernameCollector        : FlowCollector<Validated<String>>
         val validatedPasswordCollector        : FlowCollector<Validated<String>>
