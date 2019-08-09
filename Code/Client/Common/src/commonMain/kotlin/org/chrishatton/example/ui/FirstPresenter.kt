@@ -3,8 +3,6 @@ package org.chrishatton.example.ui
 import org.chrishatton.example.client
 import org.chrishatton.example.model.Person
 import org.chrishatton.example.netScope
-import org.chrishatton.example.ui.contract.FirstPresenterContract
-import org.chrishatton.example.ui.contract.FirstViewContract
 import org.chrishatton.example.uiScope
 import io.ktor.client.request.post
 import io.ktor.client.request.url
@@ -12,13 +10,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import org.chrishatton.example.ui.contract.FirstContract
 
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 class FirstPresenter(
         val baseUrl : String,
-        override val view: FirstViewContract
-) : FirstPresenterContract {
+        override val view: FirstContract.View
+) : FirstContract.Presenter {
     private lateinit var setNameChannel : Channel<String>
     private lateinit var peopleChannel  : Channel<Pair<Person, Person>>
 
