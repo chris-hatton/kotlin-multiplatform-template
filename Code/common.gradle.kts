@@ -2,6 +2,13 @@ import java.util.*
 import java.util.Locale
 
 /**
+ * This script is applied by the build-scripts of every sub-project in the Multi-Platform template project.
+ * It provides these centralized functions:
+ * - Dependency versions; where one file 'common.properties' sets dependency versions for the entire project.
+ * - Operating System determination; whether the build is occurring on Linux/Mac/Windows.
+ */
+
+/**
  * Determine the current operating system - used by jpackage task
  */
 val os : String = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH)
