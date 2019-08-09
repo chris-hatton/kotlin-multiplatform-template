@@ -38,6 +38,7 @@ val ktorAuth           : String by extra
 val ktorWebsockets     : String by extra
 val ktorGson           : String by extra
 val logBackClassic     : String by extra
+val exposed            : String by extra
 
 val ktorServerTests : String by extra
 
@@ -61,11 +62,11 @@ repositories {
 
 plugins {
     application
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm") version "1.3.41"
     war
     id("org.gretty") version "2.2.0"
     id("org.jetbrains.dokka") version "0.9.18"
-    id("kotlinx-serialization") version "1.3.40"
+    id("kotlinx-serialization") version "1.3.41"
     id("jacoco")
 }
 
@@ -108,6 +109,8 @@ dependencies {
     implementation(ktorWebsockets)
     implementation(ktorGson)
     implementation(logBackClassic)
+
+    implementation(exposed)
 
     testCompile(ktorServerTests)
 }

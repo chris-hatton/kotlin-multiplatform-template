@@ -53,6 +53,8 @@ val ktorClient              : String by extra
 val ktorClientCio           : String by extra
 val ktorClientJson          : String by extra
 
+val klock : String by extra
+
 val jUnit : String by extra
 
 val clientCommonProject : ()->ProjectDependency by extra
