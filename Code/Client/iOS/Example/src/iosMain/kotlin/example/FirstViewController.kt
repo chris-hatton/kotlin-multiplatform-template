@@ -7,8 +7,8 @@ import kotlinx.cinterop.ObjCOutlet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.chrishatton.example.ui.FirstPresenter
-import org.chrishatton.example.ui.contract.FirstPresenterContract
-import org.chrishatton.example.ui.contract.FirstViewContract
+import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
+import org.chrishatton.example.ui.FirstContract.View as View
 import platform.Foundation.NSCoder
 import platform.UIKit.UIButton
 import platform.UIKit.UILabel
@@ -44,7 +44,7 @@ class FirstViewController : UIViewController {
 
     private val viewAdapter = FirstViewAdapter()
 
-    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, FirstViewContract, FirstPresenterContract>(), FirstViewContract {
+    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, View, Presenter>(), View {
         override fun displayGreeting(text: String) {
             label.text = text
         }

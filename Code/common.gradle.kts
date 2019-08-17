@@ -1,4 +1,23 @@
 import java.util.*
+import java.util.Locale
+
+/**
+ * This script is applied by the build-scripts of every sub-project in the Multi-Platform template project.
+ * It provides these centralized functions:
+ * - Dependency versions; where one file 'common.properties' sets dependency versions for the entire project.
+ * - Operating System determination; whether the build is occurring on Linux/Mac/Windows.
+ */
+
+/**
+ * Determine the current operating system - used by jpackage task
+ */
+val os : String = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH)
+extra["currentOs"] = when {
+    ((os.indexOf("mac") >= 0) || (os.indexOf("darwin") >= 0)) -> "osx"
+    (os.indexOf("win") >= 0) -> "windows"
+    (os.indexOf("nux") >= 0) -> "linux"
+    else -> throw Exception("Unsupported operating system: '$os'")
+}
 
 /**
  * Load entries from 'common.properties' into the context Gradle project's 'extra' properties.
@@ -71,8 +90,9 @@ loadSubstitutedPropertiesToExtra(fileName = "$rootDir/common.properties")
 
 // Define project dependencies by conventional module path
 
-extra["androidClientCommonProject"] = { project(":android-client-common") } //as ()->ProjectDependency
-extra["clientCommonProject"]        = { project(":client-common") }
+extra["androidClientCommonProject"] = { project(":android-client-shared") } //as ()->ProjectDependency
+extra["clientCommonProject"]        = { project(":client-shared") }
+extra["multiMvpProject"]            = { project(path = ":multi-mvp") }
 extra["sharedProject"]              = { project(":shared") }
 
 val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {

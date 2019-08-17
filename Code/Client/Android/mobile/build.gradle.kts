@@ -20,7 +20,7 @@ plugins {
     id("kotlinx-serialization")
 }
 
-val kotlinStandardLibrary7   : String by extra
+val kotlinStandardLibrary8   : String by extra
 val ktorClientAndroid        : String by extra
 val ktorClientCio            : String by extra
 val ktorClientJson           : String by extra
@@ -73,6 +73,7 @@ android {
         exclude("META-INF/ktor-http-cio.kotlin_module")
         exclude("META-INF/ktor-client-json.kotlin_module")
         exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
+        exclude("META-INF/multi-mvp_release.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")
@@ -91,7 +92,7 @@ dependencies {
     implementation(sharedProject())
 
     // Kotlin Core
-    implementation(kotlinStandardLibrary7)
+    implementation(kotlinStandardLibrary8)
 
     // Ktor
     implementation(ktorClientAndroid)

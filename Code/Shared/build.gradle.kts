@@ -32,7 +32,7 @@ buildscript {
 
 val kotlinXSerializationRuntimeCommon : String by extra
 val kotlinXCoroutinesCore             : String by extra
-val kotlinXCoroutinesIos              : String by extra
+val kotlinXCoroutinesNative           : String by extra
 val ktorClientIos                     : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
 val ktorClientJsonNative              : String by extra
@@ -40,6 +40,8 @@ val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
 
 val iosTargetName : String by extra
+
+val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 
 repositories {
     google()
@@ -51,6 +53,7 @@ repositories {
 plugins {
     kotlin("multiplatform")
     id("kotlinx-serialization")
+    id("com.android.library")
 }
 
 allprojects {
@@ -65,9 +68,46 @@ allprojects {
 group = "org.chrishatton"
 version = "0.0.1"
 
+android {
+    compileSdkVersion(29)
+    defaultConfig {
+        minSdkVersion(21)
+        targetSdkVersion(29)
+        versionCode = 1
+        versionName = "1.0"
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+
+    sourceSets {
+        get("main").apply {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            java.srcDirs("src/androidMain/kotlin")
+            res.srcDirs("src/androidMain/res")
+        }
+        get("test").apply {
+            java.srcDirs("src/androidTest/kotlin")
+            res.srcDirs("src/androidTest/res")
+        }
+    }
+}
+
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+
 kotlin {
     
-    jvm {}
+    android { attributes.attribute(frameworkAtribute, "android") }
+
+    if(isMinJava12) {
+        jvm("javafx") {attributes.attribute(frameworkAtribute, "javafx") }
+    }
+
+    jvm("server") {
+        attributes.attribute(frameworkAtribute, "server")
+    }
 
     // This is for iPhone emulator
     // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
@@ -77,6 +117,7 @@ kotlin {
                 // Framework configuration
             }
         }
+        attributes.attribute(frameworkAtribute, "ios")
     }
     
     sourceSets {
@@ -96,13 +137,41 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        val androidMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
                 implementation(kotlinXSerializationRuntimeJvm)
             }
         }
-        val jvmTest by getting {
+        val androidTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+            }
+        }
+
+        if(isMinJava12) {
+            val javafxMain by getting {
+                dependencies {
+                    implementation(kotlin("stdlib"))
+                    implementation(kotlinXSerializationRuntimeJvm)
+                }
+            }
+            val javafxTest by getting {
+                dependencies {
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
+                }
+            }
+        }
+
+        val serverMain by getting {
+            dependencies {
+                implementation(kotlin("stdlib"))
+                implementation(kotlinXSerializationRuntimeJvm)
+            }
+        }
+        val serverTest by getting {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit"))
@@ -112,7 +181,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
 
-                implementation(kotlinXCoroutinesIos)
+                implementation(kotlinXCoroutinesNative)
 
                 implementation(kotlinXSerializationRuntimeNative)
             

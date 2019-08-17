@@ -1,6 +1,5 @@
 
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 /**
  *
@@ -14,6 +13,7 @@ buildscript {
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
+    val androidGradlePlugin       : String by extra
 
     repositories {
         google()
@@ -31,14 +31,18 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
+        classpath(androidGradlePlugin)
     }
 }
+
+// One of 'linux', 'osx' or 'windows'
+val currentOs : String by extra
 
 val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
 val tornadoFxVersion        : String by extra
-val kotlinStandardLibrary7  : String by extra
+val kotlinStandardLibrary8  : String by extra
 val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
@@ -53,19 +57,30 @@ val ktorClientJson          : String by extra
 
 val jUnit : String by extra
 
+//val multiMvpProject     : ()->ProjectDependency by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 val iosTargetName : String by extra
 
+repositories {
+    google()
+    jcenter()
+    maven( url = "https://kotlin.bintray.com/kotlinx" )
+    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+    maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+}
+
 plugins {
-    val kotlinVersion = "1.3.40"
+
+    id("com.android.library") version "3.4.1" apply false
+
+    val kotlinVersion = "1.3.41"
     kotlin("jvm" ) version kotlinVersion
-    //id("application")
+    id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
     id("kotlinx-serialization") version kotlinVersion
     id("org.openjfx.javafxplugin") version "0.0.7"
     id("org.beryx.runtime") version "1.2.1"
-    //id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
 val myMainClassName = "org.chrishatton.example.ExampleApp"
@@ -100,29 +115,24 @@ tasks.withType<JavaCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-//tasks.withType<ShadowJar> {
-//    manifest {
-//        attributes(
-//            "Main-Class" to myMainClassName,
-//            "Add-Exports" to "javafx.controls/javafx,javafx.fxml/javafx"
-//        )
-//    }
-//}
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
-repositories {
-    google()
-    jcenter()
-    maven( url = "https://kotlin.bintray.com/kotlinx" )
-    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+configurations {
+    val runtimeClasspath     by getting
+    val testRuntimeClasspath by getting
+
+    listOf(runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
+        configuration.attributes { attribute(frameworkAtribute, "javafx") }
+    }
 }
 
 dependencies {
 
-    implementation(clientCommonProject())
-    implementation(sharedProject())
+    implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
+    implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
+    implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
 
-    implementation(kotlinStandardLibrary7)
+    implementation(kotlinStandardLibrary8)
 
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
@@ -165,6 +175,10 @@ runtime {
         "--no-header-files",
         "--no-man-pages"
     )
+
+    jpackage {
+        targetPlatformName = currentOs
+    }
 
     addModules(*allModules)
 

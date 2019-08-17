@@ -1,7 +1,6 @@
 package org.chrishatton.example
 
-import org.chrishatton.example.ui.PresenterContract
-import org.chrishatton.example.ui.ViewContract
+import org.chrishatton.multimvp.ui.Contract
 import tornadofx.*
 
 /**
@@ -10,8 +9,7 @@ import tornadofx.*
  * - Provides a PresenterContract implementation (a Presenter), corresponding 1:1 to the ViewContract
  * - Issues lifecycle callbacks to the Presenter
  */
-abstract class BaseView<VC: ViewContract<PC, VC>,PC: PresenterContract<VC, PC>> : View(),
-        ViewContract<PC, VC> {
+abstract class BaseView<VC: Contract.View<PC, VC>,PC: Contract.Presenter<VC, PC>> : View(), Contract.View<PC, VC> {
 
     override fun onDock() {
         super.onDock()
