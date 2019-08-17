@@ -16,3 +16,9 @@ Code/Client/iOS/Example.xcodeproj/project.xcworkspace/xcuserdata
 Code/Client/Desktop/build
 Code/Client/iOS/Example/.gradle
 Code/Build/buildSrc/.gradle
+Code/Client/Android/android-client-shared/build
+Code/Client/Shared/.gradle
+Code/Client/Shared/build
+Code/Lib/multi-mvp/.gradle
+Code/Lib/multi-mvp/build
+Code/Client/iOS/Supporting Files/build
