@@ -19,6 +19,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.android.library") version "3.4.1" apply false
+}
+
 allprojects {
 
     repositories {

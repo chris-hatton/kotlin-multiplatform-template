@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.coverage.JacocoReportTask
 
 /**
  *
@@ -65,6 +66,7 @@ plugins {
     id("org.gretty") version "2.2.0"
     id("org.jetbrains.dokka") version "0.9.18"
     id("kotlinx-serialization") version "1.3.40"
+    id("jacoco")
 }
 
 group   = "Server"
@@ -90,9 +92,22 @@ tasks.dokka {
     outputDirectory = "$buildDir/javadoc"
 }
 
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+
+configurations {
+    val compileClasspath     by getting
+    val testCompileClasspath by getting
+    val runtimeClasspath     by getting
+    val testRuntimeClasspath by getting
+
+    listOf(compileClasspath,testCompileClasspath,runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
+        configuration.attributes { attribute(frameworkAtribute, "server") }
+    }
+}
+
 dependencies {
 
-    implementation(sharedProject())
+    implementation(project(path = ":shared")) { attributes { attribute(frameworkAtribute, "server") } }
 
     implementation(kotlinXSerializationRuntimeJvm)
     implementation(kotlinStandardLibrary8)
@@ -109,4 +124,14 @@ dependencies {
 
     testCompile(ktorServerTests)
 }
+
+tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = false
+        csv.isEnabled = false
+        html.destination = file("$buildDir/jacocoHtml")
+    }
+}
+
+tasks["check"].dependsOn(tasks["jacocoTestReport"])
 

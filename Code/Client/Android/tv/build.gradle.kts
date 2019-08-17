@@ -18,7 +18,7 @@ plugins {
     id("kotlinx-serialization")
 }
 
-val kotlinStandardLibrary7   : String by extra
+val kotlinStandardLibrary8   : String by extra
 val ktorClientAndroid        : String by extra
 val ktorClientCio            : String by extra
 val ktorClientJson           : String by extra
@@ -96,7 +96,7 @@ dependencies {
     implementation(sharedProject())
 
     // Kotlin Core
-    implementation(kotlinStandardLibrary7)
+    implementation(kotlinStandardLibrary8)
 
     // Ktor
     implementation(ktorClientAndroid)

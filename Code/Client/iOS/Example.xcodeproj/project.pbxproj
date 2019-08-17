@@ -107,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				831B090F22A9AAB300066103 /* kotlin */,
-				831B08FF22A8653B00066103 /* Client-Common */,
+				831B08FF22A8653B00066103 /* Client-shared */,
 				831B08FD22A8650A00066103 /* Shared */,
 				3E126A0305764B8AD4FDA7DA /* Supporting Files */,
 				3E126320BD9D7B493DCFA1C4 /* Info.plist */,
@@ -129,7 +129,7 @@
 			name = Shared;
 			sourceTree = "<group>";
 		};
-		831B08FF22A8653B00066103 /* Client-Common */ = {
+		831B08FF22A8653B00066103 /* Client-shared */ = {
 			isa = PBXGroup;
 			children = (
 				831B090A22A8689700066103 /* commonMain */,
@@ -137,7 +137,7 @@
 				831B090922A8689700066103 /* iosMain */,
 				831B090B22A8689700066103 /* iosTest */,
 			);
-			name = "Client-Common";
+			name = "Client-shared";
 			sourceTree = "<group>";
 		};
 		831B090F22A9AAB300066103 /* kotlin */ = {
