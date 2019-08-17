@@ -8,12 +8,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.chrishatton.example.ui.FirstPresenter
-import org.chrishatton.example.ui.contract.FirstContract
-import tornadofx.*
+import org.chrishatton.example.ui.FirstContract.View as View
+import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class FirstView : BaseView<FirstContract.View,FirstContract.Presenter>(), FirstContract.View {
+class FirstView : BaseView<View,Presenter>(), View {
 
     override val root : Parent by fxml()
 
@@ -27,7 +27,7 @@ class FirstView : BaseView<FirstContract.View,FirstContract.Presenter>(), FirstC
         }
     }
 
-    override val presenter: FirstContract.Presenter by lazy {
+    override val presenter: Presenter by lazy {
          FirstPresenter(baseUrl = "http://localhost:8080", view = this)
     }
 

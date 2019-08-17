@@ -73,6 +73,7 @@ android {
         exclude("META-INF/ktor-http-cio.kotlin_module")
         exclude("META-INF/ktor-client-json.kotlin_module")
         exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
+        exclude("META-INF/multi-mvp_release.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")

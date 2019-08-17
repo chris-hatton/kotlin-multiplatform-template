@@ -90,8 +90,9 @@ loadSubstitutedPropertiesToExtra(fileName = "$rootDir/common.properties")
 
 // Define project dependencies by conventional module path
 
-extra["androidClientCommonProject"] = { project(":android-client-common") } //as ()->ProjectDependency
-extra["clientCommonProject"]        = { project(":client-common") }
+extra["androidClientCommonProject"] = { project(":android-client-shared") } //as ()->ProjectDependency
+extra["clientCommonProject"]        = { project(":client-shared") }
+extra["multiMvpProject"]            = { project(path = ":multi-mvp") }
 extra["sharedProject"]              = { project(":shared") }
 
 val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {

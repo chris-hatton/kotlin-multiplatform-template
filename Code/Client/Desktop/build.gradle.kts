@@ -13,6 +13,7 @@ buildscript {
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
+    val androidGradlePlugin       : String by extra
 
     repositories {
         google()
@@ -30,6 +31,7 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
+        classpath(androidGradlePlugin)
     }
 }
 
@@ -55,13 +57,25 @@ val ktorClientJson          : String by extra
 
 val jUnit : String by extra
 
+//val multiMvpProject     : ()->ProjectDependency by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 val iosTargetName : String by extra
 
+repositories {
+    google()
+    jcenter()
+    maven( url = "https://kotlin.bintray.com/kotlinx" )
+    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+    maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+}
+
 plugins {
-    val kotlinVersion = "1.3.40"
+
+    id("com.android.library") version "3.4.1" apply false
+
+    val kotlinVersion = "1.3.41"
     kotlin("jvm" ) version kotlinVersion
     id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
     id("kotlinx-serialization") version kotlinVersion
@@ -101,18 +115,22 @@ tasks.withType<JavaCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-repositories {
-    google()
-    jcenter()
-    maven( url = "https://kotlin.bintray.com/kotlinx" )
-    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+
+configurations {
+    val runtimeClasspath     by getting
+    val testRuntimeClasspath by getting
+
+    listOf(runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
+        configuration.attributes { attribute(frameworkAtribute, "javafx") }
+    }
 }
 
 dependencies {
 
-    implementation(clientCommonProject())
-    implementation(sharedProject())
+    implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
+    implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
+    implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
 
     implementation(kotlinStandardLibrary8)
 

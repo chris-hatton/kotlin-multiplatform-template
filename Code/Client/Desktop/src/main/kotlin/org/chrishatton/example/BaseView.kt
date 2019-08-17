@@ -1,6 +1,6 @@
 package org.chrishatton.example
 
-import org.chrishatton.example.ui.contract.Contract
+import org.chrishatton.multimvp.ui.Contract
 import tornadofx.*
 
 /**

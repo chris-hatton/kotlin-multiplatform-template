@@ -92,9 +92,22 @@ tasks.dokka {
     outputDirectory = "$buildDir/javadoc"
 }
 
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+
+configurations {
+    val compileClasspath     by getting
+    val testCompileClasspath by getting
+    val runtimeClasspath     by getting
+    val testRuntimeClasspath by getting
+
+    listOf(compileClasspath,testCompileClasspath,runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
+        configuration.attributes { attribute(frameworkAtribute, "server") }
+    }
+}
+
 dependencies {
 
-    implementation(sharedProject())
+    implementation(project(path = ":shared")) { attributes { attribute(frameworkAtribute, "server") } }
 
     implementation(kotlinXSerializationRuntimeJvm)
     implementation(kotlinStandardLibrary8)
