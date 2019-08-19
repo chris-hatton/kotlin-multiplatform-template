@@ -4,6 +4,8 @@
  *
  */
 
+apply( from = "$rootDir/common.gradle.kts")
+
 repositories {
     google()
     jcenter()

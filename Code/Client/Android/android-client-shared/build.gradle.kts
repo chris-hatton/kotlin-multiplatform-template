@@ -10,6 +10,8 @@
  *
  */
 
+apply( from = "$rootDir/common.gradle.kts")
+
 val androidBuildToolsVersion : String by extra
 val androidCompileSdkVersion : String by extra
 val androidTargetSdkVersion  : String by extra
