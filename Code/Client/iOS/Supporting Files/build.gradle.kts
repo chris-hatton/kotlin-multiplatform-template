@@ -19,6 +19,10 @@ buildscript {
     }
 }
 
+plugins {
+    id("com.android.library") apply false
+}
+
 allprojects {
 
     repositories {

@@ -5,8 +5,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
 apply( from = "../../../common.gradle.kts")
 
-val kotlinXCoroutinesIosArm64         : String by extra
-val kotlinXCoroutinesIosX64           : String by extra
+val kotlinXCoroutinesNative           : String by extra
 val ktorClientIos                     : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeCommon : String by extra
@@ -18,27 +17,37 @@ val ktorClientSerializationNative     : String by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
-val isIosArm64 : Boolean by extra
-
-val iosTargetPresetName = if(isIosArm64) "iosArm64" else "iosX64"
+val iosTargetName : String by extra
 
 plugins {
     kotlin("multiplatform")
     kotlin("xcode-compat") version "0.1"
 }
 
-kotlin {
-    xcode {
-        setupApplication("ios")
-    }
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetPresetName), "ios") {
+configurations {
+    val metadataCompileClasspath by getting {
+        attributes { attribute(frameworkAtribute, "ios") }
+    }
+//    val iosCompileKlibraries by getting {
+//        attributes { attribute(frameworkAtribute, "ios") }
+//    }
+}
+
+kotlin {
+//    xcode {
+//        setupApplication("ios")
+//    }
+
+    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
         binaries {
             framework {
                 // Framework configuration
                 //embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
             }
         }
+        attributes { attribute(frameworkAtribute, "ios") }
     }
 
     targets {
@@ -49,8 +58,8 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(clientCommonProject())
-                implementation(sharedProject())
+                implementation(project(":client-shared"))
+                implementation(project(":shared"))
 
                 implementation(ktorClientCore)
                 implementation(ktorClientJson)
@@ -62,11 +71,7 @@ kotlin {
 
             dependencies {
 
-                if(isIosArm64) {
-                    implementation(kotlinXCoroutinesIosArm64)
-                } else {
-                    implementation(kotlinXCoroutinesIosX64)
-                }
+                implementation(kotlinXCoroutinesNative)
 
                 implementation(kotlinXSerializationRuntimeNative)
 

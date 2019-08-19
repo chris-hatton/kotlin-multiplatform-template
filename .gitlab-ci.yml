@@ -6,166 +6,52 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-  - build
-  - test
+  - buildAndTest
   - deploy
   - document
 
-# build-client-desktop-jar:
-#   stage: build
-#   script:
-#     - cd Code/Client/Desktop
-#     - ./gradlew --build-cache build
-#   cache:
-#     key: "$CI_COMMIT_REF_NAME-Client-Desktop"
-#     policy: pull-push
-#     paths:
-#       - build
-#       - .gradle
-#   only:
-#     changes:
-#       - Code/Client/Desktop/**/*
-
-build-client-desktop-images:
-  stage: build
+build:
+  stage: buildAndTest
   script:
-    - cd Code/Client/Desktop
-    - ./gradlew --build-cache runtimeZip
+    - cd Code
+    - ./gradlew buildAndTestApp
   cache:
-    key: "$CI_COMMIT_REF_NAME-Client-Desktop"
+    key: "$CI_COMMIT_REF_NAME-App"
     policy: pull-push
     paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Client/Desktop/**/*
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-DesktopClientImages"
-    paths:
-      - Code/Client/Desktop/build/*.zip
-
-build-client-android:
-  stage: build
-  script:
-    - cd Code/Client/Android
-    # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
-    # Currently necessary due to issue: https://youtrack.jetbrains.com/issue/KT-27170
-    # Re-enable lint when this issue is resolved.
-    - ./gradlew --build-cache assemble -x lint -x lintVitalRelease
-  cache:
-    key: "$CI_COMMIT_REF_NAME-Client-Android"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Client/Android/**/*
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-AndroidApks"
-    paths:
-      - Code/Client/Android/mobile/build/outputs/
-      - Code/Client/Android/tv/build/outputs/
-
-build-server:
-  stage: build
-  script:
-    - cd Code/Server
-    - ./gradlew --build-cache build
-  cache:
-    key: "$CI_COMMIT_REF_NAME-Server"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Server/**/*
-
-# Runs Gradle 'test' on the JavaFX Desktop Client project
-test-client-desktop:
-  stage: test
-  script:
-    - cd Code/Client/Desktop
-    - ./gradlew --build-cache test
-  cache:
-    key: "${CI_COMMIT_REF_NAME}-Client-Desktop"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Client/Desktop/**/*
-
-# Runs Gradle 'check' on the Android Client project, covering both Mobile and TV
-test-client-android:
-  stage: test
-  script:
-    - cd Code/Client/Android
-    # The addition of '-x lint -x lintVitalRelease' to disable lint is *not* desired.
-    # Currently necessary due to issue: https://youtrack.jetbrains.com/issue/KT-27170
-    # Re-enable lint when this issue is resolved.
-    - ./gradlew --build-cache check -x lint -x lintVitalRelease
-  cache:
-    key: "${CI_COMMIT_REF_NAME}-Client-Android"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Client/Android/**/*
-
-# Runs Gradle 'check' on the Ktor-based Server project
-test-server:
-  stage: test
-  script:
-    - cd Code/Server 
-    - ./gradlew --build-cache check
-  cache:
-    key: "${CI_COMMIT_REF_NAME}-Server"
-    policy: pull-push
-    paths:
-      - build
-      - .gradle
-  only:
-    changes:
-      - Code/Server/**/*
-# artifacts:
-#   reports:
-#     junit: rspec.xml
-
-# deploy-client:
-#   only:
-#     - master
-#   stage: deploy-client
-#   script:
-#     - cd Code/Server
-#     - ./gradlew --build-cache war
-#     - cp build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
-#   cache:
-#     key: "${CI_COMMIT_REF_NAME}-Server"
-#     policy: pull
-#     paths:
-#       - build
-#       - .gradle
+      - .gradle/wrapper
+      - Code/Server/build-cache
+      - Code/Client/Desktop/build-cache
+      - Code/Client/Android/build-cache
+      - Code/Client/iOS/Supporting Files/build-cache
+      - Code/Server/build
+      - Code/Shared/build
+      - Code/Lib/multi-mvp/build
+      - Code/Client/Desktop/build
+      - Code/Client/Shared/build
+      - Code/Client/iOS/Example/build
+      - Code/Client/iOS/Supporting Files/build
+      - Code/Client/Android/tv/build
+      - Code/Client/Android/android-client-shared/build
+      - Code/Client/Android/mobile/build
+      - Code/Client/Android/build
 
 deploy-server:
   only:
     - master
   stage: deploy
   script:
-    - cd Code/Server
-    - ./gradlew --build-cache war
+    - cd Code
+    - ./gradlew deployOnlyApp
     - cp build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
   cache:
-    key: "${CI_COMMIT_REF_NAME}-Server"
+    key: "${CI_COMMIT_REF_NAME}-App"
     policy: pull
     paths:
-      - build
-      - .gradle
+      - Code/Server/build-cache
+      - Code/Server/build
+      - Code/Shared/build
+
   environment:
     name: staging
     url: https://example.chrishatton.org/api/

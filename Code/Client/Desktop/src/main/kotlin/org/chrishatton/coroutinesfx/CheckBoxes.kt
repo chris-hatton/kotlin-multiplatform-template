@@ -21,11 +21,11 @@ enum class CheckedState {
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-fun CheckBox.checkedStates() : Flow<CheckedState> =
-    indeterminateProperty().asFlow().combineLatest(selectedProperty().asFlow()) { isIndeterminate:Boolean,isSelected:Boolean ->
-        when {
-            isIndeterminate -> CheckedState.Indeterminate
-            isSelected      -> CheckedState.Selected
-            else            -> CheckedState.NotSelected
-        }
-    }
+fun CheckBox.checkedStates() : Flow<CheckedState> = TODO()
+//    indeterminateProperty().asFlow().combine(selectedProperty().asFlow()) { isIndeterminate:Boolean,isSelected:Boolean ->
+//        when {
+//            isIndeterminate -> CheckedState.Indeterminate
+//            isSelected      -> CheckedState.Selected
+//            else            -> CheckedState.NotSelected
+//        }
+//    }
