@@ -10,6 +10,7 @@ buildscript {
 
     apply(from = "$rootDir/common.gradle.kts")
 
+    val kotlinVersion             : String by extra
     val androidGradlePlugin       : String by extra
     val kotlinSerializationPlugin : String by extra
 
@@ -21,6 +22,7 @@ buildscript {
     dependencies {
         // This should not be required as this is *not* an Android project.
         // Seems to be a current limitation of dependency on MPP project?
+        classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(androidGradlePlugin)
         classpath(kotlinSerializationPlugin)
     }
@@ -61,7 +63,7 @@ repositories {
 
 plugins {
     application
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm")
     war
     id("org.gretty") version "2.2.0"
     id("org.jetbrains.dokka") version "0.9.18"

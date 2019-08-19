@@ -73,10 +73,10 @@ repositories {
 
 plugins {
 
-    id("com.android.library") version "3.4.1" apply false
+    id("com.android.library") apply false
 
     val kotlinVersion = "1.3.41"
-    kotlin("jvm" ) version kotlinVersion
+    kotlin("jvm" )
     id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
     id("kotlinx-serialization") version kotlinVersion
     id("org.openjfx.javafxplugin") version "0.0.7"

@@ -1,30 +1,6 @@
 import java.io.File
 
-// Workaround for: https://youtrack.jetbrains.com/issue/KT-27612
-pluginManagement {
-
-    repositories {
-        gradlePluginPortal()
-        jcenter()
-        google()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "kotlin-multiplatform") {
-                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-            }
-            if (requested.id.id == "kotlinx-serialization") {
-                useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
-            }
-            if (requested.id.id == "com.android.library") {
-                useModule("com.android.tools.build:gradle:${requested.version}")
-            }
-        }
-    }
-}
+apply( from = "common.settings.gradle.kts" )
 
 rootProject.name = file("..").name
 

@@ -96,9 +96,9 @@ extra["multiMvpProject"]            = { project(path = ":multi-mvp") }
 extra["sharedProject"]              = { project(":shared") }
 
 val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
-    "arm64" -> { println("* Compiling Kotlin for iOS ARM64 by environment *"); true }
-    "X64"   -> { println("* Compiling Kotlin for iOS X64 by environment *"); false }
-    else    -> { println("* Compiling Kotlin for iOS X64 by default *"); false }
+    "arm64" -> true
+    "X64"   -> false
+    else    -> false
 }
 
 extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"

@@ -31,15 +31,15 @@ val kotlinXCoroutinesJavaFx     : String by extra
 
 val iosTargetName : String by extra
 
-plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-}
-
 repositories {
     google()
     jcenter()
     maven( url = "https://kotlin.bintray.com/kotlinx" )
+}
+
+plugins {
+    kotlin("multiplatform")
+    id("com.android.library")
 }
 
 android {
