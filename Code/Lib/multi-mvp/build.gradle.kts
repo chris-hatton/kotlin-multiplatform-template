@@ -1,9 +1,11 @@
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
+apply( from = "../javafx.build.gradle.kts" )
+
 buildscript {
 
-    apply( from = "common.gradle.kts")
+    apply( from = "../../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
@@ -21,7 +23,8 @@ buildscript {
     }
 }
 
-val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
+val isMinJava12 : Boolean by extra
+val javaFxSdkHome : String by extra
 
 val kotlinXCoroutinesCoreCommon : String by extra
 val kotlinXCoroutinesCore       : String by extra
@@ -125,6 +128,8 @@ kotlin {
                     implementation(kotlin("stdlib-common"))
                     implementation(kotlinXCoroutinesCore)
                     implementation(kotlinXCoroutinesJavaFx)
+
+                    compileOnly(fileTree("$javaFxSdkHome/lib"))
                 }
             }
 

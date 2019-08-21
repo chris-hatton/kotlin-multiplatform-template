@@ -1,7 +1,7 @@
 
 buildscript {
 
-    apply( from = "common.gradle.kts")
+    apply( from = "../../../shared.gradle.kts")
 
     val kotlinSerializationPlugin : String by extra
     val kotlinGradlePlugin        : String by extra
