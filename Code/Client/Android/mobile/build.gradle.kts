@@ -5,7 +5,7 @@
  *
  */
 
-apply( from = "$rootDir/common.gradle.kts")
+apply( from = "../../../shared.gradle.kts")
 
 repositories {
     google()

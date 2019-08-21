@@ -12,7 +12,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 buildscript {
 
     // Reads 'common.properties' into Gradle extra
-    apply( from = "common.gradle.kts")
+    apply( from = "../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra

@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
 
-    apply( from = "common.gradle.kts")
+    apply( from = "../../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
@@ -75,11 +75,10 @@ plugins {
 
     id("com.android.library") apply false
 
-    val kotlinVersion = "1.3.41"
     kotlin("jvm" )
     id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
-    id("kotlinx-serialization") version kotlinVersion
-    id("org.openjfx.javafxplugin") version "0.0.7"
+    id("kotlinx-serialization")
+    id("org.openjfx.javafxplugin") version "0.0.8"
     id("org.beryx.runtime") version "1.2.1"
 }
 
@@ -128,6 +127,7 @@ configurations {
 
 dependencies {
 
+    implementation(project(path = ":coroutines-ui")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }

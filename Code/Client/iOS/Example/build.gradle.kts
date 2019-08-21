@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
-apply( from = "../../../common.gradle.kts")
+apply( from = "../../../shared.gradle.kts")
 
 val kotlinXCoroutinesNative           : String by extra
 val ktorClientIos                     : String by extra
