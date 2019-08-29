@@ -2,12 +2,12 @@
 // Allow Gradle to follow meta-data to resolve multi-platform artifacts
 enableFeaturePreview("GRADLE_METADATA")
 
-buildCache {
-    local<DirectoryBuildCache> {
-        directory = File(rootDir, "build-cache")
-        removeUnusedEntriesAfterDays = 30
-    }
-}
+//buildCache {
+//    local<DirectoryBuildCache> {
+//        directory = File(rootDir, "build-cache")
+//        removeUnusedEntriesAfterDays = 30
+//    }
+//}
 
 // Workaround for: https://youtrack.jetbrains.com/issue/KT-27612
 pluginManagement {
@@ -26,6 +26,7 @@ pluginManagement {
     val kotlinSerializationPlugin : String by extra
     val kotlinGradlePlugin        : String by extra
     val javaFxPlugin              : String by extra
+    val bintrayGradlePlugin       : String by extra
 
     /**
      * Having resolutionStrategy defined here allows plugin ID's nominated in the `plugins {}` block of each
@@ -35,9 +36,11 @@ pluginManagement {
         eachPlugin {
             val module = when(requested.id.id) {
                 "org.jetbrains.kotlin.jvm",
+                "org.jetbrains.kotlin.multiplatform",
                 "kotlin-multiplatform"     -> kotlinGradlePlugin
                 "kotlinx-serialization"    -> kotlinSerializationPlugin
                 "com.android.library"      -> androidGradlePlugin
+                "com.jfrog.bintray"        -> bintrayGradlePlugin
                 //"org.openjfx.javafxplugin" -> "org.openjfx:javafx-plugin:0.0.9-SNAPSHOT" //javaFxPlugin
                 else -> return@eachPlugin
             }

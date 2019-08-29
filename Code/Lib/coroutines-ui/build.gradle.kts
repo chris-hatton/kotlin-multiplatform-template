@@ -2,27 +2,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+apply( from = "../../shared.gradle.kts")
 apply( from = "../javafx.build.gradle.kts" )
-
-buildscript {
-
-    apply( from = "../../shared.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-    val androidGradlePlugin       : String by extra
-
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-        classpath(androidGradlePlugin)
-    }
-}
 
 val isMinJava12 : Boolean by extra
 val javaFxSdkHome : String by extra
@@ -47,6 +28,7 @@ repositories {
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("maven-publish")
 }
 
 android {
@@ -57,12 +39,14 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
 
+    // The Android Plugin is not aware of the Kotlin Multi-platform folder structure, so needs direction to these files.
     sourceSets {
         get("main").apply {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -81,26 +65,26 @@ val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String
 val javaFxModules = arrayOf("javafx.controls","javafx.fxml","javafx.base","javafx.graphics")
 val allModules = javaFxModules + arrayOf("java.logging")
 
-tasks.withType<KotlinCompile> {
-    group   = "org.chrishatton.coroutinesui"
-    version = "1.0"
+val versionName = "0.0.1"
 
+group   = "org.chrishatton"
+version = versionName
+
+tasks.withType<KotlinCompile> {
     sourceCompatibility = JavaVersion.VERSION_12.toString()
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
 tasks.withType<JavaCompile> {
-    group   = "org.chrishatton.coroutinesui"
-    version = "1.0"
-
     sourceCompatibility = JavaVersion.VERSION_12.toString()
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
 kotlin {
 
-    android() {
+    android("android") {
         attributes.attribute(frameworkAtribute, "android")
+        publishLibraryVariants("release", "debug") // Required for Android to publish
     }
 
     if(isMinJava12) {
@@ -175,6 +159,25 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+            }
+        }
+    }
+}
+
+val bintrayRepo      = findProperty("bintray.repo") as? String
+val bintrayUser      = findProperty("bintray.user") as? String
+val bintrayKey       = findProperty("bintray.key" ) as? String
+
+val bintrayPublishUrl = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/coroutines-ui/;publish=0;override=1"
+logger.info("Publish URL: $bintrayPublishUrl")
+
+publishing {
+    repositories {
+        maven(bintrayPublishUrl) {
+            name = "bintray"
+            credentials {
+                username = bintrayUser
+                password = bintrayKey
             }
         }
     }
