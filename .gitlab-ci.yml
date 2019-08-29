@@ -7,23 +7,22 @@ before_script:
 
 stages:
   - buildAndTest
+  - publishLibs
   - deploy
   - document
 
-build:
+buildAndTest:
   stage: buildAndTest
   script:
     - cd Code
+    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
     - ./gradlew buildAndTestApp
   cache:
     key: "$CI_COMMIT_REF_NAME-App"
     policy: pull-push
     paths:
       - .gradle/wrapper
-      - Code/Server/build-cache
-      - Code/Client/Desktop/build-cache
-      - Code/Client/Android/build-cache
-      - Code/Client/iOS/Supporting Files/build-cache
+      - .gradle/caches
       - Code/Server/build
       - Code/Shared/build
       - Code/Lib/multi-mvp/build
@@ -53,19 +52,34 @@ build:
         - Code/Client/Android/android-client-shared/build/reports/**/*.xml
         - Code/Client/Android/mobile/build/reports/**/*.xml
 
+publishLibs:
+  only:
+    - master
+  stage: publishLibs
+  script:
+    - cd Code
+    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - ./gradlew publishLibs
+  cache:
+    key: "${CI_COMMIT_REF_NAME}-App"
+    policy: pull
+    paths:
+      - Code/Lib/coroutines-ui/build
+      - Code/Lib/multi-mvp/build
+
 deploy-server:
   only:
     - master
   stage: deploy
   script:
     - cd Code
+    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
     - ./gradlew deployOnlyApp
     - cp Server/build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
   cache:
     key: "${CI_COMMIT_REF_NAME}-App"
     policy: pull
     paths:
-      - Code/Server/build-cache
       - Code/Server/build
       - Code/Shared/build
 
@@ -78,8 +92,10 @@ deploy-server:
 #     - master
 #   stage: document-client
 #   script:
-#     - cd Code/Client
-#     - ./gradlew --build-cache dokka
+#     - cd Code
+#     - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+#     - cd Client
+#     - ./gradlew dokka
 #     - rm -rf /usr/share/nginx/html/example/doc/client/*
 #     - cp -R build/javadoc/client/* /usr/share/nginx/html/example/doc/client
 #     - cp build/javadoc/style.css /usr/share/nginx/html/example/doc
@@ -97,14 +113,16 @@ document-server:
     - master
   stage: document
   script:
-    - cd Code/Server
-    - ./gradlew --build-cache dokka
+    - cd Code
+    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - cd Server
+    - ./gradlew dokka
     - mkdir -p /usr/share/nginx/html/example/doc/server/
     - rm -rf /usr/share/nginx/html/example/doc/server/*
     - cp -R build/javadoc/server/* /usr/share/nginx/html/example/doc/server/
     - cp build/javadoc/style.css /usr/share/nginx/html/example/doc/
   cache:
-    key: "${CI_COMMIT_REF_NAME}-Server"
+    key: "${CI_COMMIT_REF_NAME}-App"
     policy: pull
     paths:
       - build

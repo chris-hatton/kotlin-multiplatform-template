@@ -88,6 +88,12 @@ fun loadSubstitutedPropertiesToExtra(fileName: String) {
 
 loadSubstitutedPropertiesToExtra(fileName = buildscript.sourceFile!!.parent + "/shared.properties")
 
+val localPropertiesFilename = buildscript.sourceFile!!.parent + "/shared.local.properties"
+val localPropertiesFile = File(localPropertiesFilename)
+if(localPropertiesFile.exists()) {
+    loadSubstitutedPropertiesToExtra(fileName = localPropertiesFilename)
+}
+
 // Define project dependencies by conventional module path
 
 extra["androidClientCommonProject"] = { project(":android-client-shared") } //as ()->ProjectDependency

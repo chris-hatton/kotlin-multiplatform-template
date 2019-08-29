@@ -1,30 +1,11 @@
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
+apply( from = "../../shared.gradle.kts")
 apply( from = "../javafx.build.gradle.kts" )
 
-buildscript {
-
-    apply( from = "../../shared.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-    val androidGradlePlugin       : String by extra
-
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-        classpath(androidGradlePlugin)
-    }
-}
-
-val isMinJava12 : Boolean by extra
-val javaFxSdkHome : String by extra
+val isMinJava12   : Boolean by extra
+val javaFxSdkHome : String  by extra
 
 val kotlinXCoroutinesCoreCommon : String by extra
 val kotlinXCoroutinesCore       : String by extra
@@ -43,7 +24,13 @@ repositories {
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("maven-publish")
 }
+
+val versionName = "0.0.1"
+
+group   = "org.chrishatton"
+version = versionName
 
 android {
     compileSdkVersion(29)
@@ -59,6 +46,7 @@ android {
         }
     }
 
+    // The Android Plugin is not aware of the Kotlin Multi-platform folder structure, so needs direction to these files.
     sourceSets {
         get("main").apply {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -72,18 +60,23 @@ android {
     }
 }
 
+// Used to disambiguate same-platform targets i.e. Both JavaFx and Server are JVM
 val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
 
-    android() {
+    android("android") {
         attributes.attribute(frameworkAtribute, "android")
+        publishLibraryVariants("release", "debug") // Required for Android to publish
     }
 
+    // We are using JavaFx 12, so if the host machine isn't running JRE 12+ compilation will fail.
     if(isMinJava12) {
         jvm("javafx") {
             attributes.attribute(frameworkAtribute, "javafx")
         }
+    } else {
+        logger.warn("JavaFx target will not be built because the host machine isn't running JDK >= 12.")
     }
 
     targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
@@ -151,6 +144,25 @@ kotlin {
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+            }
+        }
+    }
+}
+
+val bintrayRepo      = findProperty("bintray.repo") as? String
+val bintrayUser      = findProperty("bintray.user") as? String
+val bintrayKey       = findProperty("bintray.key" ) as? String
+
+val bintrayPublishUrl = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/multi-mvp/;publish=0;override=1"
+logger.info("Publish URL: $bintrayPublishUrl")
+
+publishing {
+    repositories {
+        maven(bintrayPublishUrl) {
+            name = "bintray"
+            credentials {
+                username = bintrayUser
+                password = bintrayKey
             }
         }
     }
