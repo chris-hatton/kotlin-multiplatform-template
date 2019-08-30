@@ -18,6 +18,8 @@ val tornadoFx : String by extra
 
 val iosTargetName : String by extra
 
+val publishVersion = "0.0.1-SNAPSHOT"
+
 repositories {
     google()
     jcenter()
@@ -37,7 +39,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = 1
-        versionName = "1.0"
+        versionName = publishVersion
     }
 
     buildTypes {
@@ -65,10 +67,8 @@ val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String
 val javaFxModules = arrayOf("javafx.controls","javafx.fxml","javafx.base","javafx.graphics")
 val allModules = javaFxModules + arrayOf("java.logging")
 
-val versionName = "0.0.1"
-
 group   = "org.chrishatton"
-version = versionName
+version = publishVersion
 
 tasks.withType<KotlinCompile> {
     sourceCompatibility = JavaVersion.VERSION_12.toString()
@@ -168,16 +168,26 @@ val bintrayRepo      = findProperty("bintray.repo") as? String
 val bintrayUser      = findProperty("bintray.user") as? String
 val bintrayKey       = findProperty("bintray.key" ) as? String
 
-val bintrayPublishUrl = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/coroutines-ui/;publish=0;override=1"
-logger.info("Publish URL: $bintrayPublishUrl")
+val bintrayPublishUrl       = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/coroutines-ui"
+val jfrogSnapshotPublishUrl = "http://oss.jfrog.org/artifactory/oss-snapshot-local"
 
 publishing {
     repositories {
-        maven(bintrayPublishUrl) {
-            name = "bintray"
-            credentials {
-                username = bintrayUser
-                password = bintrayKey
+        if(publishVersion.endsWith("-SNAPSHOT")) {
+            maven(jfrogSnapshotPublishUrl) {
+                name = "jfrog-snapshots"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
+            }
+        } else {
+            maven(bintrayPublishUrl) {
+                name = "bintray"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
             }
         }
     }

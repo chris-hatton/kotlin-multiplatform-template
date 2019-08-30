@@ -15,6 +15,8 @@ val kotlinXCoroutinesJavaFx     : String by extra
 
 val iosTargetName : String by extra
 
+val publishVersion = "0.0.1-SNAPSHOT"
+
 repositories {
     google()
     jcenter()
@@ -27,10 +29,8 @@ plugins {
     id("maven-publish")
 }
 
-val versionName = "0.0.1"
-
 group   = "org.chrishatton"
-version = versionName
+version = publishVersion
 
 android {
     compileSdkVersion(29)
@@ -38,7 +38,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = 1
-        versionName = "1.0"
+        versionName = publishVersion
     }
     buildTypes {
         getByName("release") {
@@ -153,16 +153,28 @@ val bintrayRepo      = findProperty("bintray.repo") as? String
 val bintrayUser      = findProperty("bintray.user") as? String
 val bintrayKey       = findProperty("bintray.key" ) as? String
 
-val bintrayPublishUrl = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/multi-mvp/;publish=0;override=1"
-logger.info("Publish URL: $bintrayPublishUrl")
+val bintrayPublishUrl       = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/multi-mvp"
+val jfrogSnapshotPublishUrl = "http://oss.jfrog.org/artifactory/oss-snapshot-local"
 
 publishing {
     repositories {
-        maven(bintrayPublishUrl) {
-            name = "bintray"
-            credentials {
-                username = bintrayUser
-                password = bintrayKey
+        if(publishVersion.endsWith("-SNAPSHOT")) {
+            // Publish snapshot to JFrog
+            maven(jfrogSnapshotPublishUrl) {
+                name = "jfrog-snapshots"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
+            }
+        } else {
+            // Publish release to Bintray
+            maven(bintrayPublishUrl) {
+                name = "bintray"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
             }
         }
     }
