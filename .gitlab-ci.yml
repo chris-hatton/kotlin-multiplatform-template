@@ -13,6 +13,8 @@ stages:
 
 buildAndTest:
   stage: buildAndTest
+  tags:
+    - large
   script:
     - cd Code
     - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
@@ -53,6 +55,8 @@ buildAndTest:
         - Code/Client/Android/mobile/build/reports/**/*.xml
 
 publishLibs:
+  tags:
+    - large
   only:
     - master
   stage: publishLibs
@@ -68,6 +72,8 @@ publishLibs:
       - Code/Lib/multi-mvp/build
 
 deploy-server:
+  tags:
+    - nas
   only:
     - master
   stage: deploy
@@ -109,6 +115,8 @@ deploy-server:
 # Uses Kotlin's 'Dokka' plugin to generate and deploy documentation for the Server project
 # (including the supporting 'Shared' framework)
 document-server:
+  tags:
+    - nas
   only:
     - master
   stage: document
