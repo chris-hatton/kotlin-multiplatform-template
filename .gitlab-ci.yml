@@ -17,7 +17,7 @@ buildAndTest:
     - large
   script:
     - cd Code
-    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - cp ~/Properties/MultiplatformTemplate/local.properties .
     - ./gradlew buildAndTestApp
   cache:
     key: "$CI_COMMIT_REF_NAME-App"
@@ -62,7 +62,7 @@ publishLibs:
   stage: publishLibs
   script:
     - cd Code
-    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - cp ~/Properties/MultiplatformTemplate/local.properties .
     - ./gradlew publishLibs
   cache:
     key: "${CI_COMMIT_REF_NAME}-App"
@@ -79,7 +79,7 @@ deploy-server:
   stage: deploy
   script:
     - cd Code
-    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - cp ~/Properties/MultiplatformTemplate/local.properties .
     - ./gradlew deployOnlyApp
     - cp Server/build/libs/Server-0.0.1.war /var/lib/jetty/webapps/root.war
   cache:
@@ -99,7 +99,7 @@ deploy-server:
 #   stage: document-client
 #   script:
 #     - cd Code
-#     - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+#     - cp ~/Properties/MultiplatformTemplate/local.properties .
 #     - cd Client
 #     - ./gradlew dokka
 #     - rm -rf /usr/share/nginx/html/example/doc/client/*
@@ -122,7 +122,7 @@ document-server:
   stage: document
   script:
     - cd Code
-    - cp ~/Properties/MultiplatformTemplate/shared.local.properties .
+    - cp ~/Properties/MultiplatformTemplate/local.properties .
     - cd Server
     - ./gradlew dokka
     - mkdir -p /usr/share/nginx/html/example/doc/server/

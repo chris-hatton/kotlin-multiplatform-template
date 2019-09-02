@@ -32,4 +32,4 @@ Code/Server/build-cache
 Code/Client/Desktop/build-cache
 Code/Client/iOS/Supporting Files/build-cache
 Code/Lib/coroutines-ui/build
-Code/shared.local.properties
+Code/local.properties

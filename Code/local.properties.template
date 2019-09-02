@@ -1,0 +1,24 @@
+
+# Local Environment Properties for the Multiplatform Template Project
+# 
+# This file must be copied (or renamed) to `local.properties` and
+# then edited to correct values.
+#
+# See the 'Getting Starting' page at:
+# https://git.chrishatton.org/chris/kotlin-multiplatform-template/wikis/Getting-Started
+
+# Android Settings
+sdk.dir=
+ndk.dir=
+
+# JavaFX Settings
+jdkFxPlatformsHome=
+javaFxSdkHome=
+
+# Library Publishing Settings
+bintray.user=
+bintray.key=
+bintray.repo=
+bintray.userEmail=
+publish.vcsUrl=
+publish.author=

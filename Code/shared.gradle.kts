@@ -5,7 +5,7 @@ import java.util.Locale
  * This script is applied by the build-scripts of every sub-project in the Multi-Platform template project.
  * It provides these centralized functions:
  * - Dependency versions; where one file 'shared.properties' sets dependency versions for the entire project.
- * - Operating System determination; whether the build is occurring on Linux/Mac/Windows.
+ * - Determines the Operating System; whether the build is occurring on Linux/Mac/Windows.
  */
 
 /**
@@ -88,7 +88,7 @@ fun loadSubstitutedPropertiesToExtra(fileName: String) {
 
 loadSubstitutedPropertiesToExtra(fileName = buildscript.sourceFile!!.parent + "/shared.properties")
 
-val localPropertiesFilename = buildscript.sourceFile!!.parent + "/shared.local.properties"
+val localPropertiesFilename = buildscript.sourceFile!!.parent + "/local.properties"
 val localPropertiesFile = File(localPropertiesFilename)
 if(localPropertiesFile.exists()) {
     loadSubstitutedPropertiesToExtra(fileName = localPropertiesFilename)
@@ -108,5 +108,3 @@ val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
 }
 
 extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"
-
-

@@ -163,9 +163,8 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 }
 
-val jdkFxPlatformsHomeKey = "JDK_FX_PLATFORMS_HOME"
-val jdkFxPlatformsBaseFolder : String? = System.getenv(jdkFxPlatformsHomeKey)
-val isMultiPlatformRuntime = (jdkFxPlatformsBaseFolder != null)
+val jdkFxPlatformsHome : String by extra
+val isMultiPlatformRuntime = (jdkFxPlatformsHome != null)
 val platformIdentifiers = listOf("linux","windows","osx")
 
 runtime {
@@ -183,17 +182,17 @@ runtime {
     addModules(*allModules)
 
     if(isMultiPlatformRuntime) {
-        if(!File(jdkFxPlatformsBaseFolder).exists()) {
-            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsBaseFolder'.")
-        }
+//        if(!File(jdkFxPlatformsHome).exists()) {
+//            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsHome'.")
+//        }
 
-        println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsBaseFolder'")
+ //       println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsHome'")
         println("Will attempt to build runtime images for: ${platformIdentifiers.joinToString(", ")}")
 
         val jdkBaseName = "jdk-12.0.2"
 
         fun createPlatformPath(identifier: String)
-                = jdkFxPlatformsBaseFolder + File.separator + jdkBaseName + "-" + identifier
+                = jdkFxPlatformsHome + File.separator + jdkBaseName + "-" + identifier
 
         platformIdentifiers.forEach { platformIdentifier ->
             val platformFolder = createPlatformPath(platformIdentifier)
@@ -206,7 +205,7 @@ runtime {
             println(outcomeMessage)
         }
     } else {
-        println("Environment variable $jdkFxPlatformsHomeKey not set")
+        //println("Environment variable $jdkFxPlatformsHomeKey not set")
         println("Building runtime image for host platform only")
     }
 }
