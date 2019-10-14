@@ -13,6 +13,10 @@ val kotlinXCoroutinesNative     : String by extra
 val kotlinXCoroutinesAndroid    : String by extra
 val kotlinXCoroutinesJavaFx     : String by extra
 
+val androidXAppCompat : String by extra
+val androidXFragment  : String by extra
+val androidXActivity  : String by extra
+
 val iosTargetName : String by extra
 
 val publishVersion = "0.0.1-SNAPSHOT"
@@ -138,6 +142,9 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXCoroutinesAndroid)
+                implementation(androidXAppCompat)
+                implementation(androidXFragment)
+                implementation(androidXActivity)
             }
         }
 

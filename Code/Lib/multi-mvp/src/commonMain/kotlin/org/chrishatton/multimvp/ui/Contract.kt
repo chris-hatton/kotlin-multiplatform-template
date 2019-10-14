@@ -1,15 +1,18 @@
 package org.chrishatton.multimvp.ui
 
-interface Contract {
+import kotlinx.coroutines.CoroutineScope
 
-    interface View<P: Presenter<Self, P>,Self: View<P, Self>> : Contract {
-        val presenter : P
+/**
+ * The basic Contract for all MVP Presenters/Views.
+ */
+interface Contract : CoroutineScope {
+
+    interface Presenter<out V: View<Self, V>, out Self: Presenter<V, Self>> : Contract, Cycleable {
+        val view : V
     }
 
-    interface Presenter<V: View<Self, V>,Self: Presenter<V, Self>> : Contract {
-        val view : V
+    interface View<out P: Presenter<Self, P>, out Self: View<P, Self>> : Contract {
+        val presenter : P
 
-        fun onAttach()
-        fun onDetach()
     }
 }
