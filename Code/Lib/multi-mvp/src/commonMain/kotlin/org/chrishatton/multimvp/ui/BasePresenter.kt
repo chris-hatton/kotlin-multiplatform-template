@@ -3,24 +3,21 @@ package org.chrishatton.multimvp.ui
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlin.coroutines.CoroutineContext
 
-abstract class BasePresenter<out V: Contract.View<Self, V>,Self: Contract.Presenter<V, Self>>(override val view : V) : Contract.Presenter<V,Self>,
-    CoroutineScope {
+abstract class BasePresenter<out V: Contract.View<Self, V>,Self: Contract.Presenter<V, Self>>(override val view : V) : Contract.Presenter<V,Self> {
 
-    private var _coroutineContext : CoroutineContext? = null
-    private var _job : Job? = null
-
-    final override val coroutineContext: CoroutineContext
-        get() = _coroutineContext ?: throw IllegalStateException("Attempt to access coroutineContext while this Fragment is detached")
+    override var lifecycleScope: CoroutineScope? = null
 
     override fun start() {
-        val job = Job().also { _job = it }
-        _coroutineContext = Dispatchers.Default + job
+        require(lifecycleScope==null)
+        lifecycleScope = CoroutineScope(Dispatchers.Default)
     }
 
     override fun stop() {
-        _job?.cancel() ?: throw IllegalStateException("Call to stop() but the presenter was not start()ed")
-        _job = null
+        require(lifecycleScope!=null)
+        lifecycleScope?.cancel("${this::class.simpleName} lifecycle end")
+        lifecycleScope = null
     }
 }

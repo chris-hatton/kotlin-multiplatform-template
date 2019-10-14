@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.cancel
 
 /**
  * A base View on top of PreCom's 'WorkflowScanScreenBase'.
@@ -19,11 +20,9 @@ abstract class BaseViewActivity<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
      */
     abstract override val presenter: P
 
-    private var _coroutineContext : CoroutineContext? = null
-    private var _job : Job? = null
+    override var lifecycleScope : CoroutineScope? = null
 
-    final override val coroutineContext: CoroutineContext
-        get() = _coroutineContext ?: throw IllegalStateException("Attempt to access coroutineContext while this Fragment is detached")
+    private object LifecycleLock
 
     /**
      * This is an Android Activity life-cycle callback.
@@ -31,10 +30,12 @@ abstract class BaseViewActivity<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
      * of this [CoroutineScope]passing `start` to the Views Presenter.
      */
     override fun onStart() {
-        super.onStart()
-        val job = Job().also { _job = it }
-        _coroutineContext = Dispatchers.Main + job // View-scope coroutines use the 'Main thread' Dispatcher
-        presenter.start()
+        synchronized(LifecycleLock) {
+            require(lifecycleScope==null)
+            super.onStart()
+            lifecycleScope = CoroutineScope(Dispatchers.Main)
+            presenter.start()
+        }
     }
 
     /**
@@ -43,10 +44,11 @@ abstract class BaseViewActivity<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
      * Presenter and cancelling the job & context of this [CoroutineScope].
      */
     override fun onStop() {
-        presenter.stop()
-        _job!!.cancel()
-        _job = null
-        _coroutineContext = null
-        super.onStop()
+        synchronized(LifecycleLock) {
+            require(lifecycleScope!=null)
+            presenter.stop()
+            lifecycleScope?.cancel()
+            super.onStop()
+        }
     }
 }
