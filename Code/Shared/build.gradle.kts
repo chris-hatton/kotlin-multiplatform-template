@@ -38,6 +38,7 @@ val kotlinXSerializationRuntimeNative : String by extra
 val ktorClientJsonNative              : String by extra
 val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
+val klock                             : String by extra
 
 val iosTargetName : String by extra
 
@@ -128,6 +129,7 @@ kotlin {
 
                 implementation(kotlinXSerializationRuntimeCommon)
                 implementation(kotlinXCoroutinesCore)
+                implementation(klock)
             }
         }
         val commonTest by getting {

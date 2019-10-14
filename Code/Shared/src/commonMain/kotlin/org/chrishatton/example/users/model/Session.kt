@@ -1,4 +1,4 @@
-package org.chrishatton.example.users
+package org.chrishatton.example.users.model
 
 import com.soywiz.klock.DateTime
 import org.chrishatton.example.users.model.User

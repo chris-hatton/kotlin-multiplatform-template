@@ -5,6 +5,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import org.chrishatton.multimvp.ui.Contract
 import org.chrishatton.example.model.Validated
 
 @FlowPreview
