@@ -1,27 +1,11 @@
 
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
-buildscript {
+apply( from = "../../shared.gradle.kts")
+apply( from = "../javafx.build.gradle.kts" )
 
-    apply( from = "common.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-    val androidGradlePlugin       : String by extra
-
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-        classpath(androidGradlePlugin)
-    }
-}
-
-val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
+val isMinJava12   : Boolean by extra
+val javaFxSdkHome : String  by extra
 
 val kotlinXCoroutinesCoreCommon : String by extra
 val kotlinXCoroutinesCore       : String by extra
@@ -29,7 +13,13 @@ val kotlinXCoroutinesNative     : String by extra
 val kotlinXCoroutinesAndroid    : String by extra
 val kotlinXCoroutinesJavaFx     : String by extra
 
+val androidXAppCompat : String by extra
+val androidXFragment  : String by extra
+val androidXActivity  : String by extra
+
 val iosTargetName : String by extra
+
+val publishVersion = "0.0.1-SNAPSHOT"
 
 repositories {
     google()
@@ -40,7 +30,11 @@ repositories {
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("maven-publish")
 }
+
+group   = "org.chrishatton"
+version = publishVersion
 
 android {
     compileSdkVersion(29)
@@ -48,7 +42,7 @@ android {
         minSdkVersion(21)
         targetSdkVersion(29)
         versionCode = 1
-        versionName = "1.0"
+        versionName = publishVersion
     }
     buildTypes {
         getByName("release") {
@@ -56,6 +50,7 @@ android {
         }
     }
 
+    // The Android Plugin is not aware of the Kotlin Multi-platform folder structure, so needs direction to these files.
     sourceSets {
         get("main").apply {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -69,18 +64,23 @@ android {
     }
 }
 
+// Used to disambiguate same-platform targets i.e. Both JavaFx and Server are JVM
 val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
 
-    android() {
+    android("android") {
         attributes.attribute(frameworkAtribute, "android")
+        publishLibraryVariants("release", "debug") // Required for Android to publish
     }
 
+    // We are using JavaFx 12, so if the host machine isn't running JRE 12+ compilation will fail.
     if(isMinJava12) {
         jvm("javafx") {
             attributes.attribute(frameworkAtribute, "javafx")
         }
+    } else {
+        logger.warn("JavaFx target will not be built because the host machine isn't running JDK >= 12.")
     }
 
     targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
@@ -125,6 +125,8 @@ kotlin {
                     implementation(kotlin("stdlib-common"))
                     implementation(kotlinXCoroutinesCore)
                     implementation(kotlinXCoroutinesJavaFx)
+
+                    compileOnly(fileTree("$javaFxSdkHome/lib"))
                 }
             }
 
@@ -140,12 +142,46 @@ kotlin {
                 implementation(kotlin("stdlib-common"))
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXCoroutinesAndroid)
+                implementation(androidXAppCompat)
+                implementation(androidXFragment)
+                implementation(androidXActivity)
             }
         }
 
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+            }
+        }
+    }
+}
+
+val bintrayRepo      = findProperty("bintray.repo") as? String
+val bintrayUser      = findProperty("bintray.user") as? String
+val bintrayKey       = findProperty("bintray.key" ) as? String
+
+val bintrayPublishUrl       = "https://api.bintray.com/maven/$bintrayUser/$bintrayRepo/multi-mvp"
+val jfrogSnapshotPublishUrl = "http://oss.jfrog.org/artifactory/oss-snapshot-local"
+
+publishing {
+    repositories {
+        if(publishVersion.endsWith("-SNAPSHOT")) {
+            // Publish snapshot to JFrog
+            maven(jfrogSnapshotPublishUrl) {
+                name = "jfrog-snapshots"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
+            }
+        } else {
+            // Publish release to Bintray
+            maven(bintrayPublishUrl) {
+                name = "bintray"
+                credentials {
+                    username = bintrayUser
+                    password = bintrayKey
+                }
             }
         }
     }

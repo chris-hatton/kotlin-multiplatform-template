@@ -79,9 +79,25 @@ fun registerPlatformTasks(name:String,appBuildTaskNames: Map<Platform,List<Strin
     }
 }
 
+registerPlatformTasks("buildApp",        collectPlatformTaskNames(buildTasks))
+registerPlatformTasks("testApp",         collectPlatformTaskNames(testTasks))
+registerPlatformTasks("buildAndTestApp", collectPlatformTaskNames(buildTasks,testTasks))
+registerPlatformTasks("deployOnlyApp",   collectPlatformTaskNames(deployOnlyTasks))
+
 tasks {
-    registerPlatformTasks("buildApp",        collectPlatformTaskNames(buildTasks))
-    registerPlatformTasks("testApp",         collectPlatformTaskNames(testTasks))
-    registerPlatformTasks("buildAndTestApp", collectPlatformTaskNames(buildTasks,testTasks))
-    registerPlatformTasks("deployOnlyApp",   collectPlatformTaskNames(deployOnlyTasks))
+
+    register("publishMultiMvpLib",GradleBuild::class) {
+        this.dir = file("Lib/multi-mvp")
+        this.tasks = listOf("publish")
+    }
+
+    register("publishCoroutinesUiLib",GradleBuild::class) {
+        this.dir = file("Lib/coroutines-ui")
+        this.tasks = listOf("publish")
+    }
+
+    register("publishLibs") {
+        dependsOn("publishMultiMvpLib", "publishCoroutinesUiLib")
+    }
 }
+

@@ -8,7 +8,7 @@ import com.android.build.gradle.internal.coverage.JacocoReportTask
 
 buildscript {
 
-    apply(from = "$rootDir/common.gradle.kts")
+    apply(from = "../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val androidGradlePlugin       : String by extra

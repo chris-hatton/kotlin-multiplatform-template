@@ -10,7 +10,7 @@
  *
  */
 
-apply( from = "$rootDir/common.gradle.kts")
+apply( from = "../../../shared.gradle.kts")
 
 val androidBuildToolsVersion : String by extra
 val androidCompileSdkVersion : String by extra

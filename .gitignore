@@ -29,9 +29,13 @@ Code/Client/Shared/.gradle
 Code/Client/Shared/build
 Code/Lib/multi-mvp/.gradle
 Code/Lib/multi-mvp/build
+Code/Lib/coroutines-ui/.gradle
+Code/Lib/coroutines-ui/build
 Code/Client/iOS/Supporting Files/build
 Code/Build
 Code/Client/Android/build-cache
 Code/Server/build-cache
 Code/Client/Desktop/build-cache
 Code/Client/iOS/Supporting Files/build-cache
+Code/Lib/coroutines-ui/build
+Code/local.properties

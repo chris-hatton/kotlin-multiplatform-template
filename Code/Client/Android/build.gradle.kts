@@ -3,7 +3,7 @@
 
 buildscript {
 
-    apply( from = "common.gradle.kts")
+    apply( from = "../../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val androidGradlePlugin       : String by extra
@@ -25,8 +25,6 @@ buildscript {
 }
 
 allprojects {
-
-    apply( from = "$rootDir/common.gradle.kts")
 
     repositories {
         google()

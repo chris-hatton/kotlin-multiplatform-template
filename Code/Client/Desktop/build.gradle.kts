@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
 
-    apply( from = "common.gradle.kts")
+    apply( from = "../../shared.gradle.kts")
 
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
@@ -77,11 +77,10 @@ plugins {
 
     id("com.android.library") apply false
 
-    val kotlinVersion = "1.3.41"
     kotlin("jvm" )
     id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
-    id("kotlinx-serialization") version kotlinVersion
-    id("org.openjfx.javafxplugin") version "0.0.7"
+    id("kotlinx-serialization")
+    id("org.openjfx.javafxplugin") version "0.0.8"
     id("org.beryx.runtime") version "1.2.1"
 }
 
@@ -130,6 +129,7 @@ configurations {
 
 dependencies {
 
+    implementation(project(path = ":coroutines-ui")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
@@ -165,9 +165,8 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 }
 
-val jdkFxPlatformsHomeKey = "JDK_FX_PLATFORMS_HOME"
-val jdkFxPlatformsBaseFolder : String? = System.getenv(jdkFxPlatformsHomeKey)
-val isMultiPlatformRuntime = (jdkFxPlatformsBaseFolder != null)
+val jdkFxPlatformsHome : String by extra
+val isMultiPlatformRuntime = (jdkFxPlatformsHome != null)
 val platformIdentifiers = listOf("linux","windows","osx")
 
 runtime {
@@ -185,17 +184,17 @@ runtime {
     addModules(*allModules)
 
     if(isMultiPlatformRuntime) {
-        if(!File(jdkFxPlatformsBaseFolder).exists()) {
-            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsBaseFolder'.")
-        }
+//        if(!File(jdkFxPlatformsHome).exists()) {
+//            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsHome'.")
+//        }
 
-        println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsBaseFolder'")
+ //       println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsHome'")
         println("Will attempt to build runtime images for: ${platformIdentifiers.joinToString(", ")}")
 
         val jdkBaseName = "jdk-12.0.2"
 
         fun createPlatformPath(identifier: String)
-                = jdkFxPlatformsBaseFolder + File.separator + jdkBaseName + "-" + identifier
+                = jdkFxPlatformsHome + File.separator + jdkBaseName + "-" + identifier
 
         platformIdentifiers.forEach { platformIdentifier ->
             val platformFolder = createPlatformPath(platformIdentifier)
@@ -208,7 +207,7 @@ runtime {
             println(outcomeMessage)
         }
     } else {
-        println("Environment variable $jdkFxPlatformsHomeKey not set")
+        //println("Environment variable $jdkFxPlatformsHomeKey not set")
         println("Building runtime image for host platform only")
     }
 }
