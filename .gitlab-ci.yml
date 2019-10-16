@@ -15,14 +15,14 @@ stages:
 
 wakeBuildMachine:
   stage: wakeBuildMachine
-  tag:
+  tags:
     - small
   script:
     - ~/wakeRumpus.sh
 
 shutdownBuildMachine:
   stage: shutdownBuildMachine
-  tag:
+  tags:
     - small
   script:
     - ~/shutdownRumpus.sh
