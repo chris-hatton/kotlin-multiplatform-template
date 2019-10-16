@@ -9,10 +9,11 @@ import kotlinx.android.synthetic.main.fragment_first.view.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.chrishatton.example.ui.FirstContract
 import org.chrishatton.example.ui.FirstPresenter
+import org.chrishatton.multimvp.ui.BaseViewFragment
 
 @InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-class FirstFragment : BaseFragment<FirstContract.View, FirstContract.Presenter>(),
+class FirstFragment : BaseViewFragment<FirstContract.Presenter, FirstContract.View>(),
     FirstContract.View {
 
     override fun displayGreeting(text: String) {

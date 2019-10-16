@@ -22,7 +22,8 @@ class FirstPresenter(
     private lateinit var setNameChannel : Channel<String>
     private lateinit var peopleChannel  : Channel<Pair<Person, Person>>
 
-    override fun onAttach() {
+    override fun start() {
+        super.start()
 
         setNameChannel = Channel()
         peopleChannel  = Channel()
@@ -56,7 +57,8 @@ class FirstPresenter(
         }
     }
 
-    override fun onDetach() {
+    override fun stop() {
+        super.stop()
         setNameChannel.close()
         peopleChannel.close()
     }

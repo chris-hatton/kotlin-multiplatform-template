@@ -6,10 +6,26 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
+  - wakeBuildMachine
   - buildAndTest
   - publishLibs
   - deploy
   - document
+  - shutdownBuildMachine
+
+wakeBuildMachine:
+  stage: wakeBuildMachine
+  tag:
+    - small
+  script:
+    - ~/wakeRumpus.sh
+
+shutdownBuildMachine:
+  stage: shutdownBuildMachine
+  tag:
+    - small
+  script:
+    - ~/shutdownRumpus.sh
 
 buildAndTest:
   stage: buildAndTest
