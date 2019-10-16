@@ -60,15 +60,15 @@ buildAndTest:
       - Code/Client/Android/tv/build/outputs/apk/**/*.apk
       - Code/Client/Android/mobile/build/outputs/apk/**/*.apk
       - Code/Client/iOS/Example/build/**/*.ipa
-    reports:
-      junit:
-        - Code/Server/build/reports/**/*.xml
-        - Code/Shared/build/reports/**/*.xml
-        - Code/Lib/multi-mvp/build/reports/**/*.xml
-        - Code/Client/Desktop/build/reports/**/*.xml
-        - Code/Client/Shared/build/reports/**/*.xml
-        - Code/Client/Android/android-client-shared/build/reports/**/*.xml
-        - Code/Client/Android/mobile/build/reports/**/*.xml
+    # reports:
+    #   junit:
+    #     - Code/Server/build/reports/**/*.xml
+    #     - Code/Shared/build/reports/**/*.xml
+    #     - Code/Lib/multi-mvp/build/reports/**/*.xml
+    #     - Code/Client/Desktop/build/reports/**/*.xml
+    #     - Code/Client/Shared/build/reports/**/*.xml
+    #     - Code/Client/Android/android-client-shared/build/reports/**/*.xml
+    #     - Code/Client/Android/mobile/build/reports/**/*.xml
 
 publishLibs:
   tags:
