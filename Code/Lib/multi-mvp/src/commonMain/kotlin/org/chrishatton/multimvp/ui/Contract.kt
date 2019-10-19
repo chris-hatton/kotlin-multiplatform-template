@@ -5,7 +5,9 @@ import kotlinx.coroutines.CoroutineScope
 /**
  * The basic Contract for all MVP Presenters/Views.
  */
-interface Contract : CoroutineScope {
+interface Contract {
+
+    val lifecycleScope : CoroutineScope?
 
     interface Presenter<out V: View<Self, V>, out Self: Presenter<V, Self>> : Contract, Cycleable {
         val view : V
@@ -13,6 +15,5 @@ interface Contract : CoroutineScope {
 
     interface View<out P: Presenter<Self, P>, out Self: View<P, Self>> : Contract {
         val presenter : P
-
     }
 }

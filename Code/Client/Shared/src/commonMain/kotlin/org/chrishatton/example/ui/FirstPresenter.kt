@@ -3,6 +3,7 @@ package org.chrishatton.example.ui
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.chrishatton.example.client
@@ -13,6 +14,7 @@ import org.chrishatton.multimvp.ui.BasePresenter
 import org.chrishatton.example.ui.FirstContract.View as View
 import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 
+@FlowPreview
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
 class FirstPresenter(
@@ -58,6 +60,7 @@ class FirstPresenter(
     }
 
     override fun stop() {
+        super.stop()
         setNameChannel.close()
         peopleChannel.close()
         super.stop()

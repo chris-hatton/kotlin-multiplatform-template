@@ -6,10 +6,26 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
+  - wakeBuildMachine
   - buildAndTest
   - publishLibs
   - deploy
-  - document
+  - shutdownBuildMachine
+
+wakeBuildMachine:
+  stage: wakeBuildMachine
+  tags:
+    - small
+  script:
+    - ~/wakeRumpus.sh
+
+shutdownBuildMachine:
+  stage: shutdownBuildMachine
+  when: always
+  tags:
+    - small
+  script:
+    - ~/shutdownRumpus.sh
 
 buildAndTest:
   stage: buildAndTest
@@ -44,15 +60,15 @@ buildAndTest:
       - Code/Client/Android/tv/build/outputs/apk/**/*.apk
       - Code/Client/Android/mobile/build/outputs/apk/**/*.apk
       - Code/Client/iOS/Example/build/**/*.ipa
-    reports:
-      junit:
-        - Code/Server/build/reports/**/*.xml
-        - Code/Shared/build/reports/**/*.xml
-        - Code/Lib/multi-mvp/build/reports/**/*.xml
-        - Code/Client/Desktop/build/reports/**/*.xml
-        - Code/Client/Shared/build/reports/**/*.xml
-        - Code/Client/Android/android-client-shared/build/reports/**/*.xml
-        - Code/Client/Android/mobile/build/reports/**/*.xml
+    # reports:
+    #   junit:
+    #     - Code/Server/build/reports/**/*.xml
+    #     - Code/Shared/build/reports/**/*.xml
+    #     - Code/Lib/multi-mvp/build/reports/**/*.xml
+    #     - Code/Client/Desktop/build/reports/**/*.xml
+    #     - Code/Client/Shared/build/reports/**/*.xml
+    #     - Code/Client/Android/android-client-shared/build/reports/**/*.xml
+    #     - Code/Client/Android/mobile/build/reports/**/*.xml
 
 publishLibs:
   tags:
@@ -96,7 +112,7 @@ deploy-server:
 # document-client:
 #   only:
 #     - master
-#   stage: document-client
+#   stage: buildAndTest
 #   script:
 #     - cd Code
 #     - cp ~/Properties/MultiplatformTemplate/local.properties .
@@ -119,7 +135,7 @@ document-server:
     - nas
   only:
     - master
-  stage: document
+  stage: buildAndTest
   script:
     - cd Code
     - cp ~/Properties/MultiplatformTemplate/local.properties .

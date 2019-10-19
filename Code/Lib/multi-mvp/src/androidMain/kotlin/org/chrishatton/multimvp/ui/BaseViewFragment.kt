@@ -1,29 +1,18 @@
 package org.chrishatton.multimvp.ui
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
+import androidx.fragment.app.Fragment
+import kotlinx.coroutines.*
 
 /**
  * Implementation of a base View for our MVP framework, as backed by an Android Fragment.
  */
 @ExperimentalCoroutinesApi
 abstract class BaseViewFragment<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
-    : Fragment(), CoroutineScope, Contract.View<P,V> {
+    : Fragment(), Contract.View<P,V> {
 
-    /**
-     * According to our MVP framework convention, View implementations must
-     * instantiate their Presenter; typically by implementing a lazy-initialized var.
-     */
-    abstract override val presenter: P
+    override var lifecycleScope : CoroutineScope? = null
 
-    private var _coroutineContext : CoroutineContext? = null
-    private var _job : Job? = null
-
-    final override val coroutineContext: CoroutineContext
-        get() = _coroutineContext ?: throw IllegalStateException("Attempt to access coroutineContext while this Fragment is detached")
+    private object LifecycleLock
 
     /**
      * This is an Android Fragment life-cycle callback.
@@ -31,10 +20,12 @@ abstract class BaseViewFragment<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
      * of this [CoroutineScope]passing `start` to the Views Presenter.
      */
     override fun onStart() {
-        super.onStart()
-        val job = Job().also { _job = it }
-        _coroutineContext = Dispatchers.Main + job
-        presenter.start()
+        synchronized(LifecycleLock) {
+            require(lifecycleScope==null)
+            super.onStart()
+            lifecycleScope = CoroutineScope(Dispatchers.Main)
+            presenter.start()
+        }
     }
 
     /**
@@ -43,9 +34,12 @@ abstract class BaseViewFragment<P:Contract.Presenter<V,P>,V:Contract.View<P,V>>
      * Presenter and cancelling the job & context of this [CoroutineScope].
      */
     override fun onStop() {
-        presenter.stop()
-        _job!!.cancel()
-        _job = null
-        super.onStop()
+        synchronized(LifecycleLock) {
+            require(lifecycleScope!=null)
+            presenter.stop()
+            lifecycleScope?.cancel()
+            lifecycleScope = null
+            super.onStop()
+        }
     }
 }

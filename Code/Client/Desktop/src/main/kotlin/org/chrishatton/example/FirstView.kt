@@ -4,6 +4,7 @@ import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -14,6 +15,9 @@ import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
 class FirstView : BaseView<View,Presenter>(), View {
+
+    override val lifecycleScope: CoroutineScope?
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override val root : Parent by fxml()
 
