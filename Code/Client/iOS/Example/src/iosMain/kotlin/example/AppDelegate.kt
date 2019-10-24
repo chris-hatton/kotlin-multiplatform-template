@@ -1,18 +1,6 @@
-//
-//  AppDelegate.kt
-//  Example
-//
-//  Created by Christopher Hatton on 2019-05-04.
-//  Copyright © 2019 Arvis. All rights reserved.
-//
 
 package example
 
-import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import kotlinx.cinterop.initBy
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
 import org.chrishatton.example.client
@@ -26,8 +14,6 @@ class AppDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     @OverrideInit
     constructor() : super()
-
-    //override fun init() = initBy(AppDelegate())
 
     private var _window: UIWindow? = null
     override fun window() = _window

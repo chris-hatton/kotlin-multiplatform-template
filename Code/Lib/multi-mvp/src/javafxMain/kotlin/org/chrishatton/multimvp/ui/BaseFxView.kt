@@ -1,11 +1,9 @@
 package org.chrishatton.multimvp.ui
 
-import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
-import org.chrishatton.multimvp.util.fxml
 
 /**
  * Base for JavaFX Views which follow the Multiplatorm-template's MVP convention:

@@ -8,9 +8,7 @@ import kotlinx.coroutines.MainScope
 import org.chrishatton.multimvp.util.fxml
 
 /**
- * Base for JavaFX Views which load from an FXML file.
- * In this case, Multi-MVP imposes a convention that the FXML file must nominate a
- * JavaFX Controller class which is the Multi-MVP Presenter.
+ * Base for JavaFX Views which load as Controllers from an FXML file.
  *
  * Failing to nominate a Controller in your FXML file, or nominating one which
  * is not an instance of PC, will result in an error.

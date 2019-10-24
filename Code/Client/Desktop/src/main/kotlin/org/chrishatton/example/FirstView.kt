@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import org.chrishatton.example.ui.FirstPresenter
 import org.chrishatton.multimvp.util.fxml
 import org.chrishatton.multimvp.ui.BaseFxView
+import org.chrishatton.multimvp.ui.BaseFxmlView
 import org.chrishatton.multimvp.util.fxid
 import org.chrishatton.example.ui.FirstContract.View as View
 import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
@@ -15,12 +16,7 @@ import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 @FlowPreview
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class FirstView : BaseFxView<View, Presenter>(), View {
-
-    override val lifecycleScope: CoroutineScope?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-
-    override val root : Parent by fxml()
+class FirstView : BaseFxmlView<View, Presenter>(), View {
 
     val submitButton : Button    by fxid()
     val nameField    : TextField by fxid()
