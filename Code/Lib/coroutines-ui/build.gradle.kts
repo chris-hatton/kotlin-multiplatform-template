@@ -14,8 +14,6 @@ val kotlinXCoroutinesNative     : String by extra
 val kotlinXCoroutinesAndroid    : String by extra
 val kotlinXCoroutinesJavaFx     : String by extra
 
-val tornadoFx : String by extra
-
 val iosTargetName : String by extra
 
 val publishVersion = "0.0.1-SNAPSHOT"
@@ -135,7 +133,6 @@ kotlin {
                     implementation(kotlin("stdlib-common"))
                     implementation(kotlinXCoroutinesCore)
                     implementation(kotlinXCoroutinesJavaFx)
-                    implementation(tornadoFx)
 
                     compileOnly(fileTree("$javaFxSdkHome/lib"))
                 }

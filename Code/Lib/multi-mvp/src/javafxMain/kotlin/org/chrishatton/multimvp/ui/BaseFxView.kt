@@ -1,13 +1,11 @@
-package org.chrishatton.example
+package org.chrishatton.multimvp.ui
 
-import kotlinx.coroutines.CoroutineScope
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
-import org.chrishatton.multimvp.ui.Contract
-import org.chrishatton.multimvp.ui.Cycleable
-import org.chrishatton.multimvp.ui.CycleableMixIn
-import tornadofx.*
+import org.chrishatton.multimvp.util.fxml
 
 /**
  * Base for JavaFX Views which follow the Multiplatorm-template's MVP convention:
@@ -17,17 +15,16 @@ import tornadofx.*
  */
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseView<VC: Contract.View<PC, VC>,PC: Contract.Presenter<VC, PC>>() : View(), Contract.View<PC, VC>,
+abstract class BaseFxView<VC: Contract.View<PC, VC>,PC: Contract.Presenter<VC, PC>> : Contract.View<PC, VC>,
     Cycleable by CycleableMixIn(scopeCreator = ::MainScope) {
 
-    override fun onDock() {
-        super.onDock()
+    abstract val root : Parent
+
+    override fun start() {
         presenter.start()
     }
 
-    override fun onUndock() {
-        super.onUndock()
+    override fun stop() {
         presenter.stop()
     }
-
 }

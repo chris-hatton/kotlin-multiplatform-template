@@ -41,7 +41,6 @@ val currentOs : String by extra
 val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
-val tornadoFxVersion        : String by extra
 val kotlinStandardLibrary8  : String by extra
 val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
@@ -50,7 +49,6 @@ val javaFxFxml              : String by extra
 
 val kotlinXCoroutinesCore   : String by extra
 val kotlinXCoroutinesJavaFx : String by extra
-val tornadoFx               : String by extra
 val ktorClient              : String by extra
 val ktorClientCio           : String by extra
 val ktorClientJson          : String by extra
@@ -137,8 +135,6 @@ dependencies {
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
     implementation(kotlinXCoroutinesJavaFx)
-
-    implementation(tornadoFx)
 
     // Ktor
     implementation(ktorClient)

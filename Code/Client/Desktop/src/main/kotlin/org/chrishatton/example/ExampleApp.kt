@@ -1,11 +1,16 @@
 
 package org.chrishatton.example
 
+import javafx.application.Application
+import javafx.stage.Stage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import tornadofx.*
 
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class ExampleApp : App(FirstView::class, Styles::class)
+class ExampleApp : Application() {
+    override fun start(primaryStage: Stage?) {
+
+    }
+}
 
