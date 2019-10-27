@@ -3,6 +3,7 @@ package org.chrishatton.example.ui
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.takeFrom
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
@@ -38,8 +39,9 @@ class FirstPresenter(
                     println("A")
                     val returnPerson = withContext(ioDispatcher) {
                         client.post<Person> {
+
                             url {
-                                path("$baseUrl/person")
+                                takeFrom("$baseUrl/person")
                             }
                             contentType(ContentType.Application.Json)
                             body = person
