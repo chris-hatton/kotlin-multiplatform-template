@@ -3,12 +3,14 @@ package org.chrishatton.multimvp.util
 import javafx.scene.Parent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 import org.chrishatton.multimvp.ui.BaseFxmlView
 import java.io.InputStream
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 @FlowPreview
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 fun <T: Parent> fxid(id: String? = null) = object : ReadOnlyProperty<BaseFxmlView<*, *>, T> {
     override fun getValue(thisRef: BaseFxmlView<*, *>, property: KProperty<*>): T {
@@ -19,16 +21,15 @@ fun <T: Parent> fxid(id: String? = null) = object : ReadOnlyProperty<BaseFxmlVie
 }
 
 @FlowPreview
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 fun <T:Parent> fxml(name: String? = null) = object : ReadOnlyProperty<BaseFxmlView<*,*>, T> {
 
     private var parent : T? = null
 
-    override fun getValue(thisRef: BaseFxmlView<*, *>, property: KProperty<*>): T {
-        return parent ?: run {
-            val effectiveName = name ?: thisRef.javaClass.simpleName
-            val resourceStream : InputStream = this::class.java.getResourceAsStream(effectiveName)
-            thisRef.fxmlLoader.load<T>(resourceStream)
-        }.also { parent = it }
-    }
+    override fun getValue(thisRef: BaseFxmlView<*, *>, property: KProperty<*>): T = parent ?: run {
+        val effectiveName = (name ?: thisRef.javaClass.simpleName) + ".fxml"
+        val resourceStream : InputStream = thisRef::class.java.getResourceAsStream(effectiveName)
+        thisRef.fxmlLoader.load<T>(resourceStream)
+    }.also { parent = it }
 }

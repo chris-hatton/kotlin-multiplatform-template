@@ -23,7 +23,7 @@ class FirstView : BaseFxmlView<View, Presenter>(), View {
     val replyLabel   : Label     by fxid()
 
     override fun displayGreeting(text: String) {
-        uiScope.launch {
+        lifecycleScope!!.launch {
             replyLabel.text = text
         }
     }
@@ -36,7 +36,7 @@ class FirstView : BaseFxmlView<View, Presenter>(), View {
         super.start()
         submitButton.setOnAction {
             val name = nameField.text
-            processScope.launch {
+            lifecycleScope!!.launch {
                 presenter.didSetName(name)
             }
         }

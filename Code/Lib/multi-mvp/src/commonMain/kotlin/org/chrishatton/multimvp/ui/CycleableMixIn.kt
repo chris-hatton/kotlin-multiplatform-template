@@ -13,7 +13,10 @@ private object LifecycleLock
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class CycleableMixIn(val name: String? = null, val scopeCreator: ()->CoroutineScope) : Cycleable {
+class CycleableMixIn(
+    val name         : String? = null,
+    val scopeCreator : ()->CoroutineScope
+) : Cycleable {
 
     private val phaseChannel = ConflatedBroadcastChannel(Cycleable.Phase.Stopped)
     override val phaseFlow: Flow<Cycleable.Phase> = phaseChannel.asFlow()

@@ -1,34 +1,26 @@
-package org.chrishatton.example
+package org.chrishatton.multimvp.util
 
 import kotlinx.coroutines.*
 import platform.darwin.*
 import kotlin.coroutines.CoroutineContext
 
-@kotlinx.coroutines.InternalCoroutinesApi
-@kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val uiScope = createMainScope()
-
 // TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
 // See https://github.com/Kotlin/kotlinx.coroutines/issues/462
-@kotlinx.coroutines.InternalCoroutinesApi
-@kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val processScope: CoroutineScope = createMainScope()
-
-// TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
-// See https://github.com/Kotlin/kotlinx.coroutines/issues/462
-@kotlinx.coroutines.InternalCoroutinesApi
-@kotlinx.coroutines.ExperimentalCoroutinesApi
-actual val netScope = createMainScope()
-
 @InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-private fun createMainScope() = object : CoroutineScope {
-    private val dispatcher = MainDispatcher
-    private val job = Job()
+actual val uiDispatcher : CoroutineDispatcher = MainDispatcher
 
-    override val coroutineContext: CoroutineContext
-        get() = dispatcher + job
-}
+// TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+// See https://github.com/Kotlin/kotlinx.coroutines/issues/462
+@InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+actual val processDispatcher : CoroutineDispatcher = MainDispatcher
+
+// TODO: Use background Dispatcher when K/N Coroutines implementation can support it.
+// See https://github.com/Kotlin/kotlinx.coroutines/issues/462
+@kotlinx.coroutines.InternalCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+actual val ioDispatcher : CoroutineDispatcher = MainDispatcher
 
 /**
  * Implementation inspired by:
@@ -36,7 +28,7 @@ private fun createMainScope() = object : CoroutineScope {
  */
 @InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-private object MainDispatcher: CoroutineDispatcher(), Delay {
+private object MainDispatcher : CoroutineDispatcher(), Delay {
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         dispatch_async(dispatch_get_main_queue()) {
