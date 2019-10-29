@@ -121,7 +121,7 @@ kotlin {
         commonMain {
             dependencies {
 
-                api(project(path = ":multi-mvp"))
+                api("org.chrishatton:multi-mvp:0.0.1-SNAPSHOT")
 
                 implementation(project(path = ":shared"))
 

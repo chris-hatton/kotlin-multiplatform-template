@@ -125,10 +125,11 @@ configurations {
 
 dependencies {
 
-    implementation(project(path = ":coroutines-ui")) { attributes { attribute(frameworkAtribute, "javafx") } }
-    implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
+
+    implementation("org.chrishatton:coroutines-ui:0.0.1-SNAPSHOT")
+    implementation("org.chrishatton:multi-mvp:0.0.1-SNAPSHOT")
 
     implementation(kotlinStandardLibrary8)
 
