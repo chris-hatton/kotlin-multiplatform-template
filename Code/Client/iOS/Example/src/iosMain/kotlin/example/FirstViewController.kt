@@ -5,8 +5,12 @@ import kotlinx.cinterop.ExportObjCClass
 import kotlinx.cinterop.ObjCAction
 import kotlinx.cinterop.ObjCOutlet
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.MainScope
 import org.chrishatton.example.ui.FirstPresenter
+import org.chrishatton.multimvp.ui.Cycleable
+import org.chrishatton.multimvp.ui.CycleableMixIn
 import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 import org.chrishatton.example.ui.FirstContract.View as View
 import platform.Foundation.NSCoder
@@ -15,6 +19,7 @@ import platform.UIKit.UILabel
 import platform.UIKit.UITextField
 import platform.UIKit.UIViewController
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @ExportObjCClass
 @InternalCoroutinesApi
@@ -44,7 +49,10 @@ class FirstViewController : UIViewController {
 
     private val viewAdapter = FirstViewAdapter()
 
-    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, View, Presenter>(), View {
+    @FlowPreview
+    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, View, Presenter>(), View,
+        Cycleable by CycleableMixIn(scopeCreator = ::MainScope) {
+
         override fun displayGreeting(text: String) {
             label.text = text
         }

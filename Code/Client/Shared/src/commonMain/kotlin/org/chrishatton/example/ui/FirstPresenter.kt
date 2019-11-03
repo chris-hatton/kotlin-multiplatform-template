@@ -3,14 +3,15 @@ package org.chrishatton.example.ui
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.takeFrom
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.chrishatton.example.client
 import org.chrishatton.example.model.Person
-import org.chrishatton.example.netScope
-import org.chrishatton.example.uiScope
 import org.chrishatton.multimvp.ui.BasePresenter
+import org.chrishatton.multimvp.util.ioDispatcher
 import org.chrishatton.example.ui.FirstContract.View as View
 import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 
@@ -26,21 +27,25 @@ class FirstPresenter(
 
     override fun start() {
         super.start()
+        require(lifecycleScope!=null)
 
         setNameChannel = Channel()
         peopleChannel  = Channel()
 
-        netScope.launch {
+        lifecycleScope.launch {
             for (name in setNameChannel) {
                 val person = Person(names = name.split(" "))
                 val otherPerson = try {
                     println("A")
-                    val returnPerson = client.post<Person> {
-                        url {
-                            path("$baseUrl/person")
+                    val returnPerson = withContext(ioDispatcher) {
+                        client.post<Person> {
+
+                            url {
+                                takeFrom("$baseUrl/person")
+                            }
+                            contentType(ContentType.Application.Json)
+                            body = person
                         }
-                        contentType(ContentType.Application.Json)
-                        body = person
                     }
                     println("B")
                     returnPerson
@@ -52,7 +57,7 @@ class FirstPresenter(
             }
         }
 
-        uiScope.launch {
+        lifecycleScope.launch {
             for((person,otherPerson) in peopleChannel) {
                 view.displayGreeting(text = "Hello ${person.firstName}, do you know ${otherPerson.fullName}?")
             }
@@ -67,9 +72,6 @@ class FirstPresenter(
     }
 
     override fun didSetName(name: String) {
-        uiScope.launch {
-            //println("Hi")
-            setNameChannel.send(name)
-        }
+        setNameChannel.offer(name)
     }
 }

@@ -35,6 +35,8 @@ val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 val kotlinXCoroutinesCore   : String by extra
 val kotlinXCoroutinesNative : String by extra
 
+val multiMvp : String by extra
+
 val ktorClientCore             : String by extra
 val ktorClientCio              : String by extra
 val ktorClientJson             : String by extra
@@ -56,6 +58,8 @@ repositories {
     jcenter()
     maven( url = "https://kotlin.bintray.com/kotlinx" )
     maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+    maven( url = "https://dl.bintray.com/chris-hatton/lib" )
+    maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
 }
 
 plugins {
@@ -121,7 +125,7 @@ kotlin {
         commonMain {
             dependencies {
 
-                api(project(path = ":multi-mvp"))
+                api(multiMvp)
 
                 implementation(project(path = ":shared"))
 

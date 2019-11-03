@@ -4,29 +4,26 @@ import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.chrishatton.example.ui.FirstPresenter
+import org.chrishatton.multimvp.util.fxml
+import org.chrishatton.multimvp.ui.BaseFxView
+import org.chrishatton.multimvp.ui.BaseFxmlView
+import org.chrishatton.multimvp.util.fxid
 import org.chrishatton.example.ui.FirstContract.View as View
 import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class FirstView : BaseView<View,Presenter>(), View {
-
-    override val lifecycleScope: CoroutineScope?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-
-    override val root : Parent by fxml()
+class FirstView : BaseFxmlView<View, Presenter>(), View {
 
     val submitButton : Button    by fxid()
     val nameField    : TextField by fxid()
     val replyLabel   : Label     by fxid()
 
     override fun displayGreeting(text: String) {
-        uiScope.launch {
+        lifecycleScope!!.launch {
             replyLabel.text = text
         }
     }
@@ -35,18 +32,18 @@ class FirstView : BaseView<View,Presenter>(), View {
          FirstPresenter(baseUrl = "http://localhost:8080", view = this)
     }
 
-    override fun onDock() {
-        super.onDock()
+    override fun start() {
+        super.start()
         submitButton.setOnAction {
             val name = nameField.text
-            processScope.launch {
+            lifecycleScope!!.launch {
                 presenter.didSetName(name)
             }
         }
     }
 
-    override fun onUndock() {
-        super.onUndock()
+    override fun stop() {
+        super.stop()
         submitButton.setOnAction {}
     }
 }

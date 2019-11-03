@@ -41,16 +41,17 @@ val currentOs : String by extra
 val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
-val tornadoFxVersion        : String by extra
 val kotlinStandardLibrary8  : String by extra
 val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
 val javaFxFxml              : String by extra
 
+val coroutinesUi : String by extra
+val multiMvp     : String by extra
+
 val kotlinXCoroutinesCore   : String by extra
 val kotlinXCoroutinesJavaFx : String by extra
-val tornadoFx               : String by extra
 val ktorClient              : String by extra
 val ktorClientCio           : String by extra
 val ktorClientJson          : String by extra
@@ -71,6 +72,8 @@ repositories {
     maven( url = "https://kotlin.bintray.com/kotlinx" )
     maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
     maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+    maven( url = "https://dl.bintray.com/chris-hatton/lib" )
+    maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
 }
 
 plugins {
@@ -129,18 +132,17 @@ configurations {
 
 dependencies {
 
-    implementation(project(path = ":coroutines-ui")) { attributes { attribute(frameworkAtribute, "javafx") } }
-    implementation(project(path = ":multi-mvp"))     { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
+
+    implementation(coroutinesUi)
+    implementation(multiMvp)
 
     implementation(kotlinStandardLibrary8)
 
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
     implementation(kotlinXCoroutinesJavaFx)
-
-    implementation(tornadoFx)
 
     // Ktor
     implementation(ktorClient)
