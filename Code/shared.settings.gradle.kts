@@ -41,7 +41,6 @@ pluginManagement {
                 "kotlinx-serialization"    -> kotlinSerializationPlugin
                 "com.android.library"      -> androidGradlePlugin
                 "com.jfrog.bintray"        -> bintrayGradlePlugin
-                //"org.openjfx.javafxplugin" -> "org.openjfx:javafx-plugin:0.0.9-SNAPSHOT" //javaFxPlugin
                 else -> return@eachPlugin
             }
             useModule(module)

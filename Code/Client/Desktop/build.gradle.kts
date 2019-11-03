@@ -47,6 +47,9 @@ val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
 val javaFxFxml              : String by extra
 
+val coroutinesUi : String by extra
+val multiMvp     : String by extra
+
 val kotlinXCoroutinesCore   : String by extra
 val kotlinXCoroutinesJavaFx : String by extra
 val ktorClient              : String by extra
@@ -67,6 +70,8 @@ repositories {
     maven( url = "https://kotlin.bintray.com/kotlinx" )
     maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
     maven( url = "https://oss.sonatype.org/content/repositories/snapshots/" )
+    maven( url = "https://dl.bintray.com/chris-hatton/lib" )
+    maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
 }
 
 plugins {
@@ -128,8 +133,8 @@ dependencies {
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
 
-    implementation("org.chrishatton:coroutines-ui:0.0.1-SNAPSHOT")
-    implementation("org.chrishatton:multi-mvp:0.0.1-SNAPSHOT")
+    implementation(coroutinesUi)
+    implementation(multiMvp)
 
     implementation(kotlinStandardLibrary8)
 
