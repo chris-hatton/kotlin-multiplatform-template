@@ -30,5 +30,7 @@ allprojects {
         jcenter()
         maven( url = "https://kotlin.bintray.com/kotlinx" )
         maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+        maven( url = "https://dl.bintray.com/chris-hatton/lib" )
+        maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
     }
 }
