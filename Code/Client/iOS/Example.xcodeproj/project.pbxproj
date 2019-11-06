@@ -13,11 +13,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E12612BAE45E181CF32EFB0 /* commonMain */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = commonMain; path = ../../Shared/src/commonMain; sourceTree = "<group>"; };
 		3E126320BD9D7B493DCFA1C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		3E12638C6B9D79AA36D99C8A /* gradle-wrapper.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "gradle-wrapper.jar"; sourceTree = "<group>"; };
+		3E1263C892CE2276509CD5BC /* iosMain */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = iosMain; path = ../../Shared/src/iosMain; sourceTree = "<group>"; };
 		3E1263E6C4392BF67FCFE02A /* BaseViewAdapter.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; path = BaseViewAdapter.kt; sourceTree = "<group>"; };
 		3E12653A338B45B178CCB663 /* gradle-wrapper.properties */ = {isa = PBXFileReference; lastKnownFileType = file.properties; path = "gradle-wrapper.properties"; sourceTree = "<group>"; };
 		3E126598A8A1C7A7AC251475 /* gradlew */ = {isa = PBXFileReference; lastKnownFileType = text; path = gradlew; sourceTree = "<group>"; };
+		3E126A08514CB82ED2C4F1EF /* commonTest */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = commonTest; path = ../../Shared/src/commonTest; sourceTree = "<group>"; };
 		3E126A27A3879302B80D9D34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E126C2686028C2C12CF89C3 /* settings.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.gradle; path = settings.gradle.kts; sourceTree = "<group>"; };
 		3E126C3F17558046BB67F60D /* build.gradle.kts */ = {isa = PBXFileReference; lastKnownFileType = file.kts; name = build.gradle.kts; path = Example/build.gradle.kts; sourceTree = "<group>"; };
@@ -29,10 +32,6 @@
 		831B090222A8656E00066103 /* commonMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonMain; path = ../../../Shared/src/commonMain; sourceTree = "<group>"; };
 		831B090322A8656F00066103 /* iosTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosTest; path = ../../../Shared/src/iosTest; sourceTree = "<group>"; };
 		831B090422A8656F00066103 /* iosMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosMain; path = ../../../Shared/src/iosMain; sourceTree = "<group>"; };
-		831B090922A8689700066103 /* iosMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosMain; path = ../../Common/src/iosMain; sourceTree = "<group>"; };
-		831B090A22A8689700066103 /* commonMain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonMain; path = ../../Common/src/commonMain; sourceTree = "<group>"; };
-		831B090B22A8689700066103 /* iosTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = iosTest; path = ../../Common/src/iosTest; sourceTree = "<group>"; };
-		831B090C22A8689700066103 /* commonTest */ = {isa = PBXFileReference; lastKnownFileType = folder; name = commonTest; path = ../../Common/src/commonTest; sourceTree = "<group>"; };
 		831B091122A9AAB300066103 /* FirstViewController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.kt; path = FirstViewController.kt; sourceTree = "<group>"; };
 		831B091222A9AAB300066103 /* AppDelegate.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AppDelegate.kt; sourceTree = "<group>"; };
 		831B091322A9AAB300066103 /* main.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.kt; sourceTree = "<group>"; };
@@ -131,10 +130,9 @@
 		831B08FF22A8653B00066103 /* Client-shared */ = {
 			isa = PBXGroup;
 			children = (
-				831B090A22A8689700066103 /* commonMain */,
-				831B090C22A8689700066103 /* commonTest */,
-				831B090922A8689700066103 /* iosMain */,
-				831B090B22A8689700066103 /* iosTest */,
+				3E12612BAE45E181CF32EFB0 /* commonMain */,
+				3E1263C892CE2276509CD5BC /* iosMain */,
+				3E126A08514CB82ED2C4F1EF /* commonTest */,
 			);
 			name = "Client-shared";
 			sourceTree = "<group>";

@@ -78,23 +78,6 @@ fun Application.module(testing: Boolean = false) {
             call.respondText("HELLO WORLD!")
         }
 
-        get<MyLocation> {
-            call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
-        }
-        // Register nested routes
-        get<Type.Edit> {
-            call.respondText("Inside $it")
-        }
-        get<Type.List> {
-            call.respondText("Inside $it")
-        }
-
-        get("/session/increment") {
-            val session = call.sessions.get<MySession>() ?: MySession()
-            call.sessions.set(session.copy(count = session.count + 1))
-            call.respondText("Counter is ${session.count}. Refresh to increment.")
-        }
-
         webSocket("/server/echo") {
             send(Frame.Text("Hi from server"))
             while (true) {
@@ -104,29 +87,5 @@ fun Application.module(testing: Boolean = false) {
                 }
             }
         }
-
-        //===========
-
-        post<Person>("/person") { person:Person ->
-            val acquaintedPerson = Person("Mark", "Halliwell")
-            println("I think ${person.fullName} might know ${acquaintedPerson.fullName}")
-            call.respond(acquaintedPerson)
-        }
     }
 }
-
-@KtorExperimentalLocationsAPI
-@Location("/location/{name}")
-class MyLocation(val name: String, val arg1: Int = 42, val arg2: String = "default")
-
-@KtorExperimentalLocationsAPI
-@Location("/type/{name}") data class Type(val name: String) {
-    @Location("/edit")
-    data class Edit(val type: Type)
-
-    @Location("/list/{page}")
-    data class List(val type: Type, val page: Int)
-}
-
-data class MySession(val count: Int = 0)
-

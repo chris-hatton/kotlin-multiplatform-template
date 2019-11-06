@@ -36,9 +36,9 @@ configurations {
 }
 
 kotlin {
-//    xcode {
-//        setupApplication("ios")
-//    }
+    xcode {
+        setupApplication("ios")
+    }
 
     targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
         binaries {
