@@ -20,6 +20,7 @@ import io.ktor.sessions.*
 import io.ktor.websocket.webSocket
 import java.time.Duration
 import io.ktor.server.netty.EngineMain
+import org.chrishatton.example.model.TodoSession
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -42,8 +43,8 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(Sessions) {
-        cookie<MySession>("MY_SESSION") {
-            cookie.extensions["SameSite"] = "lax"
+        header<TodoSession>("TODO_SESSION") {
+            header.extensions["SameSite"] = "lax"
         }
     }
 

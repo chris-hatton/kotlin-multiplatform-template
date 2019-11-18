@@ -12,13 +12,13 @@ import org.chrishatton.example.client
 import org.chrishatton.example.model.Person
 import org.chrishatton.multimvp.ui.BasePresenter
 import org.chrishatton.multimvp.util.ioDispatcher
-import org.chrishatton.example.ui.FirstContract.View as View
-import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
+import org.chrishatton.example.ui.TodoListContract.View as View
+import org.chrishatton.example.ui.TodoListContract.Presenter as Presenter
 
 @FlowPreview
 @kotlinx.coroutines.InternalCoroutinesApi
 @kotlinx.coroutines.ExperimentalCoroutinesApi
-class FirstPresenter(
+class TodoListPresenter(
         val baseUrl : String,
         view: View
 ) : BasePresenter<View,Presenter>(view), Presenter {

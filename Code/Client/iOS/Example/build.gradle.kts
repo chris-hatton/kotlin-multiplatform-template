@@ -13,6 +13,7 @@ val ktorClientCore                    : String by extra
 val ktorClientJson                    : String by extra
 val ktorClientJsonNative              : String by extra
 val ktorClientSerializationNative     : String by extra
+val ktorServerSessions                : String by extra
 
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
@@ -64,6 +65,8 @@ kotlin {
                 implementation(ktorClientCore)
                 implementation(ktorClientJson)
                 implementation(kotlinXSerializationRuntimeCommon)
+
+                implementation(ktorServerSessions)
             }
         }
         
@@ -78,6 +81,8 @@ kotlin {
                 implementation(ktorClientIos)
                 implementation(ktorClientJsonNative)
                 implementation(ktorClientSerializationNative)
+
+                implementation(ktorServerSessions)
             }
         }
     }

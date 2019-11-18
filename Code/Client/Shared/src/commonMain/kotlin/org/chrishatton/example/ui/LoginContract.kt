@@ -12,7 +12,7 @@ import org.chrishatton.example.model.Validated
 @ExperimentalCoroutinesApi
 interface LoginContract {
     interface Presenter : LoginContract, Contract.Presenter<View, Presenter> {
-
+        
     }
 
     interface View : LoginContract, Contract.View<Presenter, View> {
@@ -21,8 +21,8 @@ interface LoginContract {
         val validatedPasswordCollector        : FlowCollector<Validated<String>>
         val validatedConfirmPasswordCollector : FlowCollector<Validated<String>>
 
-        val loginUsernames : Flow<String>
-        val loginPasswords : Flow<String>
+        val loginUsername : Flow<String>
+        val loginPassword : Flow<String>
 
         val registerUsername        : Flow<String>
         val registerPassword        : Flow<String>

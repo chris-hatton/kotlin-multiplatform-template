@@ -8,11 +8,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.MainScope
-import org.chrishatton.example.ui.FirstPresenter
+import org.chrishatton.example.ui.TodoListPresenter
 import org.chrishatton.multimvp.ui.Cycleable
 import org.chrishatton.multimvp.ui.CycleableMixIn
-import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
-import org.chrishatton.example.ui.FirstContract.View as View
+import org.chrishatton.example.ui.TodoListContract.Presenter as Presenter
+import org.chrishatton.example.ui.TodoListContract.View as View
 import platform.Foundation.NSCoder
 import platform.UIKit.UIButton
 import platform.UIKit.UILabel
@@ -47,19 +47,19 @@ class FirstViewController : UIViewController {
         viewAdapter.presenter.didSetName(name = textField.text ?: "")
     }
 
-    private val viewAdapter = FirstViewAdapter()
+    private val viewAdapter = TodoListViewAdapter()
 
     @FlowPreview
-    inner class FirstViewAdapter : BaseViewAdapter<FirstViewAdapter, View, Presenter>(), View,
+    inner class TodoListViewAdapter : BaseViewAdapter<TodoListViewAdapter, View, Presenter>(), View,
         Cycleable by CycleableMixIn(scopeCreator = ::MainScope) {
 
         override fun displayGreeting(text: String) {
             label.text = text
         }
 
-        override val presenter: FirstPresenter by lazy {
+        override val presenter: TodoListPresenter by lazy {
             println("Heya!")
-            FirstPresenter(
+            TodoListPresenter(
                 baseUrl = "http://localhost:8080",
                 view    = this
             )
