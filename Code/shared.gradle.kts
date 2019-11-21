@@ -107,3 +107,17 @@ val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
 }
 
 extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"
+
+val configureSharedRepositories : RepositoryHandler.() -> Unit = {
+    mavenLocal()
+
+    google()
+    jcenter()
+    maven( url = "https://kotlin.bintray.com/kotlinx" )
+    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+    maven( url = "https://plugins.gradle.org/m2/" )
+    maven( url = "https://dl.bintray.com/chris-hatton/lib" ) { content { includeGroup("org.chrishatton") } }
+    maven( url = "https://oss.jfrog.org/oss-snapshot-local") { content { includeGroup("org.chrishatton") } }
+}
+
+extra["configureSharedRepositories"] = configureSharedRepositories

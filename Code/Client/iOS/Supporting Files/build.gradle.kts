@@ -19,6 +19,9 @@ buildscript {
     }
 }
 
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
+
 plugins {
     id("com.android.library") apply false
 }
@@ -30,7 +33,7 @@ allprojects {
         jcenter()
         maven( url = "https://kotlin.bintray.com/kotlinx" )
         maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-        maven( url = "https://dl.bintray.com/chris-hatton/lib" )
-        maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
+        maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
+        maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
     }
 }
