@@ -6,13 +6,6 @@
 
 apply( from = "../../../shared.gradle.kts")
 
-repositories {
-    google()
-    jcenter()
-    maven( url = "https://kotlin.bintray.com/kotlinx" )
-    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-}
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
