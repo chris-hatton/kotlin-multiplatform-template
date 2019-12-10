@@ -1,4 +1,6 @@
 
+apply( from = "../../shared.gradle.kts")
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -24,14 +26,10 @@ buildscript {
     }
 }
 
-allprojects {
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
+allprojects {
+    repositories(configureSharedRepositories)
 }
 
 tasks.register("clean", Delete::class) {

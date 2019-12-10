@@ -19,9 +19,12 @@ buildscript {
     val androidGradlePlugin       : String by extra
 
     repositories {
+        mavenLocal()
         google()
         jcenter()
         maven( url = "https://kotlin.bintray.com/kotlinx" )
+        maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
+        maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
     }
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
@@ -58,8 +61,8 @@ repositories {
     jcenter()
     maven( url = "https://kotlin.bintray.com/kotlinx" )
     maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    maven( url = "https://dl.bintray.com/chris-hatton/lib" )
-    maven( url = "https://oss.jfrog.org/oss-snapshot-local" )
+    maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
+    maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
 }
 
 plugins {

@@ -55,6 +55,16 @@ val buildTasks : Map<Platform,String> = mapOf(
 )
 
 /**
+ * The Gradle task to invoke for fully cleaning deployable artifacts for each of the Platform components
+ */
+val cleanTasks : Map<Platform,String> = mapOf(
+    Platform.Android to "clean",
+    Platform.Desktop to "clean",
+    Platform.Ios     to "clean",
+    Platform.Server  to "clean"
+)
+
+/**
  * The Gradle task to invoke for deploying the artifacts produced by `buildTasks`.
  * Does not depend on buildTasks so assumes that buildTasks has been independently run
  * beforehand, leaving the artifacts available in the filesystem.
@@ -83,6 +93,7 @@ registerPlatformTasks("buildApp",        collectPlatformTaskNames(buildTasks))
 registerPlatformTasks("testApp",         collectPlatformTaskNames(testTasks))
 registerPlatformTasks("buildAndTestApp", collectPlatformTaskNames(buildTasks,testTasks))
 registerPlatformTasks("deployOnlyApp",   collectPlatformTaskNames(deployOnlyTasks))
+registerPlatformTasks("cleanApp",        collectPlatformTaskNames(cleanTasks))
 
 tasks {
 
