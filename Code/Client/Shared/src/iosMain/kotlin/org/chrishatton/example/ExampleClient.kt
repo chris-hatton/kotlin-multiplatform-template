@@ -9,7 +9,7 @@ actual val client : HttpClient by lazy {
     HttpClient {
         install(JsonFeature) {
             serializer = KotlinxSerializer().apply {
-                setMapper( type = Person::class, serializer = Person.serializer())
+                //setMapper( type = Person::class, serializer = Person.serializer())
             }
         }
     }

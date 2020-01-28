@@ -57,6 +57,7 @@ android {
         exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
+        exclude("META-INF/ktor-io.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")

@@ -67,8 +67,8 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(io.ktor.websocket.WebSockets) {
-        pingPeriod = Duration.ofSeconds(15)
-        timeout = Duration.ofSeconds(15)
+//        pingPeriod = Duration.ofSeconds(15)
+//        timeout = Duration.ofSeconds(15)
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
