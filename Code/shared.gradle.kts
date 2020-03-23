@@ -100,14 +100,6 @@ extra["androidClientCommonProject"] = { project(":android-client-shared") } //as
 extra["clientCommonProject"]        = { project(":client-shared") }
 extra["sharedProject"]              = { project(":shared") }
 
-val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
-    "arm64" -> true
-    "X64"   -> false
-    else    -> false
-}
-
-extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"
-
 val configureSharedRepositories : RepositoryHandler.() -> Unit = {
     mavenLocal()
 

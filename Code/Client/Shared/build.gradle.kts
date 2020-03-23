@@ -54,8 +54,6 @@ val kotlinXSerializationRuntimeCommon : String by extra
 val multiMvpProject : ()->ProjectDependency by extra
 val sharedProject   : ()->ProjectDependency by extra
 
-val iosTargetName : String by extra
-
 repositories {
     google()
     jcenter()
@@ -113,7 +111,7 @@ kotlin {
         jvm("javafx") { attributes.attribute(frameworkAtribute, "javafx") }
     }
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    ios {
         binaries {
             framework {
                 // Framework configuration

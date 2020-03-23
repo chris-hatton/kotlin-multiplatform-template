@@ -17,8 +17,6 @@ val ktorClientSerializationNative     : String by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
-val iosTargetName : String by extra
-
 plugins {
     kotlin("multiplatform")
     kotlin("xcode-compat") version "0.1"
@@ -40,7 +38,7 @@ kotlin {
         setupApplication("ios")
     }
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    ios {
         binaries {
             framework {
                 // Framework configuration

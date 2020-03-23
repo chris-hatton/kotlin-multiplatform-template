@@ -39,8 +39,6 @@ val ktorClientJsonNative              : String by extra
 val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
 
-val iosTargetName : String by extra
-
 val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 
 repositories {
@@ -111,7 +109,7 @@ kotlin {
 
     // This is for iPhone emulator
     // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    ios {
         binaries {
             framework {
                 // Framework configuration

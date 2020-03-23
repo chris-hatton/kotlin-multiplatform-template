@@ -62,8 +62,6 @@ val jUnit : String by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
-val iosTargetName : String by extra
-
 repositories {
     google()
     jcenter()
