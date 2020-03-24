@@ -12,7 +12,6 @@ import org.chrishatton.multimvp.ui.BaseView
 import org.chrishatton.multimvp.ui.Cycleable
 import org.chrishatton.multimvp.ui.CycleableMixIn
 import org.chrishatton.multimvp.util.processDispatcher
-import java.io.InputStream
 
 @FlowPreview
 @ExperimentalCoroutinesApi
