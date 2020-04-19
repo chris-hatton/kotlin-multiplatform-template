@@ -15,18 +15,8 @@ buildscript {
     val kotlinSerializationPlugin : String by extra
     val androidGradlePlugin       : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-        maven {
-            setUrl("https://plugins.gradle.org/m2/")
-        }
-        maven {
-            setUrl("http://sandec.bintray.com/repo")
-        }
-    }
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
 
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))

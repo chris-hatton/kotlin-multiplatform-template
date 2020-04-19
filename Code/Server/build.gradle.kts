@@ -14,11 +14,13 @@ buildscript {
     val androidGradlePlugin       : String by extra
     val kotlinSerializationPlugin : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
+
+    allprojects {
+        repositories(configureSharedRepositories)
     }
+
     dependencies {
         // This should not be required as this is *not* an Android project.
         // Seems to be a current limitation of dependency on MPP project?
@@ -45,20 +47,11 @@ val ktorServerTests : String by extra
 
 val sharedProject : ()->ProjectDependency by extra
 
-allprojects.forEach {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven { url = uri("https://kotlin.bintray.com/ktor") }
-        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
-    }
-}
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
-repositories {
-    mavenLocal()
-    jcenter()
-    maven { url = uri("https://kotlin.bintray.com/ktor") }
-    maven { url = uri("https://kotlin.bintray.com/kotlinx") }
+allprojects {
+    repositories(configureSharedRepositories)
 }
 
 plugins {

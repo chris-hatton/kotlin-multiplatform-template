@@ -20,9 +20,8 @@ val androidMinSdkVersion     : String by extra
 plugins {
     println("*** Plugins evaluating ***")
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-android-extensions")
-    id("kotlin-platform-android")
     id("kotlinx-serialization")
 }
 
@@ -70,6 +69,8 @@ android {
     }
 }
 
+val multiMvp : String by extra
+
 val ktorClientAndroid        : String by extra
 val ktorClientCio            : String by extra
 val ktorClientJson           : String by extra
@@ -91,6 +92,8 @@ dependencies {
 
     implementation(clientCommonProject())
     implementation(sharedProject())
+
+    implementation(multiMvp)
 
     // Kotlin Core
     implementation(kotlin("stdlib"))

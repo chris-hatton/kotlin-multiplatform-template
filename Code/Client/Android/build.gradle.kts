@@ -11,12 +11,8 @@ buildscript {
     val androidGradlePlugin       : String by extra
     val androidGradleDokkaPlugin  : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
 
     dependencies {
         classpath(androidGradlePlugin)
@@ -27,6 +23,7 @@ buildscript {
 }
 
 val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
 allprojects {
     repositories(configureSharedRepositories)

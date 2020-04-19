@@ -6,12 +6,8 @@ buildscript {
     val kotlinSerializationPlugin : String by extra
     val kotlinGradlePlugin        : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
 
     dependencies {
         classpath(kotlinGradlePlugin)
@@ -19,22 +15,13 @@ buildscript {
     }
 }
 
-val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
-repositories(configureSharedRepositories)
-
 plugins {
     id("com.android.library") apply false
 }
 
-allprojects {
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
-    repositories {
-        mavenLocal()
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-        maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
-        maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
-    }
+allprojects {
+    repositories(configureSharedRepositories)
 }

@@ -9,9 +9,8 @@ apply( from = "../../../shared.gradle.kts")
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-android-extensions")
-    //id("kotlin-platform-android")
     id("kotlinx-serialization")
 }
 
@@ -36,6 +35,7 @@ val androidClientCommonProject : ()->ProjectDependency by extra
 val clientCommonProject        : ()->ProjectDependency by extra
 val sharedProject              : ()->ProjectDependency by extra
 
+val multiMvp : String by extra
 
 android {
     buildToolsVersion = androidBuildToolsVersion
@@ -86,6 +86,8 @@ dependencies {
     implementation(androidClientCommonProject())
     implementation(clientCommonProject())
     implementation(sharedProject())
+
+    implementation(multiMvp)
 
     // Kotlin Core
     implementation(kotlinStandardLibrary8)

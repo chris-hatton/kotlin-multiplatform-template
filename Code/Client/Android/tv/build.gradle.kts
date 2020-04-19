@@ -8,7 +8,7 @@ apply( from = "../../../shared.gradle.kts")
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
 }
