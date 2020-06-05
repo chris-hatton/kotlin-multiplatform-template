@@ -29,10 +29,7 @@ buildscript {
 val kotlinXSerializationRuntimeCommon : String by extra
 val kotlinXCoroutinesCore             : String by extra
 val kotlinXCoroutinesNative           : String by extra
-val ktorClientIos                     : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
-val ktorClientJsonNative              : String by extra
-val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
 
 val isIosDevice : Boolean by extra
@@ -168,14 +165,8 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-
                 implementation(kotlinXCoroutinesNative)
-
                 implementation(kotlinXSerializationRuntimeNative)
-            
-                implementation(ktorClientIos)
-                implementation(ktorClientJsonNative)
-                implementation(ktorClientSerializationNative)
             }
         }
         val iosTest by getting {

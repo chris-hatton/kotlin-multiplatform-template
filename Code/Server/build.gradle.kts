@@ -40,7 +40,8 @@ val ktorLocations      : String by extra
 val ktorServerSessions : String by extra
 val ktorAuth           : String by extra
 val ktorWebsockets     : String by extra
-val ktorGson           : String by extra
+val ktorSerialization  : String by extra
+
 val logBackClassic     : String by extra
 
 val ktorServerTests : String by extra
@@ -114,7 +115,7 @@ dependencies {
     implementation(ktorServerSessions)
     implementation(ktorAuth)
     implementation(ktorWebsockets)
-    implementation(ktorGson)
+    implementation(ktorSerialization)
     implementation(logBackClassic)
 
     testCompile(ktorServerTests)

@@ -33,16 +33,22 @@ val kotlinXCoroutinesNative : String by extra
 
 val multiMvp : String by extra
 
-val ktorClientCore             : String by extra
-val ktorClientCio              : String by extra
-val ktorClientJson             : String by extra
-val ktorClientSerializationJvm : String by extra
-
-val ktorClientIos     : String by extra
-val ktorClientCodeIos : String by extra
-
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeCommon : String by extra
+
+val ktorClient                    : String by extra
+val ktorClientAndroid             : String by extra
+val ktorClientCio                 : String by extra
+val ktorClientIos                 : String by extra
+val ktorClientCore                : String by extra
+val ktorClientCoreJvm             : String by extra
+val ktorClientCoreNative          : String by extra
+val ktorClientJson                : String by extra
+val ktorClientJsonJvm             : String by extra
+val ktorClientJsonNative          : String by extra
+val ktorClientSerialization       : String by extra
+val ktorClientSerializationJvm    : String by extra
+val ktorClientSerializationNative : String by extra
 
 //val multiMvpProject : ()->ProjectDependency by extra
 val sharedProject   : ()->ProjectDependency by extra
@@ -53,6 +59,9 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
 }
+
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
 android {
     compileSdkVersion(29)
@@ -115,9 +124,12 @@ kotlin {
                 implementation(project(path = ":shared"))
 
                 implementation(kotlin("stdlib-common"))
+
                 implementation(ktorClientCore)
                 implementation(kotlinXCoroutinesCore)
                 implementation(ktorClientCio)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerialization)
             }
         }
         commonTest {
@@ -139,6 +151,8 @@ kotlin {
 
                 implementation(kotlinXSerializationRuntimeNative)
                 implementation(ktorClientIos)
+                implementation(ktorClientJsonNative)
+                implementation(ktorClientSerializationNative)
             }
         }
         val iosTest by getting {
@@ -156,7 +170,7 @@ kotlin {
 
                 implementation(ktorClientCore)
                 implementation(ktorClientCio)
-                implementation(ktorClientJson)
+                implementation(ktorClientJsonJvm)
                 implementation(ktorClientSerializationJvm)
             }
         }
@@ -180,9 +194,8 @@ kotlin {
 
                     implementation(ktorClientCore)
                     implementation(ktorClientCio)
-                    implementation(ktorClientJson)
+                    implementation(ktorClientJsonJvm)
                     implementation(ktorClientSerializationJvm)
-
                 }
             }
             val javafxTest by getting {

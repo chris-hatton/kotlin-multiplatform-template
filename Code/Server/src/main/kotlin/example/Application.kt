@@ -1,25 +1,24 @@
 package example
 
-import org.chrishatton.example.model.Person
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.features.*
-import io.ktor.gson.GsonConverter
 import io.ktor.http.ContentType
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import io.ktor.locations.*
-import io.ktor.response.respond
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Locations
 import io.ktor.response.respondText
 import io.ktor.routing.get
-import io.ktor.routing.post
 import io.ktor.routing.routing
-import io.ktor.sessions.*
-import io.ktor.websocket.webSocket
-import java.time.Duration
 import io.ktor.server.netty.EngineMain
+import io.ktor.sessions.Sessions
+import io.ktor.websocket.webSocket
+import io.ktor.serialization.SerializationConverter
+import io.ktor.serialization.json
+import io.ktor.serialization.serialization
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -35,7 +34,7 @@ fun Application.module(testing: Boolean = false) {
     install(CallLogging)
 
     install(ContentNegotiation) {
-        register(ContentType.Application.Json, GsonConverter())
+        json()
     }
 
     install(Locations) {
