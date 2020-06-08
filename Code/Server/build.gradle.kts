@@ -59,9 +59,9 @@ plugins {
     application
     kotlin("jvm")
     war
-    id("org.gretty") version "2.2.0"
+    id("org.gretty") version "3.0.3"
     id("org.jetbrains.dokka") version "0.9.18"
-    id("kotlinx-serialization") version "1.3.40"
+    id("kotlinx-serialization") version "1.3.72"
     id("jacoco")
 }
 

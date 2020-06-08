@@ -6,7 +6,6 @@ import io.ktor.http.contentType
 import io.ktor.http.takeFrom
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.chrishatton.example.client
 import org.chrishatton.example.model.Person
