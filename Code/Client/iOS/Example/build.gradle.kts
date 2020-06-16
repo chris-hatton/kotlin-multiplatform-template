@@ -1,7 +1,5 @@
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
 apply( from = "../../../shared.gradle.kts")
 
@@ -18,11 +16,10 @@ val ktorServerSessions                : String by extra
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
-val iosTargetName : String by extra
+val isIosDevice : Boolean by extra
 
 plugins {
-    kotlin("multiplatform")
-    kotlin("xcode-compat") version "0.1"
+    id("org.jetbrains.kotlin.multiplatform")
 }
 
 val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
@@ -31,21 +28,16 @@ configurations {
     val metadataCompileClasspath by getting {
         attributes { attribute(frameworkAtribute, "ios") }
     }
-//    val iosCompileKlibraries by getting {
-//        attributes { attribute(frameworkAtribute, "ios") }
-//    }
 }
 
 kotlin {
-    xcode {
-        setupApplication("ios")
-    }
-
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    val iosTarget = if(isIosDevice) iosArm64("ios") else iosX64("ios")
+    iosTarget.apply {
         binaries {
             framework {
-                // Framework configuration
-                //embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
+                if (!isIosDevice) {
+                    embedBitcode("disable")
+                }
             }
         }
         attributes { attribute(frameworkAtribute, "ios") }

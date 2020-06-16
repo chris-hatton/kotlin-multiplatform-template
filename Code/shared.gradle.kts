@@ -100,24 +100,34 @@ extra["androidClientCommonProject"] = { project(":android-client-shared") } //as
 extra["clientCommonProject"]        = { project(":client-shared") }
 extra["sharedProject"]              = { project(":shared") }
 
-val isIosArm64 : Boolean = when(System.getenv("PLATFORM_PREFERRED_ARCH")) {
+extra["isIosDevice"] = when(val id = System.getenv("PLATFORM_PREFERRED_ARCH")) {
     "arm64" -> true
     "X64"   -> false
     else    -> false
 }
 
-extra["iosTargetName"] = if(isIosArm64) "iosArm64" else "iosX64"
-
 val configureSharedRepositories : RepositoryHandler.() -> Unit = {
+
     mavenLocal()
 
     google()
     jcenter()
+
     maven( url = "https://kotlin.bintray.com/kotlinx" )
     maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
     maven( url = "https://plugins.gradle.org/m2/" )
-    maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
-    maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
+
+    //maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
+    //maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
 }
 
 extra["configureSharedRepositories"] = configureSharedRepositories
+
+// Needed when required to use different Android/Gradle plugin versions between AS and IJ
+val isIntellij = System.getenv("XPC_SERVICE_NAME").contains("intellij")
+val androidGradlePluginVersion = if(isIntellij) {
+    extra["androidGradlePluginVersionIntellijSafe"]
+} else {
+    extra["androidGradlePluginVersionNormal"]
+}
+extra["androidGradlePlugin"] = "${extra["androidGradlePluginBase"]}:$androidGradlePluginVersion"

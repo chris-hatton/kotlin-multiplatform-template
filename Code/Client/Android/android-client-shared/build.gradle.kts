@@ -20,9 +20,8 @@ val androidMinSdkVersion     : String by extra
 plugins {
     println("*** Plugins evaluating ***")
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-android-extensions")
-    id("kotlin-platform-android")
     id("kotlinx-serialization")
 }
 
@@ -57,6 +56,7 @@ android {
         exclude("META-INF/kotlinx-coroutines-core.kotlin_module")
         exclude("META-INF/ktor-client-core.kotlin_module")
         exclude("META-INF/ktor-http-cio.kotlin_module")
+        exclude("META-INF/ktor-io.kotlin_module")
     }
     sourceSets {
         this["main"].java.srcDir("src/main/kotlin")
@@ -68,6 +68,8 @@ android {
         isAbortOnError = false
     }
 }
+
+val multiMvp : String by extra
 
 val ktorClientAndroid        : String by extra
 val ktorClientCio            : String by extra
@@ -90,6 +92,8 @@ dependencies {
 
     implementation(clientCommonProject())
     implementation(sharedProject())
+
+    implementation(multiMvp)
 
     // Kotlin Core
     implementation(kotlin("stdlib"))

@@ -1,26 +1,25 @@
 package example
 
-import org.chrishatton.example.model.Person
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.features.*
-import io.ktor.gson.GsonConverter
-import io.ktor.http.ContentType
 import io.ktor.http.cio.websocket.Frame
 import io.ktor.http.cio.websocket.readText
-import io.ktor.locations.*
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Locations
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
-import io.ktor.sessions.*
-import io.ktor.websocket.webSocket
-import java.time.Duration
+import io.ktor.serialization.json
 import io.ktor.server.netty.EngineMain
 import org.chrishatton.example.model.TodoSession
+import io.ktor.sessions.Sessions
+import io.ktor.websocket.webSocket
+import org.chrishatton.example.model.Person
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -36,7 +35,7 @@ fun Application.module(testing: Boolean = false) {
     install(CallLogging)
 
     install(ContentNegotiation) {
-        register(ContentType.Application.Json, GsonConverter())
+        json()
     }
 
     install(Locations) {
@@ -68,8 +67,8 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(io.ktor.websocket.WebSockets) {
-        pingPeriod = Duration.ofSeconds(15)
-        timeout = Duration.ofSeconds(15)
+//        pingPeriod = Duration.ofSeconds(15)
+//        timeout = Duration.ofSeconds(15)
         maxFrameSize = Long.MAX_VALUE
         masking = false
     }
@@ -87,6 +86,12 @@ fun Application.module(testing: Boolean = false) {
                     send(Frame.Text("Client said: " + frame.readText()))
                 }
             }
+        }
+
+        post<Person>("/person") { person:Person ->
+            val acquaintedPerson = Person("Mark", "Halliwell")
+            println("I think ${person.fullName} might know ${acquaintedPerson.fullName}")
+            call.respond(acquaintedPerson)
         }
     }
 }

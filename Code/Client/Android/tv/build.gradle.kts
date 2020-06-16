@@ -8,7 +8,7 @@ apply( from = "../../../shared.gradle.kts")
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    kotlin("android")
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
 }
@@ -72,6 +72,7 @@ android {
         exclude("META-INF/ktor-http-cio.kotlin_module")
         exclude("META-INF/ktor-client-json.kotlin_module")
         exclude("META-INF/kotlinx-serialization-runtime.kotlin_module")
+        exclude("META-INF/ktor-io.kotlin_module")
     }
 
     sourceSets {

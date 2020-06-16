@@ -17,12 +17,8 @@ buildscript {
     val kotlinVersion             : String by extra
     val kotlinSerializationPlugin : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-    }
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
 
     dependencies {
         classpath(kotlinSerializationPlugin)
@@ -33,38 +29,26 @@ buildscript {
 val kotlinXSerializationRuntimeCommon : String by extra
 val kotlinXCoroutinesCore             : String by extra
 val kotlinXCoroutinesNative           : String by extra
-val ktorClientIos                     : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
-val ktorClientJsonNative              : String by extra
-val ktorClientSerializationNative     : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
 val klock                             : String by extra
 val ktorServerSessions                : String by extra
 
-val iosTargetName : String by extra
+val isIosDevice : Boolean by extra
 
 val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 
-repositories {
-    google()
-    jcenter()
-    maven( url = "https://kotlin.bintray.com/kotlinx" )
-    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("kotlinx-serialization")
 }
 
-plugins {
-    kotlin("multiplatform")
-    id("kotlinx-serialization")
-    id("com.android.library")
-}
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    }
+    repositories(configureSharedRepositories)
 }
 
 group = "org.chrishatton"
@@ -101,7 +85,7 @@ val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String
 
 kotlin {
     
-    android { attributes.attribute(frameworkAtribute, "android") }
+    android("android") { attributes.attribute(frameworkAtribute, "android") }
 
     if(isMinJava12) {
         jvm("javafx") {attributes.attribute(frameworkAtribute, "javafx") }
@@ -111,12 +95,13 @@ kotlin {
         attributes.attribute(frameworkAtribute, "server")
     }
 
-    // This is for iPhone emulator
-    // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    val iosTarget = if(isIosDevice) iosArm64("ios") else iosX64("ios")
+    iosTarget.apply {
         binaries {
             framework {
-                // Framework configuration
+                if (!isIosDevice) {
+                    embedBitcode("disable")
+                }
             }
         }
         attributes.attribute(frameworkAtribute, "ios")
@@ -185,14 +170,8 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-
                 implementation(kotlinXCoroutinesNative)
-
                 implementation(kotlinXSerializationRuntimeNative)
-            
-                implementation(ktorClientIos)
-                implementation(ktorClientJsonNative)
-                implementation(ktorClientSerializationNative)
 
                 implementation(ktorServerSessions)
             }

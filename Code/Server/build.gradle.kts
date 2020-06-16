@@ -14,11 +14,13 @@ buildscript {
     val androidGradlePlugin       : String by extra
     val kotlinSerializationPlugin : String by extra
 
-    repositories {
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
+
+    allprojects {
+        repositories(configureSharedRepositories)
     }
+
     dependencies {
         // This should not be required as this is *not* an Android project.
         // Seems to be a current limitation of dependency on MPP project?
@@ -38,7 +40,8 @@ val ktorLocations      : String by extra
 val ktorServerSessions : String by extra
 val ktorAuth           : String by extra
 val ktorWebsockets     : String by extra
-val ktorGson           : String by extra
+val ktorSerialization  : String by extra
+
 val logBackClassic     : String by extra
 val exposed            : String by extra
 
@@ -46,29 +49,20 @@ val ktorServerTests : String by extra
 
 val sharedProject : ()->ProjectDependency by extra
 
-allprojects.forEach {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven { url = uri("https://kotlin.bintray.com/ktor") }
-        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
-    }
-}
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
-repositories {
-    mavenLocal()
-    jcenter()
-    maven { url = uri("https://kotlin.bintray.com/ktor") }
-    maven { url = uri("https://kotlin.bintray.com/kotlinx") }
+allprojects {
+    repositories(configureSharedRepositories)
 }
 
 plugins {
     application
     kotlin("jvm")
     war
-    id("org.gretty") version "2.2.0"
+    id("org.gretty") version "3.0.3"
     id("org.jetbrains.dokka") version "0.9.18"
-    id("kotlinx-serialization") version "1.3.41"
+    id("kotlinx-serialization") version "1.3.72"
     id("jacoco")
 }
 
@@ -122,7 +116,7 @@ dependencies {
     implementation(ktorServerSessions)
     implementation(ktorAuth)
     implementation(ktorWebsockets)
-    implementation(ktorGson)
+    implementation(ktorSerialization)
     implementation(logBackClassic)
 
     implementation(exposed)

@@ -8,8 +8,6 @@
  *
  */
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
-
 buildscript {
 
     apply( from = "../../shared.gradle.kts")
@@ -18,14 +16,9 @@ buildscript {
     val kotlinSerializationPlugin : String by extra
     val androidGradlePlugin       : String by extra
 
-    repositories {
-        mavenLocal()
-        google()
-        jcenter()
-        maven( url = "https://kotlin.bintray.com/kotlinx" )
-        maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
-        maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
-    }
+    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    repositories(configureSharedRepositories)
+
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
@@ -40,35 +33,35 @@ val kotlinXCoroutinesNative : String by extra
 
 val multiMvp : String by extra
 
-val ktorClientCore             : String by extra
-val ktorClientCio              : String by extra
-val ktorClientJson             : String by extra
-val ktorClientSerializationJvm : String by extra
-
-val ktorClientIos     : String by extra
-val ktorClientCodeIos : String by extra
-
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeCommon : String by extra
 
-val multiMvpProject : ()->ProjectDependency by extra
+val ktorClient                    : String by extra
+val ktorClientAndroid             : String by extra
+val ktorClientCio                 : String by extra
+val ktorClientIos                 : String by extra
+val ktorClientCore                : String by extra
+val ktorClientCoreJvm             : String by extra
+val ktorClientCoreNative          : String by extra
+val ktorClientJson                : String by extra
+val ktorClientJsonJvm             : String by extra
+val ktorClientJsonNative          : String by extra
+val ktorClientSerialization       : String by extra
+val ktorClientSerializationJvm    : String by extra
+val ktorClientSerializationNative : String by extra
+
+//val multiMvpProject : ()->ProjectDependency by extra
 val sharedProject   : ()->ProjectDependency by extra
 
-val iosTargetName : String by extra
-
-repositories {
-    google()
-    jcenter()
-    maven( url = "https://kotlin.bintray.com/kotlinx" )
-    maven( url = "https://kotlin.bintray.com/kotlin/ktor" )
-    maven( url = "https://oss.jfrog.org/oss-snapshot-local" ) { content { includeGroup("org.chrishatton") } }
-    maven( url = "https://dl.bintray.com/chris-hatton/lib"  ) { content { includeGroup("org.chrishatton") } }
-}
+val isIosDevice : Boolean by extra
 
 plugins {
-    kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.kotlin.multiplatform")
 }
+
+val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+repositories(configureSharedRepositories)
 
 android {
     compileSdkVersion(29)
@@ -83,7 +76,6 @@ android {
             isMinifyEnabled = false
         }
     }
-
     sourceSets {
         get("main").apply {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -97,27 +89,25 @@ android {
     }
 }
 
-//configurations {
-//	val iosCompileKlibraries by getting {
-//
-//    }
-//}
-
 val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
 
-    android { attributes.attribute(frameworkAtribute, "android") }
+    android("android") {
+        attributes.attribute(frameworkAtribute, "android")
+    }
 
     if(isMinJava12) {
         jvm("javafx") { attributes.attribute(frameworkAtribute, "javafx") }
     }
 
-    targetFromPreset(presets.getByName<KotlinNativeTargetPreset>(iosTargetName), "ios") {
+    val iosTarget = if(isIosDevice) iosArm64("ios") else iosX64("ios")
+    iosTarget.apply {
         binaries {
             framework {
-                // Framework configuration
-                //embedBitcode(Framework.BitcodeEmbeddingMode.BITCODE)
+                if (!isIosDevice) {
+                    embedBitcode("disable")
+                }
             }
         }
         attributes.attribute(frameworkAtribute, "ios")
@@ -128,14 +118,18 @@ kotlin {
         commonMain {
             dependencies {
 
-                api(multiMvp)
+                println("Common depending on $multiMvp")
+                implementation(multiMvp)
 
                 implementation(project(path = ":shared"))
 
                 implementation(kotlin("stdlib-common"))
+
                 implementation(ktorClientCore)
                 implementation(kotlinXCoroutinesCore)
                 implementation(ktorClientCio)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerialization)
             }
         }
         commonTest {
@@ -147,11 +141,18 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
+                implementation(kotlin("stdlib"))
+
+                println("iOS depending on $multiMvp")
+                implementation(multiMvp)
+                //implementation(coroutinesUi)
 
                 implementation(kotlinXCoroutinesNative)
 
                 implementation(kotlinXSerializationRuntimeNative)
                 implementation(ktorClientIos)
+                implementation(ktorClientJsonNative)
+                implementation(ktorClientSerializationNative)
             }
         }
         val iosTest by getting {
@@ -159,15 +160,18 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
+                implementation(kotlin("stdlib"))
+
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXSerializationRuntimeCommon)
 
+                println("Android depending on $multiMvp")
+                implementation(multiMvp)
+
                 implementation(ktorClientCore)
                 implementation(ktorClientCio)
-                implementation(ktorClientJson)
+                implementation(ktorClientJsonJvm)
                 implementation(ktorClientSerializationJvm)
-
             }
         }
         val androidTest by getting {
@@ -181,15 +185,17 @@ kotlin {
         if(isMinJava12) {
             val javafxMain by getting {
                 dependencies {
-                    implementation(kotlin("stdlib-common"))
+                    implementation(kotlin("stdlib"))
+
+                    implementation(multiMvp)
+
                     implementation(kotlinXCoroutinesCore)
                     implementation(kotlinXSerializationRuntimeCommon)
 
                     implementation(ktorClientCore)
                     implementation(ktorClientCio)
-                    implementation(ktorClientJson)
+                    implementation(ktorClientJsonJvm)
                     implementation(ktorClientSerializationJvm)
-
                 }
             }
             val javafxTest by getting {
@@ -202,5 +208,4 @@ kotlin {
         }
     }
 }
-
 

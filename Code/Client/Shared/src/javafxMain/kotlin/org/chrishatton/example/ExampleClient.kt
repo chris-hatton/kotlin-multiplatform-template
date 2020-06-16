@@ -8,7 +8,7 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 actual val client : HttpClient = HttpClient {
     install(JsonFeature) {
         serializer = KotlinxSerializer().apply {
-            setMapper( type = Person::class, serializer = Person.serializer())
+            //setMapper( type = Person::class, serializer = Person.serializer())
         }
     }
 }
