@@ -23,5 +23,5 @@ class Session(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Session>(Sessions)
 
     var name by Sessions.name
-    val user by User referencedOn Sessions.
+    //val user by User referencedOn Sessions.
 }

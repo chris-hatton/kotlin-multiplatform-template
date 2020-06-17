@@ -92,12 +92,12 @@ tasks.dokka {
 val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 configurations {
-    val compileClasspath     by getting
-    val testCompileClasspath by getting
-    val runtimeClasspath     by getting
-    val testRuntimeClasspath by getting
-
-    listOf(compileClasspath,testCompileClasspath,runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
+    listOf(
+        getByName("compileClasspath"),
+        getByName("testCompileClasspath"),
+        getByName("runtimeClasspath"),
+        getByName("testRuntimeClasspath")
+    ).forEach { configuration ->
         configuration.attributes { attribute(frameworkAtribute, "server") }
     }
 }

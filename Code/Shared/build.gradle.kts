@@ -31,7 +31,6 @@ val kotlinXCoroutinesCore             : String by extra
 val kotlinXCoroutinesNative           : String by extra
 val kotlinXSerializationRuntimeNative : String by extra
 val kotlinXSerializationRuntimeJvm    : String by extra
-val klock                             : String by extra
 val ktorServerSessions                : String by extra
 
 val isIosDevice : Boolean by extra
@@ -115,7 +114,6 @@ kotlin {
 
                 implementation(kotlinXSerializationRuntimeCommon)
                 implementation(kotlinXCoroutinesCore)
-                implementation(klock)
 
                 implementation(ktorServerSessions)
             }

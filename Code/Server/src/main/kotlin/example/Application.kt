@@ -18,6 +18,7 @@ import io.ktor.serialization.json
 import io.ktor.server.netty.EngineMain
 import org.chrishatton.example.model.TodoSession
 import io.ktor.sessions.Sessions
+import io.ktor.sessions.header
 import io.ktor.websocket.webSocket
 import org.chrishatton.example.model.Person
 
@@ -43,7 +44,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(Sessions) {
         header<TodoSession>("TODO_SESSION") {
-            header.extensions["SameSite"] = "lax"
+            //header.extensions["SameSite"] = "lax"
         }
     }
 
