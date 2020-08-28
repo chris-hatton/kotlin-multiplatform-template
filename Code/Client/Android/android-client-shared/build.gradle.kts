@@ -72,7 +72,6 @@ android {
 val multiMvp : String by extra
 
 val ktorClientAndroid        : String by extra
-val ktorClientCio            : String by extra
 val ktorClientJson           : String by extra
 
 val kotlinXCoroutinesAndroid : String by extra
@@ -104,7 +103,6 @@ dependencies {
 
     // Ktor
     implementation(ktorClientAndroid)
-    implementation(ktorClientCio)
     implementation(ktorClientJson)
 
     // Testing

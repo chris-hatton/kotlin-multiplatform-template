@@ -3,14 +3,12 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 apply( from = "../../../shared.gradle.kts")
 
-val kotlinXCoroutinesNative           : String by extra
+val kotlinXCoroutinesCore             : String by extra
 val ktorClientIos                     : String by extra
-val kotlinXSerializationRuntimeNative : String by extra
-val kotlinXSerializationRuntimeCommon : String by extra
+val kotlinXSerializationRuntime       : String by extra
 val ktorClientCore                    : String by extra
 val ktorClientJson                    : String by extra
-val ktorClientJsonNative              : String by extra
-val ktorClientSerializationNative     : String by extra
+val ktorClientSerialization           : String by extra
 
 val clientCommonProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
@@ -55,7 +53,7 @@ kotlin {
 
                 implementation(ktorClientCore)
                 implementation(ktorClientJson)
-                implementation(kotlinXSerializationRuntimeCommon)
+                implementation(kotlinXSerializationRuntime)
             }
         }
         
@@ -63,13 +61,13 @@ kotlin {
 
             dependencies {
 
-                implementation(kotlinXCoroutinesNative)
+                implementation(kotlinXCoroutinesCore)
 
-                implementation(kotlinXSerializationRuntimeNative)
+                implementation(kotlinXSerializationRuntime)
 
                 implementation(ktorClientIos)
-                implementation(ktorClientJsonNative)
-                implementation(ktorClientSerializationNative)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerialization)
             }
         }
     }

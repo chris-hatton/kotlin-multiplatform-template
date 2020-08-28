@@ -29,26 +29,20 @@ buildscript {
 val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 
 val kotlinXCoroutinesCore   : String by extra
-val kotlinXCoroutinesNative : String by extra
 
 val multiMvp : String by extra
 
-val kotlinXSerializationRuntimeNative : String by extra
-val kotlinXSerializationRuntimeCommon : String by extra
+val kotlinXSerializationRuntime : String by extra
 
 val ktorClient                    : String by extra
 val ktorClientAndroid             : String by extra
-val ktorClientCio                 : String by extra
 val ktorClientIos                 : String by extra
 val ktorClientCore                : String by extra
 val ktorClientCoreJvm             : String by extra
 val ktorClientCoreNative          : String by extra
 val ktorClientJson                : String by extra
-val ktorClientJsonJvm             : String by extra
-val ktorClientJsonNative          : String by extra
 val ktorClientSerialization       : String by extra
-val ktorClientSerializationJvm    : String by extra
-val ktorClientSerializationNative : String by extra
+val ktorClientAuth                : String by extra
 
 //val multiMvpProject : ()->ProjectDependency by extra
 val sharedProject   : ()->ProjectDependency by extra
@@ -127,9 +121,9 @@ kotlin {
 
                 implementation(ktorClientCore)
                 implementation(kotlinXCoroutinesCore)
-                implementation(ktorClientCio)
                 implementation(ktorClientJson)
                 implementation(ktorClientSerialization)
+                implementation(ktorClientAuth)
             }
         }
         commonTest {
@@ -147,12 +141,12 @@ kotlin {
                 implementation(multiMvp)
                 //implementation(coroutinesUi)
 
-                implementation(kotlinXCoroutinesNative)
+                implementation(kotlinXCoroutinesCore)
 
-                implementation(kotlinXSerializationRuntimeNative)
+                implementation(kotlinXSerializationRuntime)
                 implementation(ktorClientIos)
-                implementation(ktorClientJsonNative)
-                implementation(ktorClientSerializationNative)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerialization)
             }
         }
         val iosTest by getting {
@@ -163,15 +157,14 @@ kotlin {
                 implementation(kotlin("stdlib"))
 
                 implementation(kotlinXCoroutinesCore)
-                implementation(kotlinXSerializationRuntimeCommon)
+                implementation(kotlinXSerializationRuntime)
 
                 println("Android depending on $multiMvp")
                 implementation(multiMvp)
 
                 implementation(ktorClientCore)
-                implementation(ktorClientCio)
-                implementation(ktorClientJsonJvm)
-                implementation(ktorClientSerializationJvm)
+                implementation(ktorClientJson)
+                implementation(ktorClientSerialization)
             }
         }
         val androidTest by getting {
@@ -190,12 +183,11 @@ kotlin {
                     implementation(multiMvp)
 
                     implementation(kotlinXCoroutinesCore)
-                    implementation(kotlinXSerializationRuntimeCommon)
+                    implementation(kotlinXSerializationRuntime)
 
                     implementation(ktorClientCore)
-                    implementation(ktorClientCio)
-                    implementation(ktorClientJsonJvm)
-                    implementation(ktorClientSerializationJvm)
+                    implementation(ktorClientJson)
+                    implementation(ktorClientSerialization)
                 }
             }
             val javafxTest by getting {

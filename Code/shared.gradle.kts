@@ -124,7 +124,7 @@ val configureSharedRepositories : RepositoryHandler.() -> Unit = {
 extra["configureSharedRepositories"] = configureSharedRepositories
 
 // Needed when required to use different Android/Gradle plugin versions between AS and IJ
-val isIntellij = System.getenv("XPC_SERVICE_NAME").contains("intellij")
+val isIntellij = System.getenv("XPC_SERVICE_NAME")?.contains("intellij") ?: false
 val androidGradlePluginVersion = if(isIntellij) {
     extra["androidGradlePluginVersionIntellijSafe"]
 } else {

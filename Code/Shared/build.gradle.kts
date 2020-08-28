@@ -26,11 +26,10 @@ buildscript {
     }
 }
 
-val kotlinXSerializationRuntimeCommon : String by extra
-val kotlinXCoroutinesCore             : String by extra
-val kotlinXCoroutinesNative           : String by extra
-val kotlinXSerializationRuntimeNative : String by extra
-val kotlinXSerializationRuntimeJvm    : String by extra
+val kotlinXSerializationRuntime : String by extra
+val kotlinXCoroutinesCore       : String by extra
+val ktorServerSessions          : String by extra
+val ktorAuth                    : String by extra
 
 val isIosDevice : Boolean by extra
 
@@ -111,7 +110,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
-                implementation(kotlinXSerializationRuntimeCommon)
+                implementation(kotlinXSerializationRuntime)
                 implementation(kotlinXCoroutinesCore)
             }
         }
@@ -125,7 +124,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
-                implementation(kotlinXSerializationRuntimeJvm)
+                implementation(kotlinXSerializationRuntime)
             }
         }
         val androidTest by getting {
@@ -139,7 +138,7 @@ kotlin {
             val javafxMain by getting {
                 dependencies {
                     implementation(kotlin("stdlib"))
-                    implementation(kotlinXSerializationRuntimeJvm)
+                    implementation(kotlinXSerializationRuntime)
                 }
             }
             val javafxTest by getting {
@@ -153,7 +152,7 @@ kotlin {
         val serverMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
-                implementation(kotlinXSerializationRuntimeJvm)
+                implementation(kotlinXSerializationRuntime)
             }
         }
         val serverTest by getting {
@@ -165,8 +164,8 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                implementation(kotlinXCoroutinesNative)
-                implementation(kotlinXSerializationRuntimeNative)
+                implementation(kotlinXCoroutinesCore)
+                implementation(kotlinXSerializationRuntime)
             }
         }
         val iosTest by getting {

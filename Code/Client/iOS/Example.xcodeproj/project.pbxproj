@@ -53,7 +53,7 @@
 			children = (
 				3E1269B247506B5E9A0EE5DA /* Products */,
 				3E126D8C1D412638B67D4739 /* Example */,
-				3E1267430025E8297A085BA8 /* Supporting Files */,
+				3E1267430025E8297A085BA8 /* SupportingFiles */,
 				3E126C3F17558046BB67F60D /* build.gradle.kts */,
 			);
 			sourceTree = "<group>";
@@ -75,7 +75,7 @@
 			path = gradle;
 			sourceTree = "<group>";
 		};
-		3E1267430025E8297A085BA8 /* Supporting Files */ = {
+		3E1267430025E8297A085BA8 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				3E126F6C47E14C2E6203A2A2 /* build.gradle.kts */,
@@ -83,7 +83,7 @@
 				3E1266D6D82988CA21DB0FFB /* gradle */,
 				3E126C2686028C2C12CF89C3 /* settings.gradle.kts */,
 			);
-			path = "Supporting Files";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		3E1269B247506B5E9A0EE5DA /* Products */ = {

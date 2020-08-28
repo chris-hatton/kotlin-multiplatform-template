@@ -31,7 +31,6 @@ val currentOs : String by extra
 val kotlinVersion           : String by extra
 val kotlinCoroutinesVersion : String by extra
 val ktorVersion             : String by extra
-val kotlinStandardLibrary8  : String by extra
 val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
@@ -43,7 +42,6 @@ val multiMvp     : String by extra
 val kotlinXCoroutinesCore   : String by extra
 val kotlinXCoroutinesJavaFx : String by extra
 val ktorClient              : String by extra
-val ktorClientCio           : String by extra
 val ktorClientJson          : String by extra
 
 val jUnit : String by extra
@@ -124,16 +122,15 @@ dependencies {
     implementation(coroutinesUi)
     implementation(multiMvp)
 
-    implementation(kotlinStandardLibrary8)
-
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)
     implementation(kotlinXCoroutinesJavaFx)
 
     // Ktor
     implementation(ktorClient)
-    implementation(ktorClientCio)
     implementation(ktorClientJson)
+
+    implementation("com.google.oauth-client:google-oauth-client:1.31.0")
 
     /**
      * Regarding JavaFX dependencies:

@@ -30,8 +30,7 @@ buildscript {
     }
 }
 
-val kotlinXSerializationRuntimeJvm : String by extra
-val kotlinStandardLibrary8         : String by extra
+val kotlinXSerializationRuntime : String by extra
 
 val ktorServerServlet  : String by extra
 val ktorServerNetty    : String by extra
@@ -105,8 +104,7 @@ dependencies {
 
     implementation(project(path = ":shared")) { attributes { attribute(frameworkAtribute, "server") } }
 
-    implementation(kotlinXSerializationRuntimeJvm)
-    implementation(kotlinStandardLibrary8)
+    implementation(kotlinXSerializationRuntime)
 
     implementation(ktorServerServlet)
     implementation(ktorServerNetty)
