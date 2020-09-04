@@ -21,7 +21,7 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = kotlinVersion))
         classpath(kotlinSerializationPlugin)
-        classpath(androidGradlePlugin)
+        //classpath(androidGradlePlugin)
     }
 }
 

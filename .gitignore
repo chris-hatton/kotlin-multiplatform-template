@@ -2,7 +2,7 @@ Code/Client/app/build
 Code/Shared/build
 Code/Client/iOS/BM/build
 Code/Client/Common/build
-Code/Client/iOS/Supporting Files/.gradle
+Code/Client/iOS/SupportingFiles/.gradle
 Code/Client/iOS/BM.xcodeproj/xcuserdata
 Code/Client/iOS/BM.xcodeproj/project.xcworkspace/xcuserdata
 Code/Client/Common/.gradle
@@ -25,11 +25,12 @@ Code/Lib/multi-mvp/.gradle
 Code/Lib/multi-mvp/build
 Code/Lib/coroutines-ui/.gradle
 Code/Lib/coroutines-ui/build
-Code/Client/iOS/Supporting Files/build
+Code/Client/iOS/SupportingFiles/build
 Code/Build
 Code/Client/Android/build-cache
 Code/Server/build-cache
 Code/Client/Desktop/build-cache
-Code/Client/iOS/Supporting Files/build-cache
+Code/Client/iOS/SupportingFiles/build-cache
 Code/Lib/coroutines-ui/build
 Code/local.properties
+Code/Client/Browser/.gradle

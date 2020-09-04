@@ -94,11 +94,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3E126A0305764B8AD4FDA7DA /* Supporting Files */ = {
+		3E126A0305764B8AD4FDA7DA /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = "Supporting Files";
+			name = "SupportingFiles";
 			sourceTree = "<group>";
 		};
 		3E126D8C1D412638B67D4739 /* Example */ = {
@@ -107,7 +107,7 @@
 				831B090F22A9AAB300066103 /* kotlin */,
 				831B08FF22A8653B00066103 /* Client-shared */,
 				831B08FD22A8650A00066103 /* Shared */,
-				3E126A0305764B8AD4FDA7DA /* Supporting Files */,
+				3E126A0305764B8AD4FDA7DA /* SupportingFiles */,
 				3E126320BD9D7B493DCFA1C4 /* Info.plist */,
 				3E126FF65199B795AF3C8052 /* Assets.xcassets */,
 				3E126A5056763FEB8F1500A6 /* LaunchScreen.storyboard */,
@@ -237,7 +237,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"INFO:\"\npwd\necho \"INFO: Target build path: $TARGET_BUILD_DIR\"\necho \"INFO: Executable path: $EXECUTABLE_PATH\"\necho \"INFO: Target name: $TARGET_NAME\"\n\nrm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n#if [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  echo \"INFO: Building Kotlin for Xcode :-)\"\n  cd \"$SRCROOT/Supporting Files\"\n  sh -c \". gradlew buildForXcode\"\n#else\n#  echo \"WARNING: Not a Kotlin Native Build Capable environment\"\n#fi\n\necho \"Copying from '$TARGET_BUILD_DIR/$TARGET_NAME.kexe' to '$TARGET_BUILD_DIR/$EXECUTABLE_PATH'\"\n\nmkdir -p \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\nrmdir \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n";
+			shellScript = "echo \"INFO:\"\npwd\necho \"INFO: Target build path: $TARGET_BUILD_DIR\"\necho \"INFO: Executable path: $EXECUTABLE_PATH\"\necho \"INFO: Target name: $TARGET_NAME\"\n\nrm -f \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n#if [ -z \"$KOTLIN_NATIVE_BUILD_CAPABLE\" ]; then\n  echo \"INFO: Building Kotlin for Xcode :-)\"\n  cd \"$SRCROOT/SupportingFiles\"\n  sh -c \". gradlew buildForXcode\"\n#else\n#  echo \"WARNING: Not a Kotlin Native Build Capable environment\"\n#fi\n\necho \"Copying from '$TARGET_BUILD_DIR/$TARGET_NAME.kexe' to '$TARGET_BUILD_DIR/$EXECUTABLE_PATH'\"\n\nmkdir -p \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\nrmdir \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n\ncp \"$TARGET_BUILD_DIR/$TARGET_NAME.kexe\" \"$TARGET_BUILD_DIR/$EXECUTABLE_PATH\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

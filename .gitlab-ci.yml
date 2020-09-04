@@ -47,7 +47,7 @@ buildAndTest:
       - Code/Client/Desktop/build
       - Code/Client/Shared/build
       - Code/Client/iOS/Example/build
-      - Code/Client/iOS/Supporting Files/build
+      - Code/Client/iOS/SupportingFiles/build
       - Code/Client/Android/tv/build
       - Code/Client/Android/android-client-shared/build
       - Code/Client/Android/mobile/build

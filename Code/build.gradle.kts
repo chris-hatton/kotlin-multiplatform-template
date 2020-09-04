@@ -56,7 +56,7 @@ tasks {
 // ) {
 //     Android("Android","Client/Android", "lint","lintVitalRelease"),
 //     Desktop("Desktop","Client/Desktop"),
-//     Ios    ("Ios","Client/iOS/Supporting Files"),
+//     Ios    ("Ios","Client/iOS/SupportingFiles"),
 //     Server ("Server","Server")
 // }
 

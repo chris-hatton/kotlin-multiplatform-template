@@ -103,6 +103,12 @@ kotlin {
         }
         attributes.attribute(frameworkAtribute, "ios")
     }
+
+    js("browser") {
+        browser {
+
+        }
+    }
     
     sourceSets {
 
@@ -146,6 +152,18 @@ kotlin {
                     implementation(kotlin("test"))
                     implementation(kotlin("test-junit"))
                 }
+            }
+        }
+
+        val browserMain by getting {
+            dependencies {
+
+            }
+        }
+
+        val browserTest by getting {
+            dependencies {
+
             }
         }
 
