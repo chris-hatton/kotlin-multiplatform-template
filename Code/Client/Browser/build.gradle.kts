@@ -29,8 +29,16 @@ val coroutinesUi : String by extra
 val multiMvp     : String by extra
 
 val kotlinXCoroutinesCore   : String by extra
+val kotlinXCoroutinesCoreJs : String by extra
+
 val ktorClient              : String by extra
 val ktorClientJson          : String by extra
+
+val ktorClientJs              : String by extra
+val ktorClientJsonJs          : String by extra
+val ktorClientSerializationJs : String by extra
+
+val kotlinXSerializationRuntimeJs : String by extra
 
 val jUnit : String by extra
 
@@ -50,16 +58,17 @@ repositories {
 
 plugins {
 
+    //kotlin("js")
     //id("com.android.library") apply false
 
     id("org.jetbrains.kotlin.multiplatform")
     id("kotlinx-serialization")
 }
 
+val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
-
-    js {
+    js("browser",IR) {
         browser {
             testTask {
                 useKarma {
@@ -67,11 +76,13 @@ kotlin {
                 }
             }
         }
+        attributes.attribute(frameworkAtribute, "js")
+        attributes.attribute(frameworkAtribute, "js")
     }
 
     sourceSets {
 
-        js().compilations["main"].defaultSourceSet {
+        val browserMain by getting {
             dependencies {
 
                 implementation("org.jetbrains.kotlinx:kotlinx-html-js:0.7.1")
@@ -85,7 +96,6 @@ kotlin {
                 // Kotlin Core
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXSerializationRuntimeJs)
-                implementation(kotlinXCoroutinesCoreJs)
 
                 // Ktor
                 implementation(ktorClientJs)
@@ -93,21 +103,10 @@ kotlin {
                 implementation(ktorClientSerializationJs)
             }
         }
-        js().compilations["test"].defaultSourceSet  {
+        val browserTest by getting {
             dependencies {
                 implementation(kotlin("test-js"))
             }
         }
-    }
-}
-
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
-
-configurations {
-    val runtimeClasspath     by getting
-    val testRuntimeClasspath by getting
-
-    listOf(runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
-        configuration.attributes { attribute(frameworkAtribute, "js") }
     }
 }

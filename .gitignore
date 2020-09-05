@@ -34,3 +34,4 @@ Code/Client/iOS/SupportingFiles/build-cache
 Code/Lib/coroutines-ui/build
 Code/local.properties
 Code/Client/Browser/.gradle
+Code/Client/Browser/build

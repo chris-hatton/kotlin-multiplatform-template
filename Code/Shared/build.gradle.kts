@@ -104,10 +104,12 @@ kotlin {
         attributes.attribute(frameworkAtribute, "ios")
     }
 
-    js("browser") {
+    js("browser",IR) {
         browser {
-
+            attributes.attribute(frameworkAtribute, "js")
         }
+        binaries.executable()
+        attributes.attribute(frameworkAtribute, "js")
     }
     
     sourceSets {
