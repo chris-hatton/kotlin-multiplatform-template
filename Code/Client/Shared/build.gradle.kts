@@ -108,10 +108,9 @@ kotlin {
     }
 
     js("browser",IR) {
-        attributes.attribute(frameworkAtribute, "js")
         browser {
-            attributes.attribute(frameworkAtribute, "js")
         }
+        binaries.executable()
         attributes.attribute(frameworkAtribute, "js")
     }
 
@@ -119,13 +118,9 @@ kotlin {
 
         commonMain {
             dependencies {
-
-                println("Common depending on $multiMvp")
                 implementation(multiMvp)
 
                 implementation(project(path = ":shared"))
-
-                implementation(kotlin("stdlib-common"))
 
                 implementation(ktorClientCore)
                 implementation(kotlinXCoroutinesCore)
@@ -143,9 +138,6 @@ kotlin {
 
         val iosMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
-
-                println("iOS depending on $multiMvp")
                 implementation(multiMvp)
                 //implementation(coroutinesUi)
 
@@ -200,16 +192,14 @@ kotlin {
             }
             val javafxTest by getting {
                 dependencies {
-
                     implementation(kotlin("test-junit"))
-                    //implementation(kotlin("test-annotations"))
                 }
             }
         }
 
         val browserMain by getting {
             dependencies {
-
+                implementation(multiMvp)
             }
         }
 

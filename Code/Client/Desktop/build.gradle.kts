@@ -119,8 +119,8 @@ dependencies {
     implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
     implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
 
-    implementation(coroutinesUi)
-    implementation(multiMvp)
+    implementation(coroutinesUi) { attributes { attribute(frameworkAtribute, "javafx") } }
+    implementation(multiMvp) { attributes { attribute(frameworkAtribute, "javafx") } }
 
     // Kotlin Core
     implementation(kotlinXCoroutinesCore)

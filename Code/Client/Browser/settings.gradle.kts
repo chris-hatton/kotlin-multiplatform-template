@@ -7,4 +7,4 @@ import java.io.File
 // Apply the settings which are shared across all Client platform projects.
 apply( from = "../client-shared.settings.gradle.kts" )
 
-rootProject.name = "client"
+rootProject.name = "client-browser"

@@ -106,7 +106,6 @@ kotlin {
 
     js("browser",IR) {
         browser {
-            attributes.attribute(frameworkAtribute, "js")
         }
         binaries.executable()
         attributes.attribute(frameworkAtribute, "js")
@@ -116,8 +115,6 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-
                 implementation(kotlinXSerializationRuntime)
                 implementation(kotlinXCoroutinesCore)
             }
@@ -131,7 +128,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
                 implementation(kotlinXSerializationRuntime)
             }
         }
@@ -145,7 +141,6 @@ kotlin {
         if(isMinJava12) {
             val javafxMain by getting {
                 dependencies {
-                    implementation(kotlin("stdlib"))
                     implementation(kotlinXSerializationRuntime)
                 }
             }
@@ -159,7 +154,8 @@ kotlin {
 
         val browserMain by getting {
             dependencies {
-
+                implementation(kotlinXCoroutinesCore)
+                implementation(kotlinXSerializationRuntime)
             }
         }
 

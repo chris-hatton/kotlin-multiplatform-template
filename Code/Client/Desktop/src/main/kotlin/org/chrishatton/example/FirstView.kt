@@ -1,10 +1,10 @@
 package org.chrishatton.example
 
-import javafx.scene.Parent
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import kotlinx.coroutines.*
+
 import org.chrishatton.example.ui.FirstPresenter
 import org.chrishatton.multimvp.util.fxml
 import org.chrishatton.multimvp.ui.BaseFxView
@@ -32,8 +32,7 @@ class FirstView : BaseFxmlView<View, Presenter>(), View {
          FirstPresenter(baseUrl = "http://localhost:8080", view = this)
     }
 
-    override fun start() {
-        super.start()
+    override fun startLifecycle() {
         submitButton.setOnAction {
             val name = nameField.text
             lifecycleScope!!.launch {
@@ -42,8 +41,7 @@ class FirstView : BaseFxmlView<View, Presenter>(), View {
         }
     }
 
-    override fun stop() {
-        super.stop()
+    override fun stopLifecycle() {
         submitButton.setOnAction {}
     }
 }

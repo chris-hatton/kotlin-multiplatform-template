@@ -28,7 +28,3 @@ repositories(configureSharedRepositories)
 allprojects {
     repositories(configureSharedRepositories)
 }
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
