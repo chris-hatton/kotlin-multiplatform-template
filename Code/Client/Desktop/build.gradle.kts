@@ -19,6 +19,7 @@ val javaFxBase              : String by extra
 val javaFxGraphics          : String by extra
 val javaFxControls          : String by extra
 val javaFxFxml              : String by extra
+val jfoenix                 : String by extra
 
 val coroutinesUi : String by extra
 val multiMvp     : String by extra
@@ -92,14 +93,16 @@ val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", Strin
 configurations {
     val runtimeClasspath     by getting
     val testRuntimeClasspath by getting
-
     listOf(runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
         configuration.attributes { attribute(frameworkAttribute, "javafx") }
     }
 }
 
 kotlin {
-    jvm("javafx") { attributes.attribute(frameworkAttribute, "javafx") }
+    jvm("javafx") {
+        withJava()
+        attributes.attribute(frameworkAttribute, "javafx")
+    }
 
     sourceSets {
         val javafxMain by getting {
@@ -117,6 +120,8 @@ kotlin {
                 // Ktor
                 implementation(ktorClient)
                 implementation(ktorClientJson)
+
+                implementation(jfoenix)
 
                 /**
                  * Regarding JavaFX dependencies:
