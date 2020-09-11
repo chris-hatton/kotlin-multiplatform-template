@@ -9,7 +9,7 @@ apply( from = "../../../shared.gradle.kts")
 
 plugins {
     id("com.android.application")
-    kotlin("android")
+    id("org.jetbrains.kotlin.multiplatform") // We should be able to use `kotlin("android")` but Android Studio fails to resolve symbols from composite KMP libraries.
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
 }
@@ -29,8 +29,8 @@ val androidCompileSdkVersion : String by extra
 val androidTargetSdkVersion  : String by extra
 val androidMinSdkVersion     : String by extra
 
-val androidClientCommonProject : ()->ProjectDependency by extra
-val clientCommonProject        : ()->ProjectDependency by extra
+val androidclientSharedProject : ()->ProjectDependency by extra
+val clientSharedProject        : ()->ProjectDependency by extra
 val sharedProject              : ()->ProjectDependency by extra
 
 val multiMvp : String by extra
@@ -70,37 +70,55 @@ android {
         exclude("META-INF/ktor-io.kotlin_module")
     }
     sourceSets {
-        this["main"].java.srcDir("src/main/kotlin")
-        this["test"].java.srcDir("src/test/kotlin")
-        this["androidTest"].java.srcDir("src/androidTest/kotlin")
+        this["main"].java.srcDir("src/androidMain/kotlin")
+        this["test"].java.srcDir("src/androidTest/kotlin")
+        this["androidTest"].java.srcDir("src/androidAndroidTest/kotlin")
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 
-dependencies {
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
-    // Projects
-    implementation(androidClientCommonProject())
-    implementation(clientCommonProject())
-    implementation(sharedProject())
+kotlin {
+    android("android") {
+        attributes.attribute(frameworkAttribute, "android")
+        //publishLibraryVariants("release", "debug") // Required for Android to publish
+        publishLibraryVariantsGroupedByFlavor = true
+    }
 
-    implementation(multiMvp)
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
 
-    // Ktor
-    implementation(ktorClientAndroid)
-    implementation(ktorClientJson)
+                // Projects
+                implementation(androidclientSharedProject())
+                implementation(clientSharedProject())
+                implementation(sharedProject())
 
-    // Android
-    implementation(androidXAppCompat)
-    implementation(androidXCoreKtx)
-    implementation(androidXConstraintLayout)
-    implementation(kotlinXCoroutinesAndroid)
+                implementation(multiMvp)
 
-    // Test
-    testImplementation(jUnit)
+                // Ktor
+                implementation(ktorClientAndroid)
+                implementation(ktorClientJson)
 
-    // Android Test
-    androidTestImplementation(androidXTestRunner)
-    androidTestImplementation(androidXTestEspressoCore)
+                // Android
+                implementation(androidXAppCompat)
+                implementation(androidXCoreKtx)
+                implementation(androidXConstraintLayout)
+                implementation(kotlinXCoroutinesAndroid)
+            }
+        }
+
+        val androidTest by getting {
+            dependencies {
+                // Test
+                implementation(jUnit)
+
+                // Android Test
+                implementation(androidXTestRunner)
+                implementation(androidXTestEspressoCore)
+            }
+        }
+    }
 }

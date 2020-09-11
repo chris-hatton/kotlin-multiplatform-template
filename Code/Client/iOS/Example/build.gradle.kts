@@ -10,7 +10,7 @@ val ktorClientCore                    : String by extra
 val ktorClientJson                    : String by extra
 val ktorClientSerialization           : String by extra
 
-val clientCommonProject : ()->ProjectDependency by extra
+val clientSharedProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 val isIosDevice : Boolean by extra
@@ -19,11 +19,11 @@ plugins {
     id("org.jetbrains.kotlin.multiplatform")
 }
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 configurations {
     val metadataCompileClasspath by getting {
-        attributes { attribute(frameworkAtribute, "ios") }
+        attributes { attribute(frameworkAttribute, "ios") }
     }
 }
 
@@ -37,7 +37,7 @@ kotlin {
                 }
             }
         }
-        attributes { attribute(frameworkAtribute, "ios") }
+        attributes { attribute(frameworkAttribute, "ios") }
     }
 
     targets {

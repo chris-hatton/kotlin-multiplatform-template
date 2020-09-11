@@ -9,49 +9,38 @@
  */
 
 buildscript {
-
     apply( from = "../../shared.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-    val androidGradlePlugin       : String by extra
-
-    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
-    repositories(configureSharedRepositories)
-
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-        classpath(androidGradlePlugin)
-    }
+    //val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
+    //repositories(configureSharedRepositories)
 }
 
 val isMinJava12 : Boolean = JavaVersion.current() >= JavaVersion.VERSION_12
 
-val kotlinXCoroutinesCore   : String by extra
+val kotlinXCoroutinesCore : String by extra
 
 val multiMvp : String by extra
+val coroutinesUi : String by extra
 
 val kotlinXSerializationRuntime : String by extra
 
-val ktorClient                    : String by extra
-val ktorClientAndroid             : String by extra
-val ktorClientIos                 : String by extra
-val ktorClientCore                : String by extra
-val ktorClientCoreJvm             : String by extra
-val ktorClientCoreNative          : String by extra
-val ktorClientJson                : String by extra
-val ktorClientSerialization       : String by extra
-val ktorClientAuth                : String by extra
+val ktorClient              : String by extra
+val ktorClientAndroid       : String by extra
+val ktorClientIos           : String by extra
+val ktorClientCore          : String by extra
+val ktorClientCoreJvm       : String by extra
+val ktorClientCoreNative    : String by extra
+val ktorClientJson          : String by extra
+val ktorClientSerialization : String by extra
+val ktorClientAuth          : String by extra
 
-//val multiMvpProject : ()->ProjectDependency by extra
-val sharedProject   : ()->ProjectDependency by extra
+val sharedProject : ()->ProjectDependency by extra
 
 val isIosDevice : Boolean by extra
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.multiplatform")
+    kotlin("plugin.serialization")
 }
 
 val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
@@ -71,28 +60,28 @@ android {
         }
     }
     sourceSets {
-        get("main").apply {
+        val main by getting {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             java.srcDirs("src/androidMain/kotlin")
             res.srcDirs("src/androidMain/res")
         }
-        get("test").apply {
+        val test by getting {
             java.srcDirs("src/androidTest/kotlin")
             res.srcDirs("src/androidTest/res")
         }
     }
 }
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
 
     android("android") {
-        attributes.attribute(frameworkAtribute, "android")
+        attributes.attribute(frameworkAttribute, "android")
     }
 
     if(isMinJava12) {
-        jvm("javafx") { attributes.attribute(frameworkAtribute, "javafx") }
+        jvm("javafx") { attributes.attribute(frameworkAttribute, "javafx") }
     }
 
     val iosTarget = if(isIosDevice) iosArm64("ios") else iosX64("ios")
@@ -104,14 +93,14 @@ kotlin {
                 }
             }
         }
-        attributes.attribute(frameworkAtribute, "ios")
+        attributes.attribute(frameworkAttribute, "ios")
     }
 
     js("browser",IR) {
         browser {
         }
         binaries.executable()
-        attributes.attribute(frameworkAtribute, "js")
+        attributes.attribute(frameworkAttribute, "js")
     }
 
     sourceSets {
@@ -119,6 +108,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(multiMvp)
+                implementation(coroutinesUi)
 
                 implementation(project(path = ":shared"))
 
@@ -139,7 +129,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(multiMvp)
-                //implementation(coroutinesUi)
+                implementation(coroutinesUi)
 
                 implementation(kotlinXCoroutinesCore)
 
@@ -154,19 +144,18 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
-
                 implementation(kotlinXCoroutinesCore)
                 implementation(kotlinXSerializationRuntime)
 
-                println("Android depending on $multiMvp")
                 implementation(multiMvp)
+                implementation(coroutinesUi)
 
                 implementation(ktorClientCore)
                 implementation(ktorClientJson)
                 implementation(ktorClientSerialization)
             }
         }
+
         val androidTest by getting {
             dependencies {
 
@@ -177,10 +166,10 @@ kotlin {
 
         if(isMinJava12) {
             val javafxMain by getting {
-                dependencies {
-                    implementation(kotlin("stdlib"))
 
+                dependencies {
                     implementation(multiMvp)
+                    implementation(coroutinesUi)
 
                     implementation(kotlinXCoroutinesCore)
                     implementation(kotlinXSerializationRuntime)
@@ -200,6 +189,7 @@ kotlin {
         val browserMain by getting {
             dependencies {
                 implementation(multiMvp)
+                implementation(coroutinesUi)
             }
         }
 

@@ -66,30 +66,30 @@ android {
     }
 
     sourceSets {
-        get("main").apply {
+        val main by getting {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             java.srcDirs("src/androidMain/kotlin")
             res.srcDirs("src/androidMain/res")
         }
-        get("test").apply {
+        val test by getting {
             java.srcDirs("src/androidTest/kotlin")
             res.srcDirs("src/androidTest/res")
         }
     }
 }
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
     
-    android("android") { attributes.attribute(frameworkAtribute, "android") }
+    android("android") { attributes.attribute(frameworkAttribute, "android") }
 
     if(isMinJava12) {
-        jvm("javafx") {attributes.attribute(frameworkAtribute, "javafx") }
+        jvm("javafx") {attributes.attribute(frameworkAttribute, "javafx") }
     }
 
     jvm("server") {
-        attributes.attribute(frameworkAtribute, "server")
+        attributes.attribute(frameworkAttribute, "server")
     }
 
     val iosTarget = if(isIosDevice) iosArm64("ios") else iosX64("ios")
@@ -101,14 +101,14 @@ kotlin {
                 }
             }
         }
-        attributes.attribute(frameworkAtribute, "ios")
+        attributes.attribute(frameworkAttribute, "ios")
     }
 
     js("browser",IR) {
         browser {
         }
         binaries.executable()
-        attributes.attribute(frameworkAtribute, "js")
+        attributes.attribute(frameworkAttribute, "js")
     }
     
     sourceSets {
@@ -167,7 +167,6 @@ kotlin {
 
         val serverMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
                 implementation(kotlinXSerializationRuntime)
             }
         }

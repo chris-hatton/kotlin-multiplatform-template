@@ -2,27 +2,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- *
  * Build file for the 'JavaFX Desktop' module of this Kotlin Multi-platform Application.
- *
  */
 
 buildscript {
-
     apply( from = "../../shared.gradle.kts")
-
-    val kotlinVersion             : String by extra
-    val kotlinSerializationPlugin : String by extra
-    val androidGradlePlugin       : String by extra
-
-    val configureSharedRepositories = extra["configureSharedRepositories"] as RepositoryHandler.()->Unit
-    repositories(configureSharedRepositories)
-
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = kotlinVersion))
-        classpath(kotlinSerializationPlugin)
-        //classpath(androidGradlePlugin)
-    }
 }
 
 // One of 'linux', 'osx' or 'windows'
@@ -46,8 +30,7 @@ val ktorClientJson          : String by extra
 
 val jUnit : String by extra
 
-//val multiMvpProject     : ()->ProjectDependency by extra
-val clientCommonProject : ()->ProjectDependency by extra
+val clientSharedProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 repositories {
@@ -64,7 +47,8 @@ plugins {
 
     id("com.android.library") apply false
 
-    kotlin("jvm" )
+    id("org.jetbrains.kotlin.multiplatform") // We should be able to use `kotlin("jvm")` but IntellIJ fails to resolve symbols from composite KMP libraries.
+
     id("application") // Is also implied by 'org.openjfx.javafxplugin', but made explicit for visibility.
     id("kotlinx-serialization")
     id("org.openjfx.javafxplugin") version "0.0.8"
@@ -103,55 +87,62 @@ tasks.withType<JavaCompile> {
     targetCompatibility = JavaVersion.VERSION_12.toString()
 }
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 configurations {
     val runtimeClasspath     by getting
     val testRuntimeClasspath by getting
 
     listOf(runtimeClasspath,testRuntimeClasspath).forEach { configuration ->
-        configuration.attributes { attribute(frameworkAtribute, "javafx") }
+        configuration.attributes { attribute(frameworkAttribute, "javafx") }
     }
 }
 
-dependencies {
+kotlin {
+    jvm("javafx") { attributes.attribute(frameworkAttribute, "javafx") }
 
-    implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAtribute, "javafx") } }
-    implementation(project(path = ":shared"))        { attributes { attribute(frameworkAtribute, "javafx") } }
+    sourceSets {
+        val javafxMain by getting {
+            dependencies {
+                implementation(project(path = ":client-shared")) { attributes { attribute(frameworkAttribute, "javafx") } }
+                implementation(project(path = ":shared"))        { attributes { attribute(frameworkAttribute, "javafx") } }
 
-    implementation(coroutinesUi) { attributes { attribute(frameworkAtribute, "javafx") } }
-    implementation(multiMvp) { attributes { attribute(frameworkAtribute, "javafx") } }
+                implementation(coroutinesUi)
+                implementation(multiMvp)
 
-    // Kotlin Core
-    implementation(kotlinXCoroutinesCore)
-    implementation(kotlinXCoroutinesJavaFx)
+                // Kotlin Core
+                implementation(kotlinXCoroutinesCore)
+                implementation(kotlinXCoroutinesJavaFx)
 
-    // Ktor
-    implementation(ktorClient)
-    implementation(ktorClientJson)
+                // Ktor
+                implementation(ktorClient)
+                implementation(ktorClientJson)
 
-    implementation("com.google.oauth-client:google-oauth-client:1.31.0")
-
-    /**
-     * Regarding JavaFX dependencies:
-     *
-     * The project expects that JavaFX 'jmods's are present in the /jmods folder if your JDK_HOME.
-     * Pre-compiled jmods can be downloaded, for major platforms, from: https://openjfx.io/
-     * While it is possible, for a single platform, to handle JavaFX dependencies much like
-     * any other Gradle-defined dependency, the JDK /jmods path was taken for compatibility with
-     * the multi-platform workflow implied by the Beryx Runtime plugin.
-     *
-     * For further explanation, see this blog post: TODO write blog-post
-     */
-
-    // Test
-    testImplementation(jUnit)
-    testImplementation(kotlin("test"))
-    testImplementation(kotlin("test-junit"))
+                /**
+                 * Regarding JavaFX dependencies:
+                 *
+                 * The project expects that JavaFX 'jmods's are present in the /jmods folder if your JDK_HOME.
+                 * Pre-compiled jmods can be downloaded, for major platforms, from: https://openjfx.io/
+                 * While it is possible, for a single platform, to handle JavaFX dependencies much like
+                 * any other Gradle-defined dependency, the JDK /jmods path was taken for compatibility with
+                 * the multi-platform workflow implied by the Beryx Runtime plugin.
+                 *
+                 * For further explanation, see this blog post: TODO write blog-post
+                 */
+            }
+        }
+        val javafxTest by getting {
+            dependencies {
+                implementation(jUnit)
+                implementation(kotlin("test"))
+                implementation(kotlin("test-junit"))
+            }
+        }
+    }
 }
 
-val jdkFxPlatformsHome : String by extra
-val isMultiPlatformRuntime = (jdkFxPlatformsHome != null)
+val jdkFxPlatformsHome : String? by extra
+val isMultiPlatformRuntime = jdkFxPlatformsHome?.isNotBlank() ?: false
 val platformIdentifiers = listOf("linux","windows","osx")
 
 runtime {
@@ -169,11 +160,7 @@ runtime {
     addModules(*allModules)
 
     if(isMultiPlatformRuntime) {
-//        if(!File(jdkFxPlatformsHome).exists()) {
-//            throw Exception("Environment variable $jdkFxPlatformsHomeKey was set, indicating that multi-platform runtime images are desired, but the nominated folder was not found at '$jdkFxPlatformsHome'.")
-//        }
 
- //       println("Environment variable '$jdkFxPlatformsHomeKey' is set to '$jdkFxPlatformsHome'")
         println("Will attempt to build runtime images for: ${platformIdentifiers.joinToString(", ")}")
 
         val jdkBaseName = "jdk-12.0.2"
@@ -192,7 +179,6 @@ runtime {
             println(outcomeMessage)
         }
     } else {
-        //println("Environment variable $jdkFxPlatformsHomeKey not set")
         println("Building runtime image for host platform only")
     }
 }

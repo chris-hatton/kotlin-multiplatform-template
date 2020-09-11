@@ -8,7 +8,7 @@ apply( from = "../../../shared.gradle.kts")
 
 plugins {
     id("com.android.application")
-    kotlin("android")
+    id("org.jetbrains.kotlin.multiplatform") // We should be able to use `kotlin("android")` but Android Studio fails to resolve symbols from composite KMP libraries.
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
 }
@@ -31,8 +31,8 @@ val androidMinSdkVersion     : String by extra
 val androidTvLeanback : String by extra
 val glideImageLibrary : String by extra
 
-val androidClientCommonProject : ()->ProjectDependency by extra
-val clientCommonProject        : ()->ProjectDependency by extra
+val androidclientSharedProject : ()->ProjectDependency by extra
+val clientSharedProject        : ()->ProjectDependency by extra
 val sharedProject              : ()->ProjectDependency by extra
 
 android {
@@ -74,38 +74,55 @@ android {
     }
 
     sourceSets {
-        this["main"].java.srcDir("src/main/kotlin")
-        this["test"].java.srcDir("src/test/kotlin")
-        this["androidTest"].java.srcDir("src/androidTest/kotlin")
+        this["main"].java.srcDir("src/androidMain/kotlin")
+        this["test"].java.srcDir("src/androidTest/kotlin")
+        this["androidTest"].java.srcDir("src/androidAndroidTest/kotlin")
     }
 }
 
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
+kotlin {
+    android("android") {
+        attributes.attribute(frameworkAttribute, "android")
+        //publishLibraryVariants("release", "debug") // Required for Android to publish
+        publishLibraryVariantsGroupedByFlavor = true
+    }
 
-dependencies {
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
 
-    // Projects
-    implementation(androidClientCommonProject())
-    implementation(clientCommonProject())
-    implementation(sharedProject())
+                // Projects
+                implementation(androidclientSharedProject())
+                implementation(clientSharedProject())
+                implementation(sharedProject())
 
-    // Ktor
-    implementation(ktorClientAndroid)
-    implementation(ktorClientJson)
+                // Ktor
+                implementation(ktorClientAndroid)
+                implementation(ktorClientJson)
 
-    // Android
-    implementation(androidXAppCompat)
-    implementation(androidXCoreKtx)
-    implementation(androidXConstraintLayout)
-    implementation(kotlinXCoroutinesAndroid)
+                // Android
+                implementation(androidXAppCompat)
+                implementation(androidXCoreKtx)
+                implementation(androidXConstraintLayout)
+                implementation(kotlinXCoroutinesAndroid)
 
-    // Test
-    testImplementation(jUnit)
+                // Android TV
+                implementation(androidTvLeanback)
+                implementation(glideImageLibrary)
+            }
+        }
 
-    // Android Test
-    androidTestImplementation(androidXTestRunner)
-    androidTestImplementation(androidXTestEspressoCore)
+        val androidTest by getting {
+            dependencies {
+                // Test
+                implementation(jUnit)
 
-    implementation(androidTvLeanback)
-    implementation(glideImageLibrary)
+                // Android Test
+                implementation(androidXTestRunner)
+                implementation(androidXTestEspressoCore)
+            }
+        }
+    }
 }

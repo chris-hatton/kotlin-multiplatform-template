@@ -16,7 +16,7 @@ import org.chrishatton.example.ui.FirstContract.Presenter as Presenter
 @FlowPreview
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class FirstView : BaseFxmlView<View, Presenter>(), View {
+class NoteListView : BaseFxmlView<View, Presenter>(), View {
 
     val submitButton : Button    by fxid()
     val nameField    : TextField by fxid()

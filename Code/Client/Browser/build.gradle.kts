@@ -45,7 +45,7 @@ val jUnit : String by extra
 val kotlinxHtmlJs : String by extra
 
 //val multiMvpProject     : ()->ProjectDependency by extra
-val clientCommonProject : ()->ProjectDependency by extra
+val clientSharedProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 repositories {
@@ -60,14 +60,14 @@ repositories {
 
 plugins {
 
-    kotlin("js") version "1.4.0"
+    kotlin("js") version "1.4.10"
     //id("com.android.library") apply false
 
     //id("org.jetbrains.kotlin.multiplatform")
     id("kotlinx-serialization")
 }
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
 kotlin {
     js {
@@ -79,7 +79,7 @@ kotlin {
             }
         }
         binaries.executable()
-        attributes.attribute(frameworkAtribute, "js")
+        attributes.attribute(frameworkAttribute, "js")
     }
 
     sourceSets {
@@ -90,8 +90,8 @@ kotlin {
                 implementation(kotlinxHtmlJs)
 
                 // TODO: Expected setting the attribute to work, but causes issues.
-                implementation(project(path = ":client-shared")) //{ attributes { attribute(frameworkAtribute, "js") } }
-                implementation(project(path = ":shared"))        //{ attributes { attribute(frameworkAtribute, "js") } }
+                implementation(project(path = ":client-shared")) //{ attributes { attribute(frameworkAttribute, "js") } }
+                implementation(project(path = ":shared"))        //{ attributes { attribute(frameworkAttribute, "js") } }
 
                 implementation(coroutinesUi)
                 implementation(multiMvp)

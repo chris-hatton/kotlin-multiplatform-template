@@ -96,8 +96,8 @@ if(localPropertiesFile.exists()) {
 
 // Define project dependencies by conventional module path
 
-extra["androidClientCommonProject"] = { project(":android-client-shared") } //as ()->ProjectDependency
-extra["clientCommonProject"]        = { project(":client-shared") }
+extra["androidclientSharedProject"] = { project(":android-client-shared") } //as ()->ProjectDependency
+extra["clientSharedProject"]        = { project(":client-shared") }
 extra["sharedProject"]              = { project(":shared") }
 
 extra["isIosDevice"] = when(val id = System.getenv("PLATFORM_PREFERRED_ARCH")) {

@@ -1,5 +1,4 @@
 /**
- *
  * Build file for the 'Android-Client-shared' module of this Kotlin Multi-platform Application.
  *
  * Source files implemented in this module are accessible to all Android Client projects.
@@ -7,7 +6,6 @@
  * Typically this module would be used to share common Fragments, custom Views or other parts
  * of the View layer (of the MVP architecture) which it is not desirable to re-implement
  * for both Android projects.
- *
  */
 
 apply( from = "../../../shared.gradle.kts")
@@ -18,9 +16,8 @@ val androidTargetSdkVersion  : String by extra
 val androidMinSdkVersion     : String by extra
 
 plugins {
-    println("*** Plugins evaluating ***")
     id("com.android.library")
-    kotlin("android")
+    id("org.jetbrains.kotlin.multiplatform") // We should be able to use `kotlin("android")` but Android Studio fails to resolve symbols from composite KMP libraries.
     id("kotlin-android-extensions")
     id("kotlinx-serialization")
 }
@@ -59,9 +56,9 @@ android {
         exclude("META-INF/ktor-io.kotlin_module")
     }
     sourceSets {
-        this["main"].java.srcDir("src/main/kotlin")
-        this["test"].java.srcDir("src/test/kotlin")
-        this["androidTest"].java.srcDir("src/androidTest/kotlin")
+        this["main"].java.srcDir("src/androidMain/kotlin")
+        this["test"].java.srcDir("src/androidTest/kotlin")
+        this["androidTest"].java.srcDir("src/androidAndroidTest/kotlin")
     }
     lintOptions {
         isCheckReleaseBuilds = false
@@ -79,36 +76,49 @@ val androidXAppCompat        : String by extra
 
 val jUnit                    : String by extra
 
-val clientCommonProject : ()->ProjectDependency by extra
+val clientSharedProject : ()->ProjectDependency by extra
 val sharedProject       : ()->ProjectDependency by extra
 
 val androidXTestRunner       : String by extra
 val androidXTestEspressoCore : String by extra
 
-val frameworkAtribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
+val frameworkAttribute = Attribute.of("org.chrishatton.example.framework", String::class.java)
 
-dependencies {
+kotlin {
+    android("android") {
+        attributes.attribute(frameworkAttribute, "android")
+        publishLibraryVariants("release", "debug") // Required for Android to publish
+        publishLibraryVariantsGroupedByFlavor = true
+    }
 
-    implementation(clientCommonProject())
-    implementation(sharedProject())
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
 
-    implementation(multiMvp)
+                implementation(clientSharedProject())
+                implementation(sharedProject())
 
-    // Kotlin Core
-    implementation(kotlin("stdlib"))
+                implementation(multiMvp)
 
-    // Android
-    implementation(kotlinXCoroutinesAndroid)
-    implementation(androidXAppCompat)
+                // Android
+                implementation(kotlinXCoroutinesAndroid)
+                implementation(androidXAppCompat)
 
-    // Ktor
-    implementation(ktorClientAndroid)
-    implementation(ktorClientJson)
+                // Ktor
+                implementation(ktorClientAndroid)
+                implementation(ktorClientJson)
+            }
+        }
 
-    // Testing
-    testImplementation(jUnit)
+        val androidTest by getting {
+            dependencies {
+                // Test
+                implementation(jUnit)
 
-    // Android Test
-    androidTestImplementation(androidXTestRunner)
-    androidTestImplementation(androidXTestEspressoCore)
+                // Android Test
+                implementation(androidXTestRunner)
+                implementation(androidXTestEspressoCore)
+            }
+        }
+    }
 }
